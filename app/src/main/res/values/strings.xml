@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Pocket Store</string>
+
+    <string name="cart_title">Carrito de compra</string>
+    <string name="cart_pay">Ordenar</string>
+
+    <string name="product_create">Crear</string>
+    <string name="product_empty_cart">Carrito Vacío</string>
+    <string name="product_full_cart">Total: Q.%1$.2f</string>
+
+    <string name="details_add_to_cart">Añadir al cartito</string>
+    <string name="detail_quantity">Disponibles: Entrega Inmediata</string>
+    <string name="detail_total_price">&lt;b>&lt;big>Total: Q.%1$.2f&lt;/big>&lt;/b>&lt;br>(%2$d x Q.%3$.2f)</string>
+    <string name="recycler_price">12</string>
+</resources>

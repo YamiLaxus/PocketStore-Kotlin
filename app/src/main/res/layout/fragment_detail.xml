@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:actionBarNavMode="tabs"
+    android:id="@+id/cnImage"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    app:layout_constraintCircleRadius="20dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="230sp"
+        android:background="@drawable/borderredondo"
+        app:layout_constraintTop_toBottomOf="@id/imgProduct"/>
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="0dp"
+        android:layout_height="230dp"
+        android:background="@drawable/ic_timelapse"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/common_padding_default"
+        android:layout_marginTop="50dp"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgProduct"
+        tools:text="Nombre del Producto" />
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/efab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_default"
+        android:shadowColor="@color/white"
+        android:text="@string/details_add_to_cart"
+        android:textAlignment="center"
+        app:icon="@drawable/ic_add_shopping_cart"
+        app:iconGravity="textEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="@id/tvName" />
+
+    <ImageButton
+        android:id="@+id/ibSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_remove_circle"
+        app:layout_constraintBottom_toTopOf="@id/efab"
+        app:layout_constraintStart_toStartOf="@id/tvName" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNewQuantity"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding_min"
+        app:counterOverflowTextColor="@color/white"
+        app:counterTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/ibSub"
+        app:layout_constraintStart_toEndOf="@id/ibSub"
+        app:layout_constraintTop_toTopOf="@id/ibSub">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNewQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            tools:text="5" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/ibSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding_min"
+        android:background="?attr/selectableItemBackground"
+        android:src="@drawable/ic_add_circle"
+        app:layout_constraintBottom_toBottomOf="@id/ibSub"
+        app:layout_constraintStart_toEndOf="@id/tilNewQuantity"
+        app:layout_constraintTop_toTopOf="@id/ibSub" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_default"
+        android:text="@string/detail_quantity"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/ibSub"
+        app:layout_constraintEnd_toEndOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="@id/tvName" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_padding_default"
+        android:text="@string/detail_total_price"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/ibSub"
+        app:layout_constraintEnd_toEndOf="@id/tvName"
+        app:layout_constraintStart_toEndOf="@id/ibSum"
+        app:layout_constraintTop_toTopOf="@id/ibSub" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/common_padding_default"
+        app:layout_constraintBottom_toTopOf="@id/tvQuantity"
+        app:layout_constraintEnd_toEndOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="@id/tvName"
+        app:layout_constraintTop_toBottomOf="@id/tvName">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="@color/white"
+            tools:text="Descripcion del Producto" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
