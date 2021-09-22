@@ -36,7 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/common_padding_default"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"

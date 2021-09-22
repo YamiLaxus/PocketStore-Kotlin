@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.phonedev.pocketstore">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
+        <activity android:name=".order.OrderActivity"></activity>
         <activity android:name=".pages.Phone_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

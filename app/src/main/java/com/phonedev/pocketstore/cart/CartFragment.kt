@@ -1,6 +1,7 @@
 package com.phonedev.pocketstore.cart
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentCartBinding
+import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 
 class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
@@ -73,6 +75,7 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
     private fun requestOrder(){
         dismiss()
         (activity as? MainAux)?.clearCart()
+        startActivity(Intent(context, OrderActivity::class.java))
     }
 
     private fun getProducts(){
