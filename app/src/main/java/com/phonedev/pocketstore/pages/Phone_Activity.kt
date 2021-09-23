@@ -1,5 +1,6 @@
 package com.phonedev.pocketstore.pages
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -23,6 +24,7 @@ import com.phonedev.pocketstore.databinding.ActivityMainBinding.*
 import com.phonedev.pocketstore.databinding.ActivityPhoneBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.onProductListenner
+import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 
 
@@ -161,6 +163,7 @@ class Phone_Activity : AppCompatActivity(), onProductListenner, MainAux {
                         }
                     }
             }
+            R.id.action_order_history -> startActivity(Intent(this, OrderActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

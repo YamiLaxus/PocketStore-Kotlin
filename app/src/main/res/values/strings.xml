@@ -12,8 +12,16 @@
     <string name="detail_quantity">Disponibles: Entrega Inmediata</string>
     <string name="detail_total_price">&lt;b>&lt;big>Total: Q.%1$.2f&lt;/big>&lt;/b>&lt;br>(%2$d x Q.%3$.2f)</string>
     <string name="recycler_price">12</string>
+
+
     <string name="order_track_shipment">Seguir envio</string>
-    <string name="order_estatus">Estado:</string>
-    <string name="order_id">ID:</string>
+    <string name="order_estatus">Estado: %1$s</string>
+    <string name="order_id">ID: %1$s</string>
     <string name="chip_chat_help">¿Necesitas ayuda?</string>
+
+    <string name="order_status_ordered">Pedido</string>
+    <string name="order_status_processing">Procesando</string>
+    <string name="order_status_sent">Enviado</string>
+    <string name="order_status_delivered">Entregado</string>
+    <string name="order_status_unknown">Desconocido</string>
 </resources>

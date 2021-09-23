@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemOrderBinding
 import com.phonedev.pocketstore.entities.Order
+import kotlin.collections.indexOf as indexOf1
 
 class OrderAdapter(
     private val orderList: MutableList<Order>,
@@ -15,6 +16,14 @@ class OrderAdapter(
 ) : RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
 
     private lateinit var context: Context
+
+    private val aValue: Array<String> by lazy {
+        context.resources.getStringArray(R.array.status_value)
+    }
+
+    private val aKeys: Array<Int> by lazy {
+        context.resources.getIntArray(R.array.status_key).toTypedArray()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -28,7 +37,7 @@ class OrderAdapter(
 
         holder.setListener(order)
 
-        holder.binding.tvId.text = order.id
+        holder.binding.tvId.text = context.getString(R.string.order_id, order.id)
 
         var names = ""
         order.products.forEach {
@@ -36,14 +45,20 @@ class OrderAdapter(
         }
         holder.binding.tvProductName.text = names.dropLast(2)
 
-        holder.binding.tvTotalPrice.text = order.totalPrice.toString()
+        holder.binding.tvTotalPrice.text =
+            context.getString(R.string.product_full_cart, order.totalPrice)
+
+        val index = aKeys.indexOf1(order.status)
+        val statusStr =
+            if (index != -1) aValue[index] else context.getString(R.string.order_status_unknown)
+        holder.binding.tvStatus.text = context.getString(R.string.order_estatus, statusStr)
     }
 
     override fun getItemCount(): Int = orderList.size
 
-    fun add(order: Order){
+    fun add(order: Order) {
         orderList.add(order)
-        notifyItemInserted(orderList.size -1)
+        notifyItemInserted(orderList.size - 1)
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -51,7 +66,7 @@ class OrderAdapter(
 
         fun setListener(order: Order) {
             binding.btnTrack.setOnClickListener {
-                listener.onStartChat(order)
+                listener.onTrack(order)
             }
 
             binding.chipChat.setOnClickListener {

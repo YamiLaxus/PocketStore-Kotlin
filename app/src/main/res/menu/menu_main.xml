@@ -5,4 +5,10 @@
         android:id="@+id/action_sign_out"
         android:title="Cerrar Sesión"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_order_history"
+        android:title=""
+        android:icon="@drawable/ic_history"
+        app:showAsAction="ifRoom"/>
 </menu>

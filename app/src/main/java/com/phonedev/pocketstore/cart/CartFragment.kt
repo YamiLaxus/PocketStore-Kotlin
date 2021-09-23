@@ -3,16 +3,22 @@ package com.phonedev.pocketstore.cart
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Adapter
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentCartBinding
+import com.phonedev.pocketstore.entities.Order
+import com.phonedev.pocketstore.entities.ProductOrder
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 
@@ -61,7 +67,7 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
         }
     }
 
-    private fun setupButtoms(){
+    private fun setupButtoms() {
         binding?.let {
             it.ibCancel.setOnClickListener {
                 bottomSheetBehaivor.state = BottomSheetBehavior.STATE_HIDDEN
@@ -72,15 +78,55 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
         }
     }
 
-    private fun requestOrder(){
-        dismiss()
-        (activity as? MainAux)?.clearCart()
-        startActivity(Intent(context, OrderActivity::class.java))
+    private fun requestOrder() {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let { myUser ->
+            enableUI(false)
+
+            val products = hashMapOf<String, ProductOrder>()
+            adapter.getProducts().forEach { product ->
+                products.put(
+                    product.id!!,
+                    ProductOrder(product.id!!, product.name!!, product.newQuantity)
+                )
+            }
+
+            val order = Order(
+                clientID = myUser.uid,
+                products = products,
+                totalPrice = totalPrice,
+                status = 1
+            )
+
+            val db = FirebaseFirestore.getInstance()
+            db.collection(Constants.COLL_REQUEST)
+                .add(order)
+                .addOnSuccessListener {
+                    dismiss()
+                    (activity as? MainAux)?.clearCart()
+                    startActivity(Intent(context, OrderActivity::class.java))
+                    Toast.makeText(activity, "Orden realizada.", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, "Ocurrió un error en la orden.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                .addOnCompleteListener {
+                    enableUI(true)
+                }
+        }
     }
 
-    private fun getProducts(){
+    private fun getProducts() {
         (activity as? MainAux)?.getProductsCart()?.forEach {
             adapter.add(it)
+        }
+    }
+
+    private fun enableUI(enable: Boolean){
+        binding?.let {
+            it.ibCancel.isEnabled = enable
+            it.efab.isEnabled = enable
         }
     }
 

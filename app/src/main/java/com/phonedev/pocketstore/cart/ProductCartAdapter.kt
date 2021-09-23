@@ -80,6 +80,8 @@ class ProductCartAdapter(private val productList: MutableList<Product>,
         listener.showTotal(result)
     }
 
+    fun getProducts(): List<Product> = productList
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = ItemProductCartBinding.bind(view)
 

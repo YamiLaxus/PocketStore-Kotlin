@@ -8,12 +8,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityOrderBinding
 import com.phonedev.pocketstore.entities.Order
+import com.phonedev.pocketstore.track.TrackFragment
 
-class OrderActivity : AppCompatActivity(), OnOrderListener {
+class OrderActivity : AppCompatActivity(), OnOrderListener, OrderAux {
 
     private lateinit var binding: ActivityOrderBinding
 
     private lateinit var adapter: OrderAdapter
+
+    private lateinit var orderSelected: Order
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +53,18 @@ class OrderActivity : AppCompatActivity(), OnOrderListener {
     }
 
     override fun onTrack(order: Order) {
-
+        orderSelected = order
+        val fragment = TrackFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.containerMain, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onStartChat(order: Order) {
 
     }
+
+    override fun getOrderSelected(): Order = orderSelected
 }
