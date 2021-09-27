@@ -14,7 +14,7 @@
     <string name="recycler_price">12</string>
 
 
-    <string name="order_track_shipment">Seguir envio</string>
+    <string name="order_track_shipment">Consultar Estado</string>
     <string name="order_estatus">Estado: %1$s</string>
     <string name="order_id">ID: %1$s</string>
     <string name="chip_chat_help">¿Necesitas ayuda?</string>
@@ -27,4 +27,5 @@
     <string name="order_status_unknown">Desconocido</string>
 
     <string name="track_title">Rastreo</string>
+    <string name="hint_chat">Escribe algo...</string>
 </resources>
