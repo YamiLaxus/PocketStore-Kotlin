@@ -97,17 +97,17 @@ class TrackFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
     }
 
-    override fun onDestroyView() {
+    override fun onDestroy() {
         (activity as? AppCompatActivity)?.let {
             it.supportActionBar?.setDisplayHomeAsUpEnabled(false)
             it.supportActionBar?.title = getString(R.string.order_title)
             setHasOptionsMenu(false)
         }
-        super.onDestroyView()
+        super.onDestroy()
     }
 }

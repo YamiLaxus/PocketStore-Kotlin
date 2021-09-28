@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.FirebaseFirestore
 import com.phonedev.pocketstore.R
+import com.phonedev.pocketstore.chat.ChatFragment
 import com.phonedev.pocketstore.databinding.ActivityOrderBinding
 import com.phonedev.pocketstore.entities.Order
 import com.phonedev.pocketstore.track.TrackFragment
@@ -63,7 +64,14 @@ class OrderActivity : AppCompatActivity(), OnOrderListener, OrderAux {
     }
 
     override fun onStartChat(order: Order) {
+        orderSelected = order
 
+        val fragment = ChatFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.containerMain, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun getOrderSelected(): Order = orderSelected
