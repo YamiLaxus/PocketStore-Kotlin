@@ -3,10 +3,8 @@ package com.phonedev.pocketstore.cart
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.provider.SyncStateContract
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Adapter
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -17,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentCartBinding
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Order
 import com.phonedev.pocketstore.entities.ProductOrder
 import com.phonedev.pocketstore.order.OrderActivity

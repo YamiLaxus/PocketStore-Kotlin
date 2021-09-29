@@ -60,8 +60,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
     // Declare the dependency for the Realtime Database library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-database-ktx'
+
+    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
+    implementation 'com.google.firebase:firebase-messaging'
+
+    //Preference
+    implementation 'androidx.preference:preference:1.1.0-alpha04'
 
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'

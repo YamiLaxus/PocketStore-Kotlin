@@ -23,6 +23,7 @@ import com.phonedev.pocketstore.cart.CartFragment
 import com.phonedev.pocketstore.databinding.ActivityMainBinding.*
 import com.phonedev.pocketstore.databinding.ActivityPhoneBinding
 import com.phonedev.pocketstore.detail.DetailFragment
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux

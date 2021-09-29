@@ -17,6 +17,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentChatBinding
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Message
 import com.phonedev.pocketstore.entities.Order
 import com.phonedev.pocketstore.order.OrderAux
