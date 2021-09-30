@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -19,12 +20,14 @@ class DetailFragment: Fragment() {
     private var binding: FragmentDetailBinding? = null
     private var product: Product? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         binding?.let {
             return it.root
         }
@@ -54,8 +57,9 @@ class DetailFragment: Fragment() {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_timelapse)
                     .error(R.drawable.ic_broken_image)
-                    .centerCrop()
-                    .into(it.imgProduct)
+                    .fitCenter()
+                    //.into(it.imgProduct)
+                    .into(it.imgBackground)
             }
         }
     }
@@ -104,6 +108,7 @@ class DetailFragment: Fragment() {
 
     override fun onDestroyView() {
         (activity as? MainAux)?.showButton(true)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         super.onDestroyView()
         binding = null
     }
