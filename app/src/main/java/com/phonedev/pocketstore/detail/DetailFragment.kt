@@ -1,19 +1,29 @@
 package com.phonedev.pocketstore.detail
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.BlurMaskFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.collection.lruCache
 import androidx.core.text.HtmlCompat
+import androidx.core.util.lruCache
 import androidx.fragment.app.Fragment
+import coil.api.load
+import coil.request.CachePolicy
+import coil.request.LoadRequestBuilder
+import coil.transform.BlurTransformation
+import coil.util.CoilUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentDetailBinding
 import com.phonedev.pocketstore.product.MainAux
+import io.grpc.okhttp.OkHttpChannelBuilder
 
 class DetailFragment: Fragment() {
 
@@ -51,6 +61,12 @@ class DetailFragment: Fragment() {
                 //it.tvQuantity.text = getString(R.string.detail_quantity, product.quantity)
                 setNewQuantity(product)
 
+                it.imgBackground.load(product.imgUrl){
+                    crossfade(true)
+                    transformations(BlurTransformation(requireActivity(), 20f))
+                    diskCachePolicy(CachePolicy.ENABLED)
+                    build()
+                }
 
                 Glide.with(this)
                     .load(product.imgUrl)
@@ -58,8 +74,8 @@ class DetailFragment: Fragment() {
                     .placeholder(R.drawable.ic_timelapse)
                     .error(R.drawable.ic_broken_image)
                     .fitCenter()
-                    //.into(it.imgProduct)
-                    .into(it.imgBackground)
+                    .into(it.imgProduct)
+                    //.into(it.imgBackground)
             }
         }
     }
