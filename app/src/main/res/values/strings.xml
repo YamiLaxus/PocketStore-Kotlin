@@ -29,4 +29,7 @@
     <string name="track_title">Rastreo</string>
     <string name="hint_chat">Escribe algo...</string>
     <string name="chat_title">Soporte</string>
+    <string name="notification_channel_id_default">general</string>
+
+
 </resources>
