@@ -24,6 +24,7 @@ import com.phonedev.pocketstore.databinding.ActivityMainBinding.*
 import com.phonedev.pocketstore.databinding.ActivityPhoneBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
+import com.phonedev.pocketstore.entities.ProductosDestacados
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
@@ -208,6 +209,11 @@ class Phone_Activity : AppCompatActivity(), onProductListenner, MainAux {
             .addToBackStack(null)
             .commit()
         showButton(false)
+    }
+
+    //Usado para los productos destacados
+    override fun onClickDestacado(product: ProductosDestacados) {
+        TODO("Not yet implemented")
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList

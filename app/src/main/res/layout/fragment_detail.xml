@@ -169,6 +169,7 @@
             android:inputType="number"
             android:textAlignment="center"
             android:textColor="@color/white"
+            android:shadowColor="@color/white"
             tools:text="5" />
 
     </com.google.android.material.textfield.TextInputLayout>
