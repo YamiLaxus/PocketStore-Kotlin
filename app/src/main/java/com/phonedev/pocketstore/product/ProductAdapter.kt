@@ -13,8 +13,9 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemProductBinding
 import com.phonedev.pocketstore.pages.Phone_Activity
 
-class ProductAdapter(private val productList: MutableList<Product>,
-                     private val listener: Phone_Activity
+class ProductAdapter(
+    private val productList: MutableList<Product>,
+    private val listener: Phone_Activity
 ) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
@@ -34,7 +35,7 @@ class ProductAdapter(private val productList: MutableList<Product>,
 
         holder.binding.tvName.text = product.name
         holder.binding.tvPrice.text = product.price.toString()
-        holder.binding.tvQuantity.text = product.quantity.toString()
+        //holder.binding.tvQuantity.text = product.quantity.toString()
 
         Glide.with(context)
             .load(product.imgUrl)
@@ -47,35 +48,35 @@ class ProductAdapter(private val productList: MutableList<Product>,
 
     override fun getItemCount(): Int = productList.size
 
-    fun add(product: Product){
-        if (!productList.contains(product)){
+    fun add(product: Product) {
+        if (!productList.contains(product)) {
             productList.add(product)
             notifyItemInserted(productList.size - 1)
-        } else{
+        } else {
             update(product)
         }
     }
 
-    fun update(product: Product){
+    fun update(product: Product) {
         val index = productList.indexOf(product)
-        if (index != -1){
+        if (index != -1) {
             productList.set(index, product)
             notifyItemChanged(index)
         }
     }
 
-    fun delete(product: Product){
+    fun delete(product: Product) {
         val index = productList.indexOf(product)
-        if (index != -1){
+        if (index != -1) {
             productList.removeAt(index)
             notifyItemRemoved(index)
         }
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemProductBinding.bind(view)
 
-        fun setListener(product: Product){
+        fun setListener(product: Product) {
             binding.root.setOnClickListener {
                 listener.onClick(product)
             }

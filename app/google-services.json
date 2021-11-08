@@ -74,12 +74,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:630920636530:android:122455a5395056b45a3aeb",
+        "mobilesdk_app_id": "1:630920636530:android:758a22ea18489c745a3aeb",
         "android_client_info": {
           "package_name": "com.phonedev.pocketstore"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "630920636530-vlc312023grptcjmm9r8knb4s1lf71ra.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.phonedev.pocketstore",
+            "certificate_hash": "5a1a675fe198489a194bab29b94caf23f0a59ac0"
+          }
+        },
         {
           "client_id": "630920636530-djbcjquk1b7ucldgkeu0a1a0j86u0qnv.apps.googleusercontent.com",
           "client_type": 3
