@@ -11,25 +11,23 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
-import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.ProductosDestacados
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.product.MainAux
+import com.phonedev.pocketstore.product.ProductAdapter
 import com.phonedev.pocketstore.product.ProductosDestacadosAdapter
 
 
-class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
+class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
 
     private lateinit var binding: ActivityHomeBinding
 
     private lateinit var firestoreListenner: ListenerRegistration
 
-    private lateinit var adapter: ProductosDestacadosAdapter
+    lateinit var adapter: ProductosDestacadosAdapter
 
-    private val productCartList = mutableListOf<ProductosDestacados>()
-
-    private var productSelected: ProductosDestacados? = null
+    private var productSelected: ProductosDestacadosAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +47,14 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun onPause() {
         super.onPause()
-        firestoreListenner.remove()
+        configFirestoreRealTime()
+    }
+
+    fun setClick(){
+        binding.ibCategoriesPhone.setOnClickListener {
+            val intent = Intent(this, Phone_Activity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun configRecyclerView() {
@@ -73,10 +78,8 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
                 return@addSnapshotListener
             }
 
-            //Crear ProductDestacadosAdapter and Listener
-
             for (snapshot in snapshot!!.documentChanges) {
-                val product = snapshot.document.toObject(ProductosDestacados::class.java)
+                val product = snapshot.document.toObject(Product::class.java)
                 product.id = snapshot.document.id
                 when (snapshot.type) {
                     DocumentChange.Type.ADDED -> adapter.add(product)
@@ -87,34 +90,12 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
     }
 
-    fun setClick(){
-        binding.ibCategoriesPhone.setOnClickListener {
-            val intent = Intent(this, Phone_Activity::class.java)
-            startActivity(intent)
-        }
-    }
-
     override fun onClick(product: Product) {
         TODO("Not yet implemented")
     }
 
-
     override fun onClickDestacado(product: ProductosDestacados) {
-        val index = productCartList.indexOf(product)
-
-        if (index != -1) {
-            productSelected = productCartList[index]
-        } else {
-            productSelected = product
-        }
-
-        val fragment = DetailFragment()
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.containerMain, fragment)
-            .addToBackStack(null)
-            .commit()
-        showButton(false)
+        TODO("Not yet implemented")
     }
 
     override fun getProductsCart(): MutableList<Product> {

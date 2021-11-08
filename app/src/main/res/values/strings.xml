@@ -29,7 +29,13 @@
     <string name="track_title">Rastreo</string>
     <string name="hint_chat">Escribe algo...</string>
     <string name="chat_title">Soporte</string>
+
     <string name="notification_channel_id_default">general</string>
+    <string name="notification_channel_name_default">Generales</string>
+    <string name="hint_buscar">Buscar</string>
+    <string name="textView_categorias">Categorías</string>
+    <string name="destacados">Destacados</string>
+    <string name="explorer">Explorar</string>
 
 
 </resources>

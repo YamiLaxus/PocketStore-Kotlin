@@ -6,6 +6,7 @@ data class Product(@get:Exclude var id:String? = null,
                    var name:String? = null,
                    var description:String? = null,
                    var imgUrl:String? = null,
+                   var status: String? = null,
                    var quantity:Int = 0,
                    @get:Exclude var newQuantity:Int = 1,
                    var price:Double = 0.0){

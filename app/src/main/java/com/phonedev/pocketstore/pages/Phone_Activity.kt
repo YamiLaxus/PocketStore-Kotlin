@@ -34,12 +34,12 @@ class Phone_Activity : AppCompatActivity(), onProductListenner, MainAux {
 
     private lateinit var binding: ActivityPhoneBinding
 
+    //variables for Authentication
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-
-    private lateinit var adapter: ProductAdapter
-
     private lateinit var firestoreListenner: ListenerRegistration
+
+    lateinit var adapter: ProductAdapter
 
     private val productCartList = mutableListOf<Product>()
 

@@ -7,33 +7,36 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemDestacadosBinding
+import com.phonedev.pocketstore.databinding.ItemProductBinding
 import com.phonedev.pocketstore.entities.ProductosDestacados
 import com.phonedev.pocketstore.pages.HomeActivity
+import com.phonedev.pocketstore.pages.Phone_Activity
 
 class ProductosDestacadosAdapter(
-    private val productsList: MutableList<ProductosDestacados>,
+    private val productList: MutableList<Product>,
     private val listener: HomeActivity
-) : RecyclerView.Adapter<ProductosDestacadosAdapter.ViewHolder>() {
-
+) :
+    RecyclerView.Adapter<ProductosDestacadosAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         val view = LayoutInflater.from(context).inflate(R.layout.item_destacados, parent, false)
 
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ProductosDestacadosAdapter.ViewHolder, position: Int) {
-        val product = productsList[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val product = productList[position]
 
         holder.setListener(product)
+
+        //holder.binding.tvName.text = product.name
+        //holder.binding.tvPrice.text = product.price.toString()
         //holder.binding.tvQuantity.text = product.quantity.toString()
 
         Glide.with(context)
@@ -45,29 +48,29 @@ class ProductosDestacadosAdapter(
             .into(holder.binding.imageProductDestacados)
     }
 
-    override fun getItemCount(): Int = productsList.size
+    override fun getItemCount(): Int = productList.size
 
-    fun add(product: ProductosDestacados) {
-        if (!productsList.contains(product)) {
-            productsList.add(product)
-            notifyItemInserted(productsList.size - 1)
+    fun add(product: Product) {
+        if (!productList.contains(product)) {
+            productList.add(product)
+            notifyItemInserted(productList.size - 1)
         } else {
             update(product)
         }
     }
 
-    fun update(product: ProductosDestacados) {
-        val index = productsList.indexOf(product)
+    fun update(product: Product) {
+        val index = productList.indexOf(product)
         if (index != -1) {
-            productsList.set(index, product)
+            productList.set(index, product)
             notifyItemChanged(index)
         }
     }
 
-    fun delete(product: ProductosDestacados) {
-        val index = productsList.indexOf(product)
+    fun delete(product: Product) {
+        val index = productList.indexOf(product)
         if (index != -1) {
-            productsList.removeAt(index)
+            productList.removeAt(index)
             notifyItemRemoved(index)
         }
     }
@@ -75,9 +78,9 @@ class ProductosDestacadosAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemDestacadosBinding.bind(view)
 
-        fun setListener(product: ProductosDestacados) {
+        fun setListener(product: Product) {
             binding.root.setOnClickListener {
-                listener.onClickDestacado(product)
+                listener.onClick(product)
             }
         }
     }
