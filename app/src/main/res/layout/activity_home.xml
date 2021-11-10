@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,178 +11,183 @@
     tools:context=".pages.HomeActivity"
     tools:ignore="ScrollViewCount">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:isScrollContainer="true">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivHomeStack"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/pocketplaystore"
+            android:src="@drawable/gradiant"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivHomeStack"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:scaleType="fitXY"
-                android:background="@drawable/pocketplaystore"
-                android:src="@drawable/gradiant"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilBusqueda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="130dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:hint="@string/hint_buscar"
-                app:hintTextColor="@color/black"
-                android:background="@drawable/border_redondo_search"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etBusqueda"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textNoSuggestions" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilBusqueda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="130dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="@string/hint_buscar"
+            app:hintTextColor="@color/black"
+            android:background="@drawable/border_redondo_search"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/common_padding_min"
-                android:text="@string/textView_categorias" />
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etBusqueda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="@dimen/common_padding_min"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:background="@drawable/border_redondo_circular"
-                android:orientation="horizontal">
+                android:inputType="textNoSuggestions" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesAcc"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
 
-                    android:src="@drawable/acc" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesPhone"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/phone" />
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesTablet"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ipad" />
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:isScrollContainer="true">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesArt"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/art" />
+              <com.google.android.material.textview.MaterialTextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/common_padding_min"
+                  android:text="@string/textView_categorias" />
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesKiki"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/kikistorelogo" />
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:padding="@dimen/common_padding_min"
+                  android:layout_marginLeft="4dp"
+                  android:layout_marginRight="4dp"
+                  android:background="@drawable/border_redondo_circular"
+                  android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/ibCategoriesServices"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/fix" />
+                  <ImageButton
+                      android:id="@+id/ibCategoriesAcc"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
 
-            </LinearLayout>
+                      android:src="@drawable/acc" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="@dimen/common_padding_min"
-                android:orientation="horizontal">
-            </LinearLayout>
+                  <ImageButton
+                      android:id="@+id/ibCategoriesPhone"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginRight="5dp"
+                      android:src="@drawable/phone" />
 
-        </LinearLayout>
+                  <ImageButton
+                      android:id="@+id/ibCategoriesTablet"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginRight="5dp"
+                      android:src="@drawable/ipad" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:orientation="vertical">
+                  <ImageButton
+                      android:id="@+id/ibCategoriesArt"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginLeft="5dp"
+                      android:src="@drawable/art" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/common_padding_min"
-                android:text="@string/destacados"
-                android:textSize="20dp"/>
+                  <ImageButton
+                      android:id="@+id/ibCategoriesKiki"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginLeft="5dp"
+                      android:src="@drawable/kikistorelogo" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_destacados"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:listitem="@layout/item_destacados"/>
+                  <ImageButton
+                      android:id="@+id/ibCategoriesServices"
+                      android:layout_width="50dp"
+                      android:layout_height="50dp"
+                      android:scaleType="fitXY"
+                      android:layout_marginLeft="5dp"
+                      android:layout_marginRight="5dp"
+                      android:src="@drawable/fix" />
 
-        </LinearLayout>
+              </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:orientation="vertical">
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:layout_marginTop="@dimen/common_padding_min"
+                  android:orientation="horizontal">
+              </LinearLayout>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/common_padding_min"
-                android:text="@string/explorer"
-                android:textSize="20dp"/>
+          </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_explorar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_destacados"/>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="250dp"
+              android:orientation="vertical">
 
-        </LinearLayout>
+              <com.google.android.material.textview.MaterialTextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/common_padding_min"
+                  android:text="@string/destacados"
+                  android:textSize="20dp"/>
 
-    </LinearLayout>
+              <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/recyclerView_destacados"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  tools:listitem="@layout/item_destacados"/>
 
-</ScrollView>
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="250dp"
+              android:orientation="vertical">
+
+              <com.google.android.material.textview.MaterialTextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="@dimen/common_padding_min"
+                  android:text="@string/explorer"
+                  android:textSize="20dp"/>
+
+              <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/recyclerView_explorar"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  tools:listitem="@layout/item_destacados"/>
+
+          </LinearLayout>
+
+      </LinearLayout>
+
+  </ScrollView>
+
+</LinearLayout>

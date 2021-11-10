@@ -11,11 +11,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
+import com.phonedev.pocketstore.detail.DetailFragment
+import com.phonedev.pocketstore.detail.DetailHomeFragment
 import com.phonedev.pocketstore.entities.Constants
-import com.phonedev.pocketstore.entities.ProductosDestacados
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.product.MainAux
-import com.phonedev.pocketstore.product.ProductAdapter
 import com.phonedev.pocketstore.product.ProductosDestacadosAdapter
 
 
@@ -27,7 +27,9 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
 
     lateinit var adapter: ProductosDestacadosAdapter
 
-    private var productSelected: ProductosDestacadosAdapter? = null
+    private val productCartList = mutableListOf<Product>()
+
+    private var productSelected: Product? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,11 +93,11 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
     }
 
     override fun onClick(product: Product) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onClickDestacado(product: ProductosDestacados) {
-        TODO("Not yet implemented")
+        var fragment = DetailHomeFragment()
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.homeMain, fragment)
+            .commit()
     }
 
     override fun getProductsCart(): MutableList<Product> {
@@ -110,9 +112,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
         TODO("Not yet implemented")
     }
 
-    override fun getProductSelected(): Product? {
-        TODO("Not yet implemented")
-    }
+    override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
         TODO("Not yet implemented")

@@ -10,10 +10,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemDestacadosBinding
-import com.phonedev.pocketstore.databinding.ItemProductBinding
-import com.phonedev.pocketstore.entities.ProductosDestacados
 import com.phonedev.pocketstore.pages.HomeActivity
-import com.phonedev.pocketstore.pages.Phone_Activity
 
 class ProductosDestacadosAdapter(
     private val productList: MutableList<Product>,
