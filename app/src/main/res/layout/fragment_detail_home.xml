@@ -2,15 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.Design.NoActionBar"
-    android:id="@+id/cnImage"
+    tools:context=".pages.HomeActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#06164b"
     android:clickable="true"
     android:focusable="true"
-    app:layout_constraintCircleRadius="20dp"
-    tools:actionBarNavMode="tabs">
+    app:layout_constraintCircleRadius="20dp">
 
     <FrameLayout
         android:id="@+id/frameLayout"

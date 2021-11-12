@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,8 +12,12 @@
     tools:ignore="ScrollViewCount">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cnlHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivHomeStack"
@@ -52,142 +56,144 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-  <ScrollView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cnlHeader">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical"
-          android:isScrollContainer="true">
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:isScrollContainer="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-              <com.google.android.material.textview.MaterialTextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/common_padding_min"
-                  android:text="@string/textView_categorias" />
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:text="@string/textView_categorias" />
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:padding="@dimen/common_padding_min"
-                  android:layout_marginLeft="4dp"
-                  android:layout_marginRight="4dp"
-                  android:background="@drawable/border_redondo_circular"
-                  android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/common_padding_min"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/border_redondo_circular"
+                    android:orientation="horizontal">
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesAcc"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginLeft="5dp"
-                      android:layout_marginRight="5dp"
+                    <ImageButton
+                        android:id="@+id/ibCategoriesAcc"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
 
-                      android:src="@drawable/acc" />
+                        android:src="@drawable/acc" />
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesPhone"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginRight="5dp"
-                      android:src="@drawable/phone" />
+                    <ImageButton
+                        android:id="@+id/ibCategoriesPhone"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/phone" />
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesTablet"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginRight="5dp"
-                      android:src="@drawable/ipad" />
+                    <ImageButton
+                        android:id="@+id/ibCategoriesTablet"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ipad" />
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesArt"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginLeft="5dp"
-                      android:src="@drawable/art" />
+                    <ImageButton
+                        android:id="@+id/ibCategoriesArt"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/art" />
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesKiki"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginLeft="5dp"
-                      android:src="@drawable/kikistorelogo" />
+                    <ImageButton
+                        android:id="@+id/ibCategoriesKiki"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp"
+                        android:src="@drawable/kikistorelogo" />
 
-                  <ImageButton
-                      android:id="@+id/ibCategoriesServices"
-                      android:layout_width="50dp"
-                      android:layout_height="50dp"
-                      android:scaleType="fitXY"
-                      android:layout_marginLeft="5dp"
-                      android:layout_marginRight="5dp"
-                      android:src="@drawable/fix" />
+                    <ImageButton
+                        android:id="@+id/ibCategoriesServices"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:scaleType="fitXY"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/fix" />
 
-              </LinearLayout>
+                </LinearLayout>
 
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:layout_marginTop="@dimen/common_padding_min"
-                  android:orientation="horizontal">
-              </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/common_padding_min"
+                    android:orientation="horizontal">
+                </LinearLayout>
 
-          </LinearLayout>
+            </LinearLayout>
 
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="250dp"
-              android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical">
 
-              <com.google.android.material.textview.MaterialTextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/common_padding_min"
-                  android:text="@string/destacados"
-                  android:textSize="20dp"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:text="@string/destacados"
+                    android:textSize="20dp"/>
 
-              <androidx.recyclerview.widget.RecyclerView
-                  android:id="@+id/recyclerView_destacados"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="horizontal"
-                  tools:listitem="@layout/item_destacados"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_destacados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+                    tools:listitem="@layout/item_destacados" />
 
-          </LinearLayout>
+            </LinearLayout>
 
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="250dp"
-              android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:orientation="vertical">
 
-              <com.google.android.material.textview.MaterialTextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/common_padding_min"
-                  android:text="@string/explorer"
-                  android:textSize="20dp"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/common_padding_min"
+                    android:text="@string/explorer"
+                    android:textSize="20dp"/>
 
-              <androidx.recyclerview.widget.RecyclerView
-                  android:id="@+id/recyclerView_explorar"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  tools:listitem="@layout/item_destacados"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_explorar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_destacados"/>
 
-          </LinearLayout>
+            </LinearLayout>
 
-      </LinearLayout>
+        </LinearLayout>
 
-  </ScrollView>
+    </ScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

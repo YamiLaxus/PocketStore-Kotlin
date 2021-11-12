@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_detail.xml" value="0.2" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_home.xml" value="0.16574074074074074" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_phone.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail_home.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_destacados.xml" value="0.1" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_product.xml" value="0.2" />
       </map>

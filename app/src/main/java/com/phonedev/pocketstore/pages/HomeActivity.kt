@@ -19,7 +19,7 @@ import com.phonedev.pocketstore.product.MainAux
 import com.phonedev.pocketstore.product.ProductosDestacadosAdapter
 
 
-class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
+class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
         configFirestoreRealTime()
     }
 
-    fun setClick(){
+    fun setClick() {
         binding.ibCategoriesPhone.setOnClickListener {
             val intent = Intent(this, Phone_Activity::class.java)
             startActivity(intent)
@@ -93,10 +93,13 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
     }
 
     override fun onClick(product: Product) {
-        var fragment = DetailHomeFragment()
+        productSelected = product
+
+        val fragment = DetailHomeFragment()
         supportFragmentManager
             .beginTransaction()
             .add(R.id.homeMain, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -121,4 +124,5 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux{
     override fun addProductToCart(product: Product) {
         TODO("Not yet implemented")
     }
+
 }
