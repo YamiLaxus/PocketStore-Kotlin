@@ -10,20 +10,20 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemDestacadosBinding
-import com.phonedev.pocketstore.databinding.ItemProductBinding
+import com.phonedev.pocketstore.databinding.ItemExplorarBinding
 import com.phonedev.pocketstore.pages.HomeActivity
 
-class ProductosDestacadosAdapter(
+class ProductExplorerAdapter(
     private val productList: MutableList<Product>,
     private val listener: HomeActivity
 ) :
-    RecyclerView.Adapter<ProductosDestacadosAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ProductExplorerAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(context).inflate(R.layout.item_destacados, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_explorar, parent, false)
 
         return ViewHolder(view)
     }
@@ -32,7 +32,6 @@ class ProductosDestacadosAdapter(
         val product = productList[position]
 
         holder.setListener(product)
-
 
         Glide.with(context)
             .load(product.imgUrl)
@@ -71,7 +70,7 @@ class ProductosDestacadosAdapter(
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemDestacadosBinding.bind(view)
+        val binding = ItemExplorarBinding.bind(view)
 
         fun setListener(product: Product) {
             binding.root.setOnClickListener {
@@ -79,4 +78,5 @@ class ProductosDestacadosAdapter(
             }
         }
     }
+
 }

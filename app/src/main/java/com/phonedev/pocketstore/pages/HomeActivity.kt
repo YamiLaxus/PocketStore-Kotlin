@@ -11,11 +11,11 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
-import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.detail.DetailHomeFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.product.MainAux
+import com.phonedev.pocketstore.product.ProductExplorerAdapter
 import com.phonedev.pocketstore.product.ProductosDestacadosAdapter
 
 
@@ -23,9 +23,10 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private lateinit var firestoreListenner: ListenerRegistration
+    private lateinit var firestoreListener: ListenerRegistration
 
     lateinit var adapter: ProductosDestacadosAdapter
+    lateinit var adapterExplorer: ProductExplorerAdapter
 
     private val productCartList = mutableListOf<Product>()
 
@@ -40,19 +41,23 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
         setClick()
         configRecyclerView()
+        configFirestoreRealTime()
+        configFirestoreRealTimeExplorer()
     }
 
     override fun onResume() {
         super.onResume()
         configFirestoreRealTime()
+        configFirestoreRealTimeExplorer()
     }
 
     override fun onPause() {
         super.onPause()
         configFirestoreRealTime()
+        configFirestoreRealTimeExplorer()
     }
 
-    fun setClick() {
+    private fun setClick() {
         binding.ibCategoriesPhone.setOnClickListener {
             val intent = Intent(this, Phone_Activity::class.java)
             startActivity(intent)
@@ -61,6 +66,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private fun configRecyclerView() {
         adapter = ProductosDestacadosAdapter(mutableListOf(), this)
+        adapterExplorer = ProductExplorerAdapter(mutableListOf(), this)
         binding.recyclerViewDestacados.apply {
             layoutManager = GridLayoutManager(
                 this@HomeActivity, 1,
@@ -68,13 +74,20 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             )
             adapter = this@HomeActivity.adapter
         }
+        binding.recyclerViewExplorar.apply {
+            layoutManager = GridLayoutManager(
+                this@HomeActivity, 1,
+                GridLayoutManager.HORIZONTAL, false
+            )
+            adapterExplorer = adapterExplorer
+        }
     }
 
     private fun configFirestoreRealTime() {
         val db = FirebaseFirestore.getInstance()
         val productRef = db.collection(Constants.COLL_DESTACADOS)
 
-        firestoreListenner = productRef.addSnapshotListener { snapshot, error ->
+        firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
                 Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
@@ -87,6 +100,40 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
                     DocumentChange.Type.ADDED -> adapter.add(product)
                     DocumentChange.Type.MODIFIED -> adapter.update(product)
                     DocumentChange.Type.REMOVED -> adapter.delete(product)
+                }
+            }
+        }
+    }
+
+    //For Explorer Page
+//    private fun configRecyclerViewExplorar() {
+//        adapterExplorer = ProductExplorerAdapter(mutableListOf(), this)
+//        binding.recyclerViewExplorar.apply {
+//            layoutManager = GridLayoutManager(
+//                this@HomeActivity, 1,
+//                GridLayoutManager.HORIZONTAL, false
+//            )
+//            adapterExplorer = adapterExplorer
+//        }
+//    }
+
+    private fun configFirestoreRealTimeExplorer() {
+        val db = FirebaseFirestore.getInstance()
+        val productRef = db.collection(Constants.COLL_EXPLORAR)
+
+        firestoreListener = productRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+
+            for (snapshot in snapshot!!.documentChanges) {
+                val product = snapshot.document.toObject(Product::class.java)
+                product.id = snapshot.document.id
+                when (snapshot.type) {
+                    DocumentChange.Type.ADDED -> adapterExplorer.add(product)
+                    DocumentChange.Type.MODIFIED -> adapterExplorer.update(product)
+                    DocumentChange.Type.REMOVED -> adapterExplorer.delete(product)
                 }
             }
         }

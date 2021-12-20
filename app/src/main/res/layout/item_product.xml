@@ -7,9 +7,9 @@
     android:outlineAmbientShadowColor="@color/black"
     android:background="@color/white"
     android:layout_marginTop="@dimen/common_padding_min"
-    android:layout_marginBottom="@dimen/common_padding_default"
-    android:layout_marginStart="@dimen/common_padding_default"
-    android:layout_marginEnd="@dimen/common_padding_default"
+    android:layout_marginBottom="@dimen/common_padding_min"
+    android:layout_marginStart="@dimen/common_padding_min"
+    android:layout_marginEnd="@dimen/common_padding_min"
     android:orientation="horizontal">
 
     <LinearLayout
@@ -48,18 +48,16 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="219dp"
-            android:layout_height="71dp"
-            android:padding="@dimen/common_padding_min"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_padding_min"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/image_product"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.133"
             tools:text="Cargador iPhone" />
 
         <LinearLayout
@@ -69,11 +67,10 @@
 
             <TextView
                 android:id="@+id/tvMoneda"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:layout_marginRight="@dimen/common_padding_min"
-                android:gravity="end"
+                android:layout_marginTop="110dp"
+                android:gravity="start"
                 android:text="Q."
                 android:textColor="@color/black"
                 android:textSize="18dp"
@@ -83,14 +80,11 @@
                 android:id="@+id/tvPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:layout_marginTop="70dp"
-                android:layout_marginRight="@dimen/common_padding_min"
+                android:layout_marginTop="110dp"
                 android:textSize="18dp"
                 android:textColor="#ff043a"
                 android:textStyle="bold|italic"
                 tools:text="1,650.00"/>
-
 
         </LinearLayout>
 

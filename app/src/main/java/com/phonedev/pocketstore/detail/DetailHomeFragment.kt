@@ -38,7 +38,7 @@ class DetailHomeFragment: Fragment() {
         getProduct()
     }
 
-    fun getProduct(){
+    private fun getProduct() {
         product = (activity as? MainAux)?.getProductSelected()
         product?.let { product ->
             binding?.let {
@@ -58,7 +58,7 @@ class DetailHomeFragment: Fragment() {
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.ic_timelapse)
                     .error(R.drawable.ic_broken_image)
-                    .fitCenter()
+                    .centerCrop()
                     .into(it.imgProduct)
             }
         }
