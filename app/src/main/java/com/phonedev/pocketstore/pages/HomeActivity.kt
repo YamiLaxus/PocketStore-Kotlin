@@ -25,8 +25,8 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private lateinit var firestoreListener: ListenerRegistration
 
-    lateinit var adapter: ProductosDestacadosAdapter
-    lateinit var adapterExplorer: ProductExplorerAdapter
+    private lateinit var adapter: ProductosDestacadosAdapter
+    private lateinit var adapterExplorer: ProductExplorerAdapter
 
     private val productCartList = mutableListOf<Product>()
 
