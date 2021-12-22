@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -39,6 +40,8 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+
         setClick()
         configRecyclerView()
         configFirestoreRealTime()
@@ -58,8 +61,34 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
     }
 
     private fun setClick() {
+        binding.ibCategoriesAcc.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
         binding.ibCategoriesPhone.setOnClickListener {
             val intent = Intent(this, Phone_Activity::class.java)
+            Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesTablet.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesArt.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesKiki.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Personaliza tu vida", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesServices.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
     }

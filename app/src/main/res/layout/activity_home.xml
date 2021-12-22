@@ -5,6 +5,7 @@
     android:id="@+id/homeMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgrounmain"
     android:isScrollContainer="true"
     android:orientation="vertical"
     tools:context=".pages.HomeActivity"
@@ -18,40 +19,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivHomeStack"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@drawable/pocketplaystore"
-            android:scaleType="fitXY"
-            android:src="@drawable/gradiant"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/tvHola"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_padding_default"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:text="Hola, "
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilBusqueda"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvUser"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="130dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/border_redondo_search"
-            android:hint="@string/hint_buscar"
-            app:hintTextColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toEndOf="@+id/tvHola"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Osvaldo Martinez" />
+
+        <TextView
+            android:id="@+id/tvHeadText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_padding_default"
+            android:layout_marginTop="@dimen/common_padding_default"
+            android:text="¿Qué te gustaría \ncomprar Hoy?"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBusqueda"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+            app:layout_constraintTop_toBottomOf="@+id/tvHola" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -76,7 +80,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
-                    android:text="@string/textView_categorias" />
+                    android:text="@string/textView_categorias"
+                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,7 +100,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:scaleType="fitXY"
-
                         android:src="@drawable/acc" />
 
                     <ImageButton
@@ -153,6 +157,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="@string/destacados"
+                    android:textColor="@color/white"
                     android:textSize="20dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -175,6 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/common_padding_min"
                     android:text="@string/explorer"
+                    android:textColor="@color/white"
                     android:textSize="20dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
