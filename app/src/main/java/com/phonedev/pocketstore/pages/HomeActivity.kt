@@ -103,13 +103,6 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             )
             adapter = this@HomeActivity.adapter
         }
-        binding.recyclerViewExplorar.apply {
-            layoutManager = GridLayoutManager(
-                this@HomeActivity, 1,
-                GridLayoutManager.HORIZONTAL, false
-            )
-            adapterExplorer = adapterExplorer
-        }
     }
 
     private fun configFirestoreRealTime() {

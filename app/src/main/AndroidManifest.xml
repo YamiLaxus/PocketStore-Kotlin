@@ -13,12 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
-            android:name=".pages.NotFoundActivity"/>
+            android:name=".pages.StartActivityUno"
+            android:exported="false" />
+        <activity android:name=".pages.NotFoundActivity" />
         <activity
             android:name=".pages.HomeActivity"
+            android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            tools:ignore="IntentFilterExportedReceiver"
-            android:exported="true">
+            tools:ignore="IntentFilterExportedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

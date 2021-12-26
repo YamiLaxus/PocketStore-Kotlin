@@ -33,7 +33,6 @@ class ProductosDestacadosAdapter(
 
         holder.setListener(product)
 
-
         Glide.with(context)
             .load(product.imgUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
