@@ -3,8 +3,13 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.ErrorCodes
+import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,6 +29,9 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private lateinit var binding: ActivityHomeBinding
 
+    //variables for Authentication
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private lateinit var firestoreListener: ListenerRegistration
 
     private lateinit var adapter: ProductosDestacadosAdapter
@@ -32,6 +40,35 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
     private val productCartList = mutableListOf<Product>()
 
     private var productSelected: Product? = null
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val response = IdpResponse.fromResultIntent(it.data)
+
+            if (it.resultCode == RESULT_OK) {
+                val user = FirebaseAuth.getInstance().currentUser
+                if (user != null) {
+                    Toast.makeText(this, "Hola Bienvenido", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                if (response == null) {
+                    Toast.makeText(this, "Hasta Pronto", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    response.error?.let {
+                        if (it.errorCode == ErrorCodes.NO_NETWORK) {
+                            Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Codigo de error: ${it.errorCode}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,52 +82,44 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         setClick()
         configRecyclerView()
         configFirestoreRealTime()
+        configAuth()
         configFirestoreRealTimeExplorer()
+    }
+
+    private fun configAuth() {
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        authStateListener = FirebaseAuth.AuthStateListener { auth ->
+            if (auth.currentUser != null) {
+                supportActionBar?.title = auth.currentUser?.displayName
+            } else {
+                val providers = arrayListOf(
+                    AuthUI.IdpConfig.EmailBuilder().build(),
+                    AuthUI.IdpConfig.GoogleBuilder().build()
+                )
+
+                resultLauncher.launch(
+                    AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setIsSmartLockEnabled(false)
+                        .build()
+                )
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
+        firebaseAuth.addAuthStateListener(authStateListener)
         configFirestoreRealTime()
         configFirestoreRealTimeExplorer()
     }
 
     override fun onPause() {
         super.onPause()
-        configFirestoreRealTime()
-        configFirestoreRealTimeExplorer()
-    }
-
-    private fun setClick() {
-        binding.ibCategoriesAcc.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesPhone.setOnClickListener {
-            val intent = Intent(this, Phone_Activity::class.java)
-            Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesTablet.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesArt.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesKiki.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Personaliza tu vida", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesServices.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
+        firebaseAuth.removeAuthStateListener(authStateListener)
+        firestoreListener.remove()
     }
 
     private fun configRecyclerView() {
@@ -126,18 +155,6 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             }
         }
     }
-
-    //For Explorer Page
-//    private fun configRecyclerViewExplorar() {
-//        adapterExplorer = ProductExplorerAdapter(mutableListOf(), this)
-//        binding.recyclerViewExplorar.apply {
-//            layoutManager = GridLayoutManager(
-//                this@HomeActivity, 1,
-//                GridLayoutManager.HORIZONTAL, false
-//            )
-//            adapterExplorer = adapterExplorer
-//        }
-//    }
 
     private fun configFirestoreRealTimeExplorer() {
         val db = FirebaseFirestore.getInstance()
@@ -192,6 +209,39 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun addProductToCart(product: Product) {
         TODO("Not yet implemented")
+    }
+
+    private fun setClick() {
+        binding.ibCategoriesAcc.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesPhone.setOnClickListener {
+            val intent = Intent(this, Phone_Activity::class.java)
+            Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesTablet.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesArt.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesKiki.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Personaliza tu vida", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesServices.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
     }
 
 }
