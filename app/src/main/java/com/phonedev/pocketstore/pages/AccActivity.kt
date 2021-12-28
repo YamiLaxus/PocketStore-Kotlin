@@ -3,6 +3,8 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,26 +18,25 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
-import com.phonedev.pocketstore.databinding.ActivityHomeBinding
-import com.phonedev.pocketstore.detail.DetailHomeFragment
+import com.phonedev.pocketstore.cart.CartFragment
+import com.phonedev.pocketstore.databinding.ActivityAccBinding
+import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
+import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
-import com.phonedev.pocketstore.product.ProductExplorerAdapter
-import com.phonedev.pocketstore.product.ProductosDestacadosAdapter
+import com.phonedev.pocketstore.product.ProductAdapter
 
+class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
 
-class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
+    private lateinit var binding: ActivityAccBinding
 
-    private lateinit var binding: ActivityHomeBinding
-
-    //variables for Authentication
+    //Authentication
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private lateinit var firestoreListener: ListenerRegistration
 
-    private lateinit var adapter: ProductosDestacadosAdapter
-    private lateinit var adapterExplorer: ProductExplorerAdapter
+    lateinit var adapter: ProductAdapter
 
     private val productCartList = mutableListOf<Product>()
 
@@ -72,26 +73,21 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityAccBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-
-        setClick()
-        configRecyclerView()
-        configFirestoreRealTime()
         configAuth()
-        configFirestoreRealTimeExplorer()
+        configBottoms()
+        configRecyclerView()
     }
 
     private fun configAuth() {
-
         firebaseAuth = FirebaseAuth.getInstance()
         authStateListener = FirebaseAuth.AuthStateListener { auth ->
             if (auth.currentUser != null) {
                 supportActionBar?.title = auth.currentUser?.displayName
+                binding.llProgress.visibility = View.GONE
+                binding.nsvProductos.visibility = View.VISIBLE
             } else {
                 val providers = arrayListOf(
                     AuthUI.IdpConfig.EmailBuilder().build(),
@@ -113,30 +109,22 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         super.onResume()
         firebaseAuth.addAuthStateListener(authStateListener)
         configFirestoreRealTime()
-        configFirestoreRealTimeExplorer()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        firebaseAuth.removeAuthStateListener(authStateListener)
-        firestoreListener.remove()
     }
 
     private fun configRecyclerView() {
-        adapter = ProductosDestacadosAdapter(mutableListOf(), this)
-        adapterExplorer = ProductExplorerAdapter(mutableListOf(), this)
-        binding.recyclerViewDestacados.apply {
+        adapter = ProductAdapter(mutableListOf(), this)
+        binding.recyclerView.apply {
             layoutManager = GridLayoutManager(
-                this@HomeActivity, 1,
-                GridLayoutManager.HORIZONTAL, false
+                this@AccActivity, 1,
+                GridLayoutManager.VERTICAL, false
             )
-            adapter = this@HomeActivity.adapter
+            adapter = this@AccActivity.adapter
         }
     }
 
     private fun configFirestoreRealTime() {
         val db = FirebaseFirestore.getInstance()
-        val productRef = db.collection(Constants.COLL_DESTACADOS)
+        val productRef = db.collection(Constants.COLL_PRODUCTS)
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
@@ -156,92 +144,94 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
     }
 
-    private fun configFirestoreRealTimeExplorer() {
-        val db = FirebaseFirestore.getInstance()
-        val productRef = db.collection(Constants.COLL_EXPLORAR)
-
-        firestoreListener = productRef.addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
-
-            for (snapshot in snapshot!!.documentChanges) {
-                val product = snapshot.document.toObject(Product::class.java)
-                product.id = snapshot.document.id
-                when (snapshot.type) {
-                    DocumentChange.Type.ADDED -> adapterExplorer.add(product)
-                    DocumentChange.Type.MODIFIED -> adapterExplorer.update(product)
-                    DocumentChange.Type.REMOVED -> adapterExplorer.delete(product)
-                }
-            }
+    private fun configBottoms() {
+        binding.btnViewCart.setOnClickListener {
+            val fragment = CartFragment()
+            fragment.show(
+                supportFragmentManager.beginTransaction(),
+                CartFragment::class.java.simpleName
+            )
         }
     }
 
-    override fun onClick(product: Product) {
-        productSelected = product
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
-        val fragment = DetailHomeFragment()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_sign_out -> {
+                AuthUI.getInstance().signOut(this)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Sesión Cerrada", Toast.LENGTH_SHORT).show()
+                    }
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            binding.nsvProductos.visibility = View.GONE
+                            binding.llProgress.visibility = View.VISIBLE
+                        } else {
+                            Toast.makeText(this, "Sesión no Cerrada", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+            R.id.action_order_history -> startActivity(Intent(this, OrderActivity::class.java))
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(product: Product) {
+        val index = productCartList.indexOf(product)
+
+        if (index != -1) {
+            productSelected = productCartList[index]
+        } else {
+            productSelected = product
+        }
+
+        val fragment = DetailFragment()
         supportFragmentManager
             .beginTransaction()
-            .add(R.id.homeMain, fragment)
+            .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
+        showButton(false)
     }
 
-    override fun getProductsCart(): MutableList<Product> {
-        TODO("Not yet implemented")
-    }
+    override fun getProductsCart(): MutableList<Product> = productCartList
 
     override fun updateTotal() {
-        TODO("Not yet implemented")
+        var total = 0.0
+        productCartList.forEach { product ->
+            total += product.totalPrice()
+        }
+
+        if (total == 0.0) {
+            binding.tvTotal.text = getString(R.string.product_empty_cart)
+        } else {
+            binding.tvTotal.text = getString(R.string.product_full_cart, total)
+        }
     }
 
     override fun clearCart() {
-        TODO("Not yet implemented")
+        productCartList.clear()
     }
 
     override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
-        TODO("Not yet implemented")
+        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun addProductToCart(product: Product) {
-        TODO("Not yet implemented")
-    }
+        val index = productCartList.indexOf(product)
 
-    private fun setClick() {
-        binding.ibCategoriesAcc.setOnClickListener {
-            val intent = Intent(this, AccActivity::class.java)
-            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
+        if (index != -1) {
+            productCartList.set(index, product)
+        } else {
+            productCartList.add(product)
         }
-        binding.ibCategoriesPhone.setOnClickListener {
-            val intent = Intent(this, Phone_Activity::class.java)
-            Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesTablet.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesArt.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesKiki.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Personaliza tu vida", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-        binding.ibCategoriesServices.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
-            Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-        }
-    }
 
+        updateTotal()
+    }
 }

@@ -122,15 +122,16 @@ class Phone_Activity : AppCompatActivity(), onProductListenner, MainAux {
         firestoreListenner.remove()
     }
 
+    //fix for PhoneAdapter
     private fun configRecyclerView() {
-        adapter = ProductAdapter(mutableListOf(), this)
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(
-                this@Phone_Activity, 1,
-                GridLayoutManager.VERTICAL, false
-            )
-            adapter = this@Phone_Activity.adapter
-        }
+//        adapter = ProductAdapter(mutableListOf(), this)
+//        binding.recyclerView.apply {
+//            layoutManager = GridLayoutManager(
+//                this@Phone_Activity, 1,
+//                GridLayoutManager.VERTICAL, false
+//            )
+//            adapter = this@Phone_Activity.adapter
+//        }
     }
 
     private fun configBottoms() {

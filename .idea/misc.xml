@@ -15,6 +15,9 @@
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_destacados.xml" value="0.1" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_product.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/searchview_borders.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_acc.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_phone.xml" value="0.10586319218241043" />
+        <entry key="app/src/main/res/layout/activity_start_uno.xml" value="0.12" />
       </map>
     </option>
   </component>

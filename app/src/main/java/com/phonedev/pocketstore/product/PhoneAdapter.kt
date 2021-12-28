@@ -7,34 +7,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.firebase.ui.auth.ui.phone.PhoneActivity
 import com.phonedev.pocketstore.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemProductBinding
-import com.phonedev.pocketstore.pages.AccActivity
 
-class ProductAdapter(
+class PhoneAdapter(
     private val productList: MutableList<Product>,
-    private val listener: AccActivity
-) :
-    RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+    private val listener: PhoneActivity
+) : RecyclerView.Adapter<PhoneAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhoneAdapter.ViewHolder {
         context = parent.context
         val view = LayoutInflater.from(context).inflate(R.layout.item_product, parent, false)
 
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhoneAdapter.ViewHolder, position: Int) {
         val product = productList[position]
 
         holder.setListener(product)
 
         holder.binding.tvName.text = product.name
         holder.binding.tvPrice.text = product.price.toString()
-        //holder.binding.tvQuantity.text = product.quantity.toString()
 
         Glide.with(context)
             .load(product.imgUrl)
