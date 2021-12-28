@@ -35,7 +35,7 @@
         <activity
             android:name=".order.OrderActivity"
             android:label="@string/order_title" />
-        <activity android:name=".pages.Phone_Activity" />
+        <activity android:name=".pages.PhoneActivity" />
 
         <service
             android:name=".fcm.FCMService"

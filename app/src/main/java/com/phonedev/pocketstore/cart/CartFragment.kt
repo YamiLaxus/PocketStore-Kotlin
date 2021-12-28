@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.phonedev.pocketstore.Product
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentCartBinding
 import com.phonedev.pocketstore.entities.Constants

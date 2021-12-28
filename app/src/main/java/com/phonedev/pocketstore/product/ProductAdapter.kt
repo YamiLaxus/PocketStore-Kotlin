@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.phonedev.pocketstore.Product
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemProductBinding
 import com.phonedev.pocketstore.pages.AccActivity
@@ -34,6 +34,7 @@ class ProductAdapter(
 
         holder.binding.tvName.text = product.name
         holder.binding.tvPrice.text = product.price.toString()
+        holder.binding.tvDescription.text = product.description
         //holder.binding.tvQuantity.text = product.quantity.toString()
 
         Glide.with(context)

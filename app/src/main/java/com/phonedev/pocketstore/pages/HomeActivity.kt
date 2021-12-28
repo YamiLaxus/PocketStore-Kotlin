@@ -3,7 +3,6 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.phonedev.pocketstore.Product
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
 import com.phonedev.pocketstore.detail.DetailHomeFragment
@@ -218,7 +217,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             startActivity(intent)
         }
         binding.ibCategoriesPhone.setOnClickListener {
-            val intent = Intent(this, Phone_Activity::class.java)
+            val intent = Intent(this, PhoneActivity::class.java)
             Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }

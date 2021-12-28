@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.phonedev.pocketstore.Product
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
-import com.phonedev.pocketstore.databinding.ItemDestacadosBinding
 import com.phonedev.pocketstore.databinding.ItemExplorarBinding
 import com.phonedev.pocketstore.pages.HomeActivity
 

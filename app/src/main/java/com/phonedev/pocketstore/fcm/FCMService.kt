@@ -15,7 +15,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.entities.Constants
-import com.phonedev.pocketstore.pages.Phone_Activity
+import com.phonedev.pocketstore.pages.PhoneActivity
 
 class FCMService : FirebaseMessagingService(){
     override fun onNewToken(newToken: String) {
@@ -45,7 +45,7 @@ class FCMService : FirebaseMessagingService(){
     }
 
     private fun sendNotification(notification: RemoteMessage.Notification){
-        val intent = Intent(this, Phone_Activity::class.java)
+        val intent = Intent(this, PhoneActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
 

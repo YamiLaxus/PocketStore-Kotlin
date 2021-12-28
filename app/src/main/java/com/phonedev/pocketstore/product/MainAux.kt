@@ -1,6 +1,6 @@
 package com.phonedev.pocketstore.product
 
-import com.phonedev.pocketstore.Product
+import com.phonedev.pocketstore.entities.Product
 
 interface MainAux {
 

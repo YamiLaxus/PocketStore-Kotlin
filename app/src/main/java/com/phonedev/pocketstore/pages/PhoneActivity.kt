@@ -19,24 +19,26 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.cart.CartFragment
-import com.phonedev.pocketstore.databinding.ActivityAccBinding
+import com.phonedev.pocketstore.databinding.ActivityMainBinding.*
+import com.phonedev.pocketstore.databinding.ActivityPhoneBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
-import com.phonedev.pocketstore.product.ProductAdapter
+import com.phonedev.pocketstore.product.PhoneAdapter
 
-class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
 
-    private lateinit var binding: ActivityAccBinding
+class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux {
 
-    //Authentication
+    private lateinit var binding: ActivityPhoneBinding
+
+    //variables for Authentication
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-    private lateinit var firestoreListener: ListenerRegistration
+    private lateinit var firestoreListenner: ListenerRegistration
 
-    lateinit var adapter: ProductAdapter
+    lateinit var adapter: PhoneAdapter
 
     private val productCartList = mutableListOf<Product>()
 
@@ -56,13 +58,13 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
                     Toast.makeText(this, "Hasta Pronto", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {
-                    response.error?.let {
-                        if (it.errorCode == ErrorCodes.NO_NETWORK) {
+                    response.error?.let { uiResponse ->
+                        if (uiResponse.errorCode == ErrorCodes.NO_NETWORK) {
                             Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(
                                 this,
-                                "Codigo de error: ${it.errorCode}",
+                                "Codigo de error: ${uiResponse.errorCode}",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -73,15 +75,18 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_phone)
+
+        binding = ActivityPhoneBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         configAuth()
-        configBottoms()
         configRecyclerView()
+        configBottoms()
     }
 
     private fun configAuth() {
+
         firebaseAuth = FirebaseAuth.getInstance()
         authStateListener = FirebaseAuth.AuthStateListener { auth ->
             if (auth.currentUser != null) {
@@ -111,36 +116,21 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
         configFirestoreRealTime()
     }
 
-    private fun configRecyclerView() {
-        adapter = ProductAdapter(mutableListOf(), this)
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(
-                this@AccActivity, 1,
-                GridLayoutManager.VERTICAL, false
-            )
-            adapter = this@AccActivity.adapter
-        }
+    override fun onPause() {
+        super.onPause()
+        firebaseAuth.removeAuthStateListener(authStateListener)
+        firestoreListenner.remove()
     }
 
-    private fun configFirestoreRealTime() {
-        val db = FirebaseFirestore.getInstance()
-        val productRef = db.collection(Constants.COLL_PRODUCTS)
-
-        firestoreListener = productRef.addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
-
-            for (snapshot in snapshot!!.documentChanges) {
-                val product = snapshot.document.toObject(Product::class.java)
-                product.id = snapshot.document.id
-                when (snapshot.type) {
-                    DocumentChange.Type.ADDED -> adapter.add(product)
-                    DocumentChange.Type.MODIFIED -> adapter.update(product)
-                    DocumentChange.Type.REMOVED -> adapter.delete(product)
-                }
-            }
+    //fix for PhoneAdapter
+    private fun configRecyclerView() {
+        adapter = PhoneAdapter(mutableListOf(), this)
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(
+                this@PhoneActivity, 1,
+                GridLayoutManager.VERTICAL, false
+            )
+            adapter = this@PhoneActivity.adapter
         }
     }
 
@@ -180,14 +170,30 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onClick(product: Product) {
-        val index = productCartList.indexOf(product)
+    private fun configFirestoreRealTime() {
+        val db = FirebaseFirestore.getInstance()
+        val productRef = db.collection(Constants.COLL_PHONE)
 
-        if (index != -1) {
-            productSelected = productCartList[index]
-        } else {
-            productSelected = product
+        firestoreListenner = productRef.addSnapshotListener { snapshot, error ->
+            if (error != null) {
+                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+
+            for (snapshot in snapshot!!.documentChanges) {
+                val product = snapshot.document.toObject(Product::class.java)
+                product.id = snapshot.document.id
+                when (snapshot.type) {
+                    DocumentChange.Type.ADDED -> adapter.add(product)
+                    DocumentChange.Type.MODIFIED -> adapter.update(product)
+                    DocumentChange.Type.REMOVED -> adapter.delete(product)
+                }
+            }
         }
+    }
+
+    override fun onClick(product: Product) {
+        productSelected = product
 
         val fragment = DetailFragment()
         supportFragmentManager
@@ -195,27 +201,9 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-        showButton(false)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
-
-    override fun updateTotal() {
-        var total = 0.0
-        productCartList.forEach { product ->
-            total += product.totalPrice()
-        }
-
-        if (total == 0.0) {
-            binding.tvTotal.text = getString(R.string.product_empty_cart)
-        } else {
-            binding.tvTotal.text = getString(R.string.product_full_cart, total)
-        }
-    }
-
-    override fun clearCart() {
-        productCartList.clear()
-    }
 
     override fun getProductSelected(): Product? = productSelected
 
@@ -227,11 +215,28 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
         val index = productCartList.indexOf(product)
 
         if (index != -1) {
-            productCartList.set(index, product)
+            productCartList[index] = product
         } else {
             productCartList.add(product)
         }
 
         updateTotal()
+    }
+
+    override fun updateTotal() {
+        var total = 0.0
+        productCartList.forEach { product ->
+            total += product.totalPrice()
+        }
+
+        if(total == 0.0){
+            binding.tvTotal.text = getString(R.string.product_empty_cart)
+        } else{
+            binding.tvTotal.text = getString(R.string.product_full_cart, total)
+        }
+    }
+
+    override fun clearCart() {
+        productCartList.clear()
     }
 }
