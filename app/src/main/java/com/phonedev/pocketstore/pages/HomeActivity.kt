@@ -222,7 +222,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             startActivity(intent)
         }
         binding.ibCategoriesTablet.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
+            val intent = Intent(this, TabletsActivity::class.java)
             Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }

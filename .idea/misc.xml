@@ -6,6 +6,7 @@
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_border.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_card_view.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_image_view.xml" value="0.13651315789473684" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/ic_add_shopping_cart.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_acc.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_detail.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_home.xml" value="0.14" />
@@ -13,8 +14,9 @@
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_not_found.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_phone.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_start_uno.xml" value="0.12631578947368421" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_tablets.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail_home.xml" value="0.2" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail_home.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_destacados.xml" value="0.1" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_product.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/searchview_borders.xml" value="0.2" />

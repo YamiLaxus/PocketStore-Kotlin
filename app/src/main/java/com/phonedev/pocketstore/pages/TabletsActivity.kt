@@ -7,126 +7,65 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.cart.CartFragment
-import com.phonedev.pocketstore.databinding.ActivityAccBinding
+import com.phonedev.pocketstore.databinding.ActivityTabletsBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
-import com.phonedev.pocketstore.product.ProductAdapter
+import com.phonedev.pocketstore.product.TabletsAdapter
 
-class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
+class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
 
-    private lateinit var binding: ActivityAccBinding
-
-    //Authentication
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-
+    private lateinit var binding: ActivityTabletsBinding
 
     private lateinit var firestoreListener: ListenerRegistration
 
-    lateinit var adapter: ProductAdapter
+    private lateinit var adapter: TabletsAdapter
 
     private val productCartList = mutableListOf<Product>()
 
     private var productSelected: Product? = null
 
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val response = IdpResponse.fromResultIntent(it.data)
-
-            if (it.resultCode == RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-                if (user != null) {
-                    Toast.makeText(this, "Hola Bienvenido", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                if (response == null) {
-                    Toast.makeText(this, "Hasta Pronto", Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    response.error?.let {
-                        if (it.errorCode == ErrorCodes.NO_NETWORK) {
-                            Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Codigo de error: ${it.errorCode}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAccBinding.inflate(layoutInflater)
+        binding = ActivityTabletsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        configAuth()
         configBottoms()
         configRecyclerView()
     }
 
-    private fun configAuth() {
-        firebaseAuth = FirebaseAuth.getInstance()
-        authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            if (auth.currentUser != null) {
-                supportActionBar?.title = auth.currentUser?.displayName
-                binding.llProgress.visibility = View.GONE
-                binding.nsvProductos.visibility = View.VISIBLE
-            } else {
-                val providers = arrayListOf(
-                    AuthUI.IdpConfig.EmailBuilder().build(),
-                    AuthUI.IdpConfig.GoogleBuilder().build()
-                )
-
-                resultLauncher.launch(
-                    AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setIsSmartLockEnabled(false)
-                        .build()
-                )
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
-        firebaseAuth.addAuthStateListener(authStateListener)
         configFirestoreRealTime()
     }
 
     private fun configRecyclerView() {
-        adapter = ProductAdapter(mutableListOf(), this)
+        binding.llProgress.visibility = View.GONE
+        binding.nsvProductos.visibility = View.VISIBLE
+
+        adapter = TabletsAdapter(mutableListOf(), this)
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(
-                this@AccActivity, 1,
+                this@TabletsActivity, 1,
                 GridLayoutManager.VERTICAL, false
             )
-            adapter = this@AccActivity.adapter
+            adapter = this@TabletsActivity.adapter
         }
     }
 
     private fun configFirestoreRealTime() {
         val db = FirebaseFirestore.getInstance()
-        val productRef = db.collection(Constants.COLL_PRODUCTS)
+        val productRef = db.collection(Constants.COLL_TABLET)
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
@@ -185,10 +124,10 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun onClick(product: Product) {
         val index = productCartList.indexOf(product)
 
-        if (index != -1) {
-            productSelected = productCartList[index]
+        productSelected = if (index != -1) {
+            productCartList[index]
         } else {
-            productSelected = product
+            product
         }
 
         val fragment = DetailFragment()

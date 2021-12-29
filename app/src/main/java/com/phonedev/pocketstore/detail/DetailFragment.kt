@@ -41,7 +41,7 @@ class DetailFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getProduct()
-        setupButtons()
+        product?.let { clickToAddCart(it) }
     }
 
     @SuppressLint("StringFormatMatches")
@@ -51,7 +51,7 @@ class DetailFragment: Fragment() {
             binding?.let {
                 it.tvName.text = product.name
                 it.tvDescription.text = product.description
-                //it.tvQuantity.text = getString(R.string.detail_quantity, product.quantity)
+                binding?.etNewQuantity?.setText("1")
                 setNewQuantity(product)
 
                 it.imgBackground.load(product.imgUrl){
@@ -80,31 +80,13 @@ class DetailFragment: Fragment() {
             var newQuantityStr = getString(R.string.detail_total_price, product.totalPrice(),
                 product.newQuantity, product.price)
 
-            it.tvTotalPrice.text = HtmlCompat.fromHtml(newQuantityStr, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            it.tvTotalPrice.text = product.price.toString()
         }
     }
 
-
-    private fun setupButtons(){
-        product?.let { product ->
-            binding?.let { binding ->
-                binding.ibSub.setOnClickListener {
-                    if(product.newQuantity > 1){
-                        product.newQuantity -= 1
-                        setNewQuantity(product)
-                    }
-                }
-                binding.ibSum.setOnClickListener {
-                    if(product.newQuantity < product.quantity){
-                        product.newQuantity += 1
-                        setNewQuantity(product)
-                    }
-                }
-                binding.efab.setOnClickListener {
-                    product.newQuantity = binding.etNewQuantity.text.toString().toInt()
-                    addToCart(product)
-                }
-            }
+    private fun clickToAddCart(product: Product){
+        binding?.btnAddCart?.setOnClickListener {
+            addToCart(product)
         }
     }
 

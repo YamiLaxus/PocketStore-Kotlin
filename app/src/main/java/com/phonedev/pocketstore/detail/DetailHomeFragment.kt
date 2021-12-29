@@ -44,6 +44,7 @@ class DetailHomeFragment: Fragment() {
                 it.tvName.text = product.name
                 it.tvDescription.text = product.description
                 it.tvTotalPrice.text = product.price.toString()
+                binding?.etNewQuantity?.setText("1")
 
                 it.imgBackground.load(product.imgUrl){
                     crossfade(true)
