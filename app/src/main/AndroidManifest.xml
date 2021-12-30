@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".pages.ServiciosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.KikiActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.ArtActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.TabletsActivity"
             android:exported="true" />
         <activity

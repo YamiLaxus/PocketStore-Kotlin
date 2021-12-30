@@ -227,17 +227,17 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             startActivity(intent)
         }
         binding.ibCategoriesArt.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
+            val intent = Intent(this, ArtActivity::class.java)
             Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
         binding.ibCategoriesKiki.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
+            val intent = Intent(this, KikiActivity::class.java)
             Toast.makeText(this, "Personaliza tu vida", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
         binding.ibCategoriesServices.setOnClickListener {
-            val intent = Intent(this, NotFoundActivity::class.java)
+            val intent = Intent(this, ServiciosActivity::class.java)
             Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
