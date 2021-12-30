@@ -16,6 +16,7 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.cart.CartFragment
 import com.phonedev.pocketstore.databinding.ActivityServiciosBinding
 import com.phonedev.pocketstore.detail.DetailFragment
+import com.phonedev.pocketstore.detail.ServicesDetailsFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.onProductListenner
@@ -87,13 +88,13 @@ class ServiciosActivity : AppCompatActivity(), onProductListenner, MainAux {
     }
 
     private fun configBottoms() {
-        binding.btnViewCart.setOnClickListener {
-            val fragment = CartFragment()
-            fragment.show(
-                supportFragmentManager.beginTransaction(),
-                CartFragment::class.java.simpleName
-            )
-        }
+//        binding.btnViewCart.setOnClickListener {
+//            val fragment = CartFragment()
+//            fragment.show(
+//                supportFragmentManager.beginTransaction(),
+//                CartFragment::class.java.simpleName
+//            )
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -131,7 +132,7 @@ class ServiciosActivity : AppCompatActivity(), onProductListenner, MainAux {
             product
         }
 
-        val fragment = DetailFragment()
+        val fragment = ServicesDetailsFragment()
         supportFragmentManager
             .beginTransaction()
             .add(R.id.containerMain, fragment)
@@ -143,16 +144,16 @@ class ServiciosActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun getProductsCart(): MutableList<Product> = productCartList
 
     override fun updateTotal() {
-        var total = 0.0
-        productCartList.forEach { product ->
-            total += product.totalPrice()
-        }
-
-        if (total == 0.0) {
-            binding.tvTotal.text = getString(R.string.product_empty_cart)
-        } else {
-            binding.tvTotal.text = getString(R.string.product_full_cart, total)
-        }
+//        var total = 0.0
+//        productCartList.forEach { product ->
+//            total += product.totalPrice()
+//        }
+//
+//        if (total == 0.0) {
+//            binding.tvTotal.text = getString(R.string.product_empty_cart)
+//        } else {
+//            binding.tvTotal.text = getString(R.string.product_full_cart, total)
+//        }
     }
 
     override fun clearCart() {
@@ -162,7 +163,7 @@ class ServiciosActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
-        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
+//        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun addProductToCart(product: Product) {
