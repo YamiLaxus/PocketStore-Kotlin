@@ -190,6 +190,7 @@
                     android:layout_height="match_parent"
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="@color/white"
+                    android:justificationMode="inter_word"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam," />
             </androidx.core.widget.NestedScrollView>
 

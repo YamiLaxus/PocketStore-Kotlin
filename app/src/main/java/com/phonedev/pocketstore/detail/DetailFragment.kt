@@ -98,8 +98,6 @@ class DetailFragment: Fragment() {
     }
 
     override fun onDestroyView() {
-        (activity as? MainAux)?.showButton(true)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         super.onDestroyView()
         binding = null
     }

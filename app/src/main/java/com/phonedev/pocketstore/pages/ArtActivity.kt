@@ -1,13 +1,23 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.api.load
+import coil.request.CachePolicy
+import coil.transform.BlurTransformation
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,7 +33,8 @@ import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.ArtAdapter
 import com.phonedev.pocketstore.product.MainAux
 
-class ArtActivity : AppCompatActivity(), onProductListenner, MainAux {
+class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
+    SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityArtBinding
 
@@ -40,8 +51,15 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityArtBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        supportActionBar?.hide()
+
+        binding.searchView.setOnQueryTextListener(this)
+
         configBottoms()
         configRecyclerView()
+        showImages()
+        goToInsta()
     }
 
     override fun onResume() {
@@ -116,7 +134,7 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux {
                         }
                     }
             }
-            R.id.action_order_history -> startActivity(Intent(this, OrderActivity::class.java))
+//            R.id.action_order_history -> startActivity(Intent(this, OrderActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }
@@ -136,7 +154,7 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux {
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-        showButton(false)
+        showButton(true)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
@@ -174,5 +192,64 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
 
         updateTotal()
+    }
+
+    private fun showImages() {
+        Glide.with(this)
+            .load("https://firebasestorage.googleapis.com/v0/b/appopentarget.appspot.com/o/logos%2Fshigatsu%20logo.jpg?alt=media&token=a587bc6d-251c-4232-8c89-f09a22241b72")
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .placeholder(R.drawable.ic_timelapse)
+            .error(R.drawable.ic_broken_image)
+            .fitCenter()
+            .into(binding.imgProduct)
+
+        //blur effect
+        binding.imgBackground.load("https://firebasestorage.googleapis.com/v0/b/appopentarget.appspot.com/o/logos%2Fshigatsu%20logo.jpg?alt=media&token=a587bc6d-251c-4232-8c89-f09a22241b72") {
+            crossfade(true)
+            transformations(BlurTransformation(this@ArtActivity, 20f))
+            diskCachePolicy(CachePolicy.ENABLED)
+            build()
+        }
+    }
+
+    //Busqueda
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            adapter.filtrado(query)
+        } else {
+            adapter.refreshList()
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            adapter.filtrado(newText)
+        } else {
+            adapter.refreshList()
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    //Ir a redes
+    private fun goToInsta() {
+        binding?.let {
+            it.btnInstagram.setOnClickListener {
+                val url = "https://www.instagram.com/shigatsu.item/"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                Toast.makeText(this, "Encuentra más diseños en Instagram.", Toast.LENGTH_SHORT).show()
+                startActivity(i)
+            }
+            it.btnRefreshData.setOnClickListener {
+                val intent = Intent(this, ArtActivity::class.java)
+                Toast.makeText(this, "Recargando datos.", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
+            }
+        }
     }
 }

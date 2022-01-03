@@ -1,6 +1,9 @@
 package com.phonedev.pocketstore.product
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +14,7 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemProductBinding
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.pages.ArtActivity
+import java.util.stream.Collectors
 
 class ArtAdapter(
     private val productList: MutableList<Product>,
@@ -18,6 +22,7 @@ class ArtAdapter(
 ) : RecyclerView.Adapter<ArtAdapter.ViewHolder>() {
 
     private lateinit var context: Context
+    private val productListOriginal = productList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -45,6 +50,25 @@ class ArtAdapter(
     }
 
     override fun getItemCount(): Int = productList.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun filtrado(newText: String) {
+        var longitud: Int = newText.length
+        if (longitud != 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                var coleccion: MutableList<Product>? = productList.stream()
+                    .filter { it.name?.toLowerCase()!!.contains(newText.toLowerCase()) }
+                    .collect(Collectors.toList())
+                productList.clear()
+                productList.addAll(coleccion!!)
+            }
+        } else {
+            refreshList()
+            productList.addAll(productListOriginal)
+        }
+        notifyDataSetChanged()
+    }
 
     fun add(product: Product) {
         if (!productList.contains(product)) {
@@ -79,5 +103,9 @@ class ArtAdapter(
                 listener.onClick(product)
             }
         }
+    }
+
+    fun refreshList() {
+        productListOriginal.addAll(productList)
     }
 }
