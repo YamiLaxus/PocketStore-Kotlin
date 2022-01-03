@@ -1,6 +1,7 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -23,11 +27,11 @@ import com.phonedev.pocketstore.databinding.ActivityAccBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
-import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 import com.phonedev.pocketstore.product.ProductAdapter
 
-class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
+class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
+    SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityAccBinding
 
@@ -78,9 +82,15 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityAccBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        supportActionBar?.hide()
+
+        binding.searchView.setOnQueryTextListener(this)
+
         configAuth()
         configBottoms()
         configRecyclerView()
+        reloadData()
     }
 
     private fun configAuth() {
@@ -235,5 +245,36 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
 
         updateTotal()
+    }
+
+    //Busqueda
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            adapter.filtrado(query)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            adapter.filtrado(newText)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+
+    private fun reloadData() {
+        binding?.let {
+            it.imbReload.setOnClickListener {
+                val intent = Intent(this, AccActivity::class.java)
+                startActivity(intent)
+            }
+        }
     }
 }

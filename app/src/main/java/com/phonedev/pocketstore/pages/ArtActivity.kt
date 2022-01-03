@@ -5,11 +5,11 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
@@ -29,7 +29,6 @@ import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.onProductListenner
-import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.ArtAdapter
 import com.phonedev.pocketstore.product.MainAux
 
