@@ -1,12 +1,17 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.firestore.DocumentChange
@@ -23,7 +28,8 @@ import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 import com.phonedev.pocketstore.product.TabletsAdapter
 
-class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
+class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux,
+    SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityTabletsBinding
 
@@ -40,8 +46,14 @@ class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityTabletsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        supportActionBar?.hide()
+
+        binding.searchView.setOnQueryTextListener(this)
+
         configBottoms()
         configRecyclerView()
+        goToInsta()
     }
 
     override fun onResume() {
@@ -136,7 +148,7 @@ class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-        showButton(false)
+//        showButton(false)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
@@ -161,7 +173,7 @@ class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
-        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
+//        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun addProductToCart(product: Product) {
@@ -174,5 +186,37 @@ class TabletsActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
 
         updateTotal()
+    }
+
+    //Busqueda
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            adapter.filtrado(query)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            adapter.filtrado(newText)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    //Refresh Data
+    private fun goToInsta() {
+        binding?.let {
+            it.imbReload.setOnClickListener {
+                configRecyclerView()
+                configFirestoreRealTime()
+                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

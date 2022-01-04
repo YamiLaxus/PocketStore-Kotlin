@@ -73,7 +73,6 @@ class ProductAdapter(
         notifyDataSetChanged()
     }
 
-
     fun add(product: Product) {
         if (!productList.contains(product)) {
             productList.add(product)

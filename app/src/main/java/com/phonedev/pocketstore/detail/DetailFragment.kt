@@ -51,6 +51,7 @@ class DetailFragment: Fragment() {
             binding?.let {
                 it.tvName.text = product.name
                 it.tvDescription.text = product.description
+                it.tvDisponible.text = product.disponible
                 binding?.etNewQuantity?.setText("1")
                 setNewQuantity(product)
 

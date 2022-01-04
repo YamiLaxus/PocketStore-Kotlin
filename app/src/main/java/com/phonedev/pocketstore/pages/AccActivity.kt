@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -91,6 +93,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
         configBottoms()
         configRecyclerView()
         reloadData()
+        configStackImages()
     }
 
     private fun configAuth() {
@@ -207,7 +210,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-        showButton(false)
+//        showButton(false)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
@@ -232,7 +235,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
-        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
+//        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun addProductToCart(product: Product) {
@@ -272,9 +275,36 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     private fun reloadData() {
         binding?.let {
             it.imbReload.setOnClickListener {
-                val intent = Intent(this, AccActivity::class.java)
-                startActivity(intent)
+                configRecyclerView()
+                configFirestoreRealTime()
+                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun configStackImages() {
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(
+            SlideModel(
+                "https://d26lpennugtm8s.cloudfront.net/stores/001/179/321/rte/base64_img_61640377-09e8cd1de4a14d9d1b8eeb7bc05583c5.png",
+                "inPods i12"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://mlg4zu7evviy.i.optimole.com/vleswBY-yCr_s-cI/w:1200/h:600/q:auto/wm:1:0.8:ce/https://www.aliexcolombia.com/wp-content/uploads/2020/04/auriculares.jpg",
+                "Siente la música"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/product_images%2FAnGDXd90SjcnpNNK8PVx?alt=media&token=e2bf5547-6371-462e-a2a9-282aa944be24",
+                "Que la diversión no pare"
+            )
+        )
+
+        binding.imgSlider.setImageList(imageList, ScaleTypes.FIT)
+    }
+
 }

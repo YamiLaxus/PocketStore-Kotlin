@@ -245,9 +245,9 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
                 startActivity(i)
             }
             it.btnRefreshData.setOnClickListener {
-                val intent = Intent(this, ArtActivity::class.java)
-                Toast.makeText(this, "Recargando datos.", Toast.LENGTH_SHORT).show()
-                startActivity(intent)
+                configRecyclerView()
+                configFirestoreRealTime()
+                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -1,12 +1,16 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.firestore.DocumentChange
@@ -24,7 +28,8 @@ import com.phonedev.pocketstore.product.ArtAdapter
 import com.phonedev.pocketstore.product.KikiAdapter
 import com.phonedev.pocketstore.product.MainAux
 
-class KikiActivity : AppCompatActivity(), onProductListenner, MainAux {
+class KikiActivity : AppCompatActivity(), onProductListenner, MainAux,
+    SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityKikiBinding
 
@@ -41,8 +46,14 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityKikiBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        supportActionBar?.hide()
+
+        binding.searchView.setOnQueryTextListener(this)
+
         configBottoms()
         configRecyclerView()
+        reloadData()
     }
 
     override fun onResume() {
@@ -137,7 +148,7 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux {
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-        showButton(false)
+//        showButton(false)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
@@ -162,7 +173,7 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun getProductSelected(): Product? = productSelected
 
     override fun showButton(isVisible: Boolean) {
-        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
+//        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     override fun addProductToCart(product: Product) {
@@ -175,5 +186,37 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux {
         }
 
         updateTotal()
+    }
+
+    //Busqueda
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null) {
+            adapter.filtrado(query)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText != null) {
+            adapter.filtrado(newText)
+        } else {
+            configFirestoreRealTime()
+        }
+        return false
+    }
+
+
+    private fun reloadData() {
+        binding?.let {
+            it.imbReload.setOnClickListener {
+                configRecyclerView()
+                configFirestoreRealTime()
+                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

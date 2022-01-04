@@ -273,8 +273,9 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
     private fun reloadData() {
         binding?.let {
             it.imbReload.setOnClickListener {
-                val intent = Intent(this, AccActivity::class.java)
-                startActivity(intent)
+                configRecyclerView()
+                configFirestoreRealTime()
+                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
             }
         }
     }

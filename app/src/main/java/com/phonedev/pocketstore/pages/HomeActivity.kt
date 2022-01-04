@@ -76,13 +76,12 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-
         setClick()
         configRecyclerView()
         configFirestoreRealTime()
         configAuth()
         configFirestoreRealTimeExplorer()
+        getUserName()
     }
 
     private fun configAuth() {
@@ -113,11 +112,13 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         firebaseAuth.addAuthStateListener(authStateListener)
         configFirestoreRealTime()
         configFirestoreRealTimeExplorer()
+        getUserName()
     }
 
     override fun onPause() {
         super.onPause()
         firebaseAuth.removeAuthStateListener(authStateListener)
+        getUserName()
         firestoreListener.remove()
     }
 
@@ -139,7 +140,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error al consultar datos 404", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
 
@@ -161,7 +162,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Inicia sesión primero!", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
 
@@ -208,6 +209,10 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun addProductToCart(product: Product) {
         TODO("Not yet implemented")
+    }
+
+    private fun getUserName() {
+        binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
     }
 
     private fun setClick() {
