@@ -77,10 +77,6 @@ class DetailFragment: Fragment() {
     private fun setNewQuantity(product: Product){
         binding?.let {
             it.etNewQuantity.setText(product.newQuantity.toString())
-
-            var newQuantityStr = getString(R.string.detail_total_price, product.totalPrice(),
-                product.newQuantity, product.price)
-
             it.tvTotalPrice.text = product.price.toString()
         }
     }
