@@ -16,12 +16,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:id="@+id/imgHeader"
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/imgSlider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/gradiant"
-            android:background="@drawable/pocketplaystore"/>
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/common_padding_min"
+            android:background="@drawable/gradiant"
+            app:iss_auto_cycle="true"
+            app:iss_delay="0"
+            app:iss_corner_radius="5"
+            app:iss_selected_dot="@drawable/default_selected_dot"
+            app:iss_unselected_dot="@drawable/default_unselected_dot"
+            app:iss_period="1500"
+            app:layout_constraintBottom_toTopOf="@id/searchView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"

@@ -246,6 +246,26 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             Toast.makeText(this, "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
+        binding.btnPhone.setOnClickListener {
+            val intent = Intent(this, PhoneActivity::class.java)
+            Toast.makeText(this, "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.btnTablet.setOnClickListener {
+            val intent = Intent(this, TabletsActivity::class.java)
+            Toast.makeText(this, "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.btnAcc.setOnClickListener {
+            val intent = Intent(this, AccActivity::class.java)
+            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.btnArte.setOnClickListener {
+            val intent = Intent(this, ArtActivity::class.java)
+            Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
     }
 
 }

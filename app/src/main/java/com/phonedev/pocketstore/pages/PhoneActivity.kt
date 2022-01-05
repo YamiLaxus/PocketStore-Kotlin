@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -92,6 +94,7 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
         configRecyclerView()
         configBottoms()
         reloadData()
+        configStackImages()
     }
 
     private fun configAuth() {
@@ -278,5 +281,30 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
                 Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun configStackImages() {
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(
+            SlideModel(
+                "https://i2.wp.com/nasilemaktech.com/wp-content/uploads/2020/04/60707622_456218378466582_1149532822654943232_n.png?resize=696%2C306&ssl=1",
+                "Equipo Calidad / Precio"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://cms.dmpcdn.com/article/2021/03/16/bd4d6ce0-944e-11eb-8b27-db7c51a78b67_original.jpg",
+                "#TeamGalaxy"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://d500.epimg.net/cincodias/imagenes/2020/11/24/smartphones/1606217941_724129_1606217991_noticia_normal.jpg",
+                "Hello Moto!!!"
+            )
+        )
+
+        binding.imgSlider.setImageList(imageList, ScaleTypes.FIT)
     }
 }

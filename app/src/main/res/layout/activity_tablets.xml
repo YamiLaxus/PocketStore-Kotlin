@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/gradiant"
-            android:background="@drawable/pocketplaystore"/>
+            android:background="@drawable/tabletbanner"/>
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
