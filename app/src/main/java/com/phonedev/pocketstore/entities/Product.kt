@@ -9,9 +9,10 @@ data class Product(
     var imgUrl: String? = null,
     var imgMap: String? = null,
     var status: String? = null,
-    var quantity: Int = 0,
+    var facebook: String? = null,
     var phone: String? = null,
     var disponible: String? = null,
+    var quantity: Int = 0,
     @get:Exclude var newQuantity: Int = 1,
     var price: Double = 0.0
 ) {

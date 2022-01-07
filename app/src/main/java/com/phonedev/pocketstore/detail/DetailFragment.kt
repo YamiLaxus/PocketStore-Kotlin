@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import coil.api.load
 import coil.request.CachePolicy
@@ -85,12 +84,27 @@ class DetailFragment: Fragment() {
         }
     }
 
+    //toBuy and go to facebook
     private fun clickToAddCart(product: Product){
         binding?.btnAddCart?.setOnClickListener {
             addToCart(product)
         }
         binding?.btnBuyIt?.setOnClickListener {
             sendOrder()
+        }
+        binding?.imbFacebook?.setOnClickListener {
+            if (product.facebook == null){
+                Toast.makeText(
+                    (activity as AppCompatActivity?)!!,
+                    "Lo siento no puedes ir a Facebook :/",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                val url = "${product.facebook}"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
+            }
         }
     }
 
@@ -123,7 +137,6 @@ class DetailFragment: Fragment() {
         var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         var cantidad = binding?.etNewQuantity?.text.toString().toInt()
         var total: Double = product?.price.toString().toDouble() * cantidad
-        var cantidadCero = 0
 
         var pedido = ""
         pedido = pedido + "\n"
@@ -146,7 +159,7 @@ class DetailFragment: Fragment() {
                     "TOTAL: Q. ${total.toString()}"
         }
 
-        val url = "https://wa.me/$number?text=$pedido"
+        val url = "https://wa.me/502$number?text=$pedido"
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
