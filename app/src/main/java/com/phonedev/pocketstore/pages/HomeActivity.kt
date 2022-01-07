@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
+import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
@@ -96,9 +97,16 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
                     AuthUI.IdpConfig.GoogleBuilder().build()
                 )
 
+                val loginView = AuthMethodPickerLayout
+                    .Builder(R.layout.login_view)
+                    .setEmailButtonId(R.id.btnEmail)
+                    .setGoogleButtonId(R.id.btnGoogle)
+                    .build()
+
                 resultLauncher.launch(
                     AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setAuthMethodPickerLayout(loginView)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false)
                         .build()

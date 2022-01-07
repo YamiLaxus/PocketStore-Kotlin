@@ -72,7 +72,7 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_padding_min"
         android:layout_marginTop="@dimen/common_padding_min"
@@ -81,6 +81,7 @@
         android:background="@drawable/border_redondo_search"
         app:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnRefreshData"
         app:layout_constraintTop_toBottomOf="@+id/portada"
         app:queryHint="Buscar" />
 

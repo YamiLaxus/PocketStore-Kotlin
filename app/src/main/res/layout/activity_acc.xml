@@ -30,7 +30,8 @@
             app:iss_period="1500"
             app:layout_constraintBottom_toTopOf="@id/searchView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingClass" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
