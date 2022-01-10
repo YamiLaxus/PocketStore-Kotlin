@@ -1,6 +1,5 @@
 package com.phonedev.pocketstore.pages
 
-import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,12 +24,10 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.cart.CartFragment
-import com.phonedev.pocketstore.databinding.ActivityMainBinding.*
 import com.phonedev.pocketstore.databinding.ActivityPhoneBinding
 import com.phonedev.pocketstore.detail.DetailFragment
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.onProductListenner
-import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 import com.phonedev.pocketstore.product.PhoneAdapter
 
@@ -263,13 +260,8 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
         return false
     }
 
-    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            adapter.filtrado(newText)
-        } else {
-            configFirestoreRealTime()
-        }
         return false
     }
 
@@ -288,8 +280,8 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
 
         imageList.add(
             SlideModel(
-                "https://i2.wp.com/nasilemaktech.com/wp-content/uploads/2020/04/60707622_456218378466582_1149532822654943232_n.png?resize=696%2C306&ssl=1",
-                "Equipo Calidad / Precio"
+                "https://www.yugatech.com/wp-content/uploads/2021/04/Xiaomi-Mi-11-Lite-2.jpg",
+                "Equipo Xiaomi"
             )
         )
         imageList.add(

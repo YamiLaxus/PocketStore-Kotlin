@@ -10,9 +10,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,85 +26,98 @@
                 android:background="@drawable/phonedevlogo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Versión 1.0 Powered By Phone.Dev"
-                android:textSize="16dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="16dp" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="@dimen/common_padding_min"
-                android:orientation="horizontal"/>
+                android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/build"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_marginTop="@dimen/common_padding_default"
                 android:layout_marginStart="50dp"
+                android:layout_marginTop="@dimen/common_padding_default"
                 android:layout_marginEnd="50dp"
                 android:background="@drawable/page404"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneDevLogo"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/phoneDevLogo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Actividad en mantenimiento"
-                android:textSize="16dp"
-                android:textColor="@color/white"/>
+                android:text="Contenido no disponible, espera futuras versiones"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/common_padding_min"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/btnWhatsApp"
+                    style="?attr/clickAction"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="@dimen/common_padding_min"
                     android:layout_marginEnd="@dimen/common_padding_min"
-                    android:src="@drawable/whatsapp"
+                    android:background="@drawable/whatsapp"
                     android:scaleType="centerInside"
-                    style="?attr/clickAction"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageButton
                     android:id="@+id/btnFacebook"
+                    style="?attr/clickAction"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="@dimen/common_padding_min"
                     android:layout_marginEnd="@dimen/common_padding_min"
-                    android:src="@drawable/facebook"
+                    android:background="@drawable/facebook"
                     android:scaleType="centerInside"
-                    style="?attr/clickAction"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnWhatsApp"/>
+                    app:layout_constraintStart_toEndOf="@id/btnWhatsApp" />
 
                 <ImageButton
                     android:id="@+id/btnInstagram"
+                    style="?attr/clickAction"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginStart="@dimen/common_padding_min"
                     android:layout_marginEnd="@dimen/common_padding_min"
-                    android:src="@drawable/instagram"
+                    android:background="@drawable/instagram"
                     android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnFacebook" />
+
+                <ImageButton
+                    android:id="@+id/btnWeb"
                     style="?attr/clickAction"
-                    app:layout_constraintStart_toEndOf="@id/btnFacebook"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="@dimen/common_padding_min"
+                    android:layout_marginEnd="@dimen/common_padding_min"
+                    android:background="@drawable/web"
+                    android:scaleType="centerInside"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnFacebook" />
 
             </LinearLayout>
 

@@ -201,11 +201,6 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux,
 
     @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            adapter.filtrado(newText)
-        } else {
-            configFirestoreRealTime()
-        }
         return false
     }
 

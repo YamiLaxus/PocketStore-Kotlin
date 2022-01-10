@@ -7,15 +7,15 @@ import android.os.Bundle
 import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
-import com.phonedev.pocketstore.databinding.ActivityNotFoundBinding
+import com.phonedev.pocketstore.databinding.ActivityMemuBinding
 
-class NotFoundActivity : AppCompatActivity() {
+class MemuActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNotFoundBinding
+    private lateinit var binding: ActivityMemuBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNotFoundBinding.inflate(layoutInflater)
+        binding = ActivityMemuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
@@ -24,6 +24,46 @@ class NotFoundActivity : AppCompatActivity() {
     }
 
     fun setClicks() {
+        binding.btnLogOut.setOnClickListener {
+            AuthUI.getInstance().signOut(this)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Sesión Cerrada", Toast.LENGTH_SHORT).show()
+                }
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val intent = Intent(this, StartActivityUno::class.java)
+                        startActivity(intent)
+                        this.finish()
+                    } else {
+                        Toast.makeText(this, "Sesión no Cerrada", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+        binding.btnReportBug.setOnClickListener {
+            val number = 41642429
+            val user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+
+            Toast.makeText(this, "Abriendo WhatsApp...", Toast.LENGTH_SHORT).show()
+
+            var pedido = ""
+            pedido = pedido + "\n"
+            pedido = pedido + "Pocket Store Support" + "\n"
+            pedido = pedido + "CLIENTE: $user"
+            pedido = pedido + "\n"
+            pedido = pedido + "___________________________"
+            pedido = pedido + "\n"
+            pedido = pedido + "Hola PhoneDev, quiero reportar..."
+
+
+            val url = "https://wa.me/502$number?text=$pedido"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
+        binding.btnTrack.setOnClickListener {
+            val intent = Intent(this, NotFoundActivity::class.java)
+            startActivity(intent)
+        }
         binding.btnWhatsApp.setOnClickListener {
             val number = 41642429
             val user = FirebaseAuth.getInstance().currentUser?.displayName.toString()

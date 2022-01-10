@@ -225,12 +225,6 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
 
     @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            adapter.filtrado(newText)
-        } else {
-            adapter.refreshList()
-            configFirestoreRealTime()
-        }
         return false
     }
 

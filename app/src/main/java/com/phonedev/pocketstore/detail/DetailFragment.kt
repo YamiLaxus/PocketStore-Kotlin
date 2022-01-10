@@ -21,11 +21,11 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentDetailBinding
 import com.phonedev.pocketstore.product.MainAux
 
-class DetailFragment: Fragment() {
+class DetailFragment : Fragment() {
 
     private var binding: FragmentDetailBinding? = null
     private var product: Product? = null
-    var number = 41642429
+    private var number:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +48,7 @@ class DetailFragment: Fragment() {
     }
 
     @SuppressLint("StringFormatMatches")
-    private fun getProduct(){
+    private fun getProduct() {
         product = (activity as? MainAux)?.getProductSelected()
         product?.let { product ->
             binding?.let {
@@ -58,7 +58,7 @@ class DetailFragment: Fragment() {
                 binding?.etNewQuantity?.setText("1")
                 setNewQuantity(product)
 
-                it.imgBackground.load(product.imgUrl){
+                it.imgBackground.load(product.imgUrl) {
                     crossfade(true)
                     transformations(BlurTransformation(requireActivity(), 20f))
                     diskCachePolicy(CachePolicy.ENABLED)
@@ -72,12 +72,12 @@ class DetailFragment: Fragment() {
                     .error(R.drawable.ic_broken_image)
                     .fitCenter()
                     .into(it.imgProduct)
-                    //.into(it.imgBackground)
+                //.into(it.imgBackground)
             }
         }
     }
 
-    private fun setNewQuantity(product: Product){
+    private fun setNewQuantity(product: Product) {
         binding?.let {
             it.etNewQuantity.setText(product.newQuantity.toString())
             it.tvTotalPrice.text = product.price.toString()
@@ -85,18 +85,26 @@ class DetailFragment: Fragment() {
     }
 
     //toBuy and go to facebook
-    private fun clickToAddCart(product: Product){
+    private fun clickToAddCart(product: Product) {
         binding?.btnAddCart?.setOnClickListener {
             addToCart(product)
         }
         binding?.btnBuyIt?.setOnClickListener {
+            if (product.phone != null) {
+                number = product.phone.toString()
+            }
+
+            if (product.phone == null) {
+                number = "41642429"
+            }
+
             sendOrder()
         }
         binding?.imbFacebook?.setOnClickListener {
-            if (product.facebook == null){
+            if (product.facebook == null) {
                 Toast.makeText(
                     (activity as AppCompatActivity?)!!,
-                    "Lo siento no puedes ir a Facebook :/",
+                    "Lo sientimos no puedes ir a Facebook :/",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -137,6 +145,7 @@ class DetailFragment: Fragment() {
         var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
         var cantidad = binding?.etNewQuantity?.text.toString().toInt()
         var total: Double = product?.price.toString().toDouble() * cantidad
+
 
         var pedido = ""
         pedido = pedido + "\n"

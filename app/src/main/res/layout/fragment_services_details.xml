@@ -104,9 +104,9 @@
                     android:textColor="@color/white"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="Servi-Cel" />
 
                 <TextView
@@ -162,9 +162,9 @@
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:justificationMode="inter_word"
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="@color/white"
-                    android:justificationMode="inter_word"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam," />
             </androidx.core.widget.NestedScrollView>
 
@@ -188,6 +188,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilNewQuantity"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -204,6 +205,21 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/imbFacebook"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/facebooklogolarge" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -232,16 +248,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Taller y Tienda Registrada"
+                    android:text="Taller / Tienda Registrada"
                     android:textColor="@color/white"
                     android:textSize="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_padding_default"
                     android:text="Ubicación"
                     android:textColor="@color/white"
-                    android:textSize="12dp"/>
+                    android:textSize="18dp" />
 
                 <ImageView
                     android:id="@+id/imgMap"

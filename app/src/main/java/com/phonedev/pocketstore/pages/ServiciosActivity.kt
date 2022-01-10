@@ -42,6 +42,8 @@ class ServiciosActivity : AppCompatActivity(), onProductListenner, MainAux {
         binding = ActivityServiciosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         configBottoms()
         configRecyclerView()
     }

@@ -3,6 +3,9 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.GridLayoutManager
@@ -224,10 +227,15 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
     }
 
     private fun setClick() {
+        binding.imbMenu.setOnClickListener {
+            val intent = Intent(this, MemuActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.ibCategoriesAcc.setOnClickListener {
             val intent = Intent(this, AccActivity::class.java)
-            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
+            Toast.makeText(this, "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
         }
         binding.ibCategoriesPhone.setOnClickListener {
             val intent = Intent(this, PhoneActivity::class.java)

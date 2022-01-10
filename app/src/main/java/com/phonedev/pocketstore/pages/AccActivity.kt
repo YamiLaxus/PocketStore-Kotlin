@@ -263,12 +263,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
 
     @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null) {
-            adapter.filtrado(newText)
-        } else {
-            configFirestoreRealTime()
-        }
-        return false
+      return false
     }
 
 
@@ -287,7 +282,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
 
         imageList.add(
             SlideModel(
-                "https://d26lpennugtm8s.cloudfront.net/stores/001/179/321/rte/base64_img_61640377-09e8cd1de4a14d9d1b8eeb7bc05583c5.png",
+                "https://pickkaro.com/wp-content/uploads/2021/08/29.jpg",
                 "inPods i12"
             )
         )

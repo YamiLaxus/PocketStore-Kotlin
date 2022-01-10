@@ -5,7 +5,7 @@
     android:id="@+id/containerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0C1233"
+    android:background="@color/azulfondo"
     android:clickable="true"
     android:focusable="true"
     tools:context=".pages.PhoneActivity">
@@ -52,8 +52,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
-                    android:layout_width="250dp"
-                    android:layout_height="200dp"
+                    android:layout_width="300dp"
+                    android:layout_height="250dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="20dp"
                     android:clipToPadding="true"
@@ -196,9 +196,9 @@
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:justificationMode="inter_word"
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="@color/white"
-                    android:justificationMode="inter_word"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam," />
             </androidx.core.widget.NestedScrollView>
 
@@ -215,9 +215,9 @@
                     android:textColor="@color/rojo"
                     android:textSize="19sp"
                     android:textStyle="italic|bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvDisponible"
@@ -227,10 +227,10 @@
                     android:textColor="@color/white"
                     android:textSize="19sp"
                     android:textStyle="italic|bold"
-                    tools:text="Entrega Inmediata"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvDisponible1"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    tools:text="Entrega Inmediata" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

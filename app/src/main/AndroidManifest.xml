@@ -13,6 +13,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".pages.MemuActivity"
+            android:exported="true" />
+        <activity
+            android:name=".pages.SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".pages.ServiciosActivity"
             android:exported="false" />
         <activity
@@ -29,13 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".pages.StartActivityUno"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".pages.NotFoundActivity"
             android:theme="@style/Theme.MaterialComponents.NoActionBar"
