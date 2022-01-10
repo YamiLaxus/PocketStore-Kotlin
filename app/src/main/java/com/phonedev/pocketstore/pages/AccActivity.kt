@@ -250,6 +250,9 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
         updateTotal()
     }
 
+    //Cart
+
+
     //Busqueda
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onQueryTextSubmit(query: String?): Boolean {

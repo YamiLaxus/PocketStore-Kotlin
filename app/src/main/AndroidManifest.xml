@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".pages.InfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.MemuActivity"
             android:exported="true" />
         <activity

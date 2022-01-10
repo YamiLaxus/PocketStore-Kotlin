@@ -3,27 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.18153846153846154" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/border_redondo_circular_rojo.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/border_redondo_search.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_border.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_card_view.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/circular_image_view.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/ic_add_shopping_cart.xml" value="0.13651315789473684" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/drawable/splashscreen.xml" value="0.13651315789473684" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_acc.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_art.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_detail.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_home.xml" value="0.14" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_kiki.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_memu.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_not_found.xml" value="0.12631578947368421" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_phone.xml" value="0.16" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_phone.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_servicios.xml" value="0.12631578947368421" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_splash.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_start_uno.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/activity_tablets.xml" value="0.12631578947368421" />
-        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
+        <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_detail_home.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/fragment_services_details.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_destacados.xml" value="0.1" />
@@ -35,9 +32,14 @@
         <entry key="app/src/main/res/drawable/ic_add_circle_outline.xml" value="0.12361111111111112" />
         <entry key="app/src/main/res/drawable/ic_add_shopping_cart.xml" value="0.12361111111111112" />
         <entry key="app/src/main/res/drawable/ic_remove_circle.xml" value="0.12361111111111112" />
+        <entry key="app/src/main/res/layout-v26/activity_info.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/activity_acc.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_art.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_info.xml" value="0.10019730474435042" />
+        <entry key="app/src/main/res/layout/activity_memu.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/activity_phone.xml" value="0.11168384879725086" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.10586319218241043" />
+        <entry key="app/src/main/res/layout/fragment_info.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/login_view.xml" value="0.1069078947368421" />
       </map>
     </option>

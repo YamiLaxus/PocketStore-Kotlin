@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/common_padding_default"
     android:background="@color/black">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tvWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_default"
         android:text="Pocket en Línea"
         android:textColor="@color/white"
         android:textSize="45dp"
@@ -62,6 +64,7 @@
         android:id="@+id/tvBosch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_min"
         android:background="@drawable/gradiant"
         android:text="Pocket en Línea 2022"
         android:textSize="14dp"

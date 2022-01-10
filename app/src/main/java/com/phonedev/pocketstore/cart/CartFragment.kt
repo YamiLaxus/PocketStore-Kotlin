@@ -2,10 +2,12 @@ package com.phonedev.pocketstore.cart
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -26,10 +28,13 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
     private var binding: FragmentCartBinding? = null
 
     private lateinit var bottomSheetBehaivor: BottomSheetBehavior<*>
-
     private lateinit var adapter: ProductCartAdapter
-
+    private var product: Product? = null
     private var totalPrice = 0.0
+
+    private var number: String = ""
+
+    private val listOnCart: MutableList<Product> = mutableListOf()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentCartBinding.inflate(LayoutInflater.from(activity))
@@ -58,11 +63,6 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
                 layoutManager = LinearLayoutManager(context)
                 adapter = this@CartFragment.adapter
             }
-
-            /*(1..5).forEach {
-                val product = Product(it.toString(), "Product $it", "This Product is $it", "", it, 2.0 * it)
-                adapter.add(product)
-            }*/
         }
     }
 
@@ -72,7 +72,15 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
                 bottomSheetBehaivor.state = BottomSheetBehavior.STATE_HIDDEN
             }
             it.efab.setOnClickListener {
-                requestOrder()
+                if (product?.phone != null) {
+                    number = product?.phone.toString()
+                }
+
+                if (product?.phone == null) {
+                    number = "41642429"
+                }
+
+                sendMessage()
             }
         }
     }
@@ -119,6 +127,7 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
     private fun getProducts() {
         (activity as? MainAux)?.getProductsCart()?.forEach {
             adapter.add(it)
+            listOnCart.addAll(listOf(it))
         }
     }
 
@@ -144,5 +153,45 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
         binding?.let {
             it.tvTotal.text = getString(R.string.product_full_cart, total)
         }
+    }
+
+    //Cart
+    private fun sendMessage() {
+        val user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+
+        var pedido = ""
+
+        pedido = pedido + "Pocket Store"
+        pedido = pedido + "\n"
+        pedido = pedido + "CLIENTE: $user"
+        pedido = pedido + "\n"
+        pedido = pedido + "___________________________"
+
+        Toast.makeText(
+            (activity as AppCompatActivity?)!!,
+            "Total en lista: ${adapter.itemCount}",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        var index = 0
+        while (index < listOnCart.size) {
+            pedido = "$pedido" +
+                    "\n" +
+                    "\n" +
+                    "Producto: ${listOnCart[index].name}" +
+                    "\n" +
+                    "Precios: ${listOnCart[index].price}" +
+                    "\n" +
+                    "Cantidad: ${listOnCart[index].newQuantity}" +
+                    "\n" +
+                    "___________________________\n"
+            index++
+        }
+        pedido = pedido + "Total: Q.$totalPrice"
+
+        val url = "https://wa.me/502$number?text=$pedido"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
     }
 }

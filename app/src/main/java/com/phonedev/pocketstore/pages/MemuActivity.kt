@@ -103,5 +103,9 @@ class MemuActivity : AppCompatActivity() {
             i.data = Uri.parse(url)
             startActivity(i)
         }
+        binding.btnInfo.setOnClickListener {
+            val intent = Intent(this, InfoActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
