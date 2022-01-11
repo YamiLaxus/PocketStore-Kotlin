@@ -35,10 +35,11 @@
         <entry key="app/src/main/res/layout-v26/activity_info.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/activity_acc.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_art.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/activity_info.xml" value="0.10019730474435042" />
         <entry key="app/src/main/res/layout/activity_memu.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/activity_phone.xml" value="0.11168384879725086" />
-        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.10586319218241043" />
+        <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/login_view.xml" value="0.1069078947368421" />
       </map>

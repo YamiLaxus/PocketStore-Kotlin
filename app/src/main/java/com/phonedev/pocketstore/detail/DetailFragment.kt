@@ -19,11 +19,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentDetailBinding
+import com.phonedev.pocketstore.pages.*
 import com.phonedev.pocketstore.product.MainAux
 
 class DetailFragment : Fragment() {
 
-    private var binding: FragmentDetailBinding? = null
+    private lateinit var binding: FragmentDetailBinding
     private var product: Product? = null
     private var number:String = ""
 
@@ -43,6 +44,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setClick()
         getProduct()
         product?.let { clickToAddCart(it) }
     }
@@ -125,7 +127,6 @@ class DetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
     }
 
     private fun sendOrder() {
@@ -172,5 +173,38 @@ class DetailFragment : Fragment() {
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
+    }
+
+    private fun setClick() {
+        binding.ibCategoriesAcc.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), AccActivity::class.java)
+            startActivity(intent)
+            Toast.makeText((activity as AppCompatActivity), "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
+        }
+        binding.ibCategoriesPhone.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), PhoneActivity::class.java)
+            Toast.makeText((activity as AppCompatActivity), "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesTablet.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), TabletsActivity::class.java)
+            Toast.makeText((activity as AppCompatActivity), "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesArt.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), ArtActivity::class.java)
+            Toast.makeText((activity as AppCompatActivity), "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesKiki.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), KikiActivity::class.java)
+            Toast.makeText((activity as AppCompatActivity), "Personaliza tu vida", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.ibCategoriesServices.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), ServiciosActivity::class.java)
+            Toast.makeText((activity as AppCompatActivity), "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
     }
 }

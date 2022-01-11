@@ -54,12 +54,12 @@
                     android:id="@+id/cardView"
                     android:layout_width="300dp"
                     android:layout_height="250dp"
-                    android:layout_marginStart="16dp"
                     android:layout_marginBottom="20dp"
                     android:clipToPadding="true"
                     app:cardCornerRadius="8dp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
 
                     <ImageView
                         android:id="@+id/imgProduct"
@@ -70,14 +70,6 @@
                         android:src="@mipmap/ic_launcher" />
 
                 </androidx.cardview.widget.CardView>
-
-                <ImageButton
-                    android:id="@+id/imbFacebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/facebook"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/cardView" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/guideline"
@@ -116,6 +108,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_min"
                 android:orientation="horizontal">
 
                 <TextView
@@ -196,7 +189,6 @@
                     android:id="@+id/tvDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:justificationMode="inter_word"
                     android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="@color/white"
                     tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam," />
@@ -243,7 +235,7 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnBuyIt"
-                    android:layout_width="200dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:background="@color/rojo"
                     android:text="Ordenar Ahora"
@@ -251,6 +243,16 @@
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/imbFacebook"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/imbFacebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/facebook"
+                    app:layout_constraintStart_toEndOf="@id/btnBuyIt"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -323,6 +325,69 @@
                     android:text="Descubre más productos"
                     android:textColor="@color/white"
                     android:textSize="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="@dimen/common_padding_min"
+                android:background="@drawable/border_redondo_circular"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="@dimen/common_padding_min">
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesAcc"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/acc" />
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesPhone"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/phone" />
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesTablet"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ipad" />
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesArt"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/art" />
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesKiki"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/kikistorelogo" />
+
+                <ImageButton
+                    android:id="@+id/ibCategoriesServices"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/fix" />
 
             </LinearLayout>
 
