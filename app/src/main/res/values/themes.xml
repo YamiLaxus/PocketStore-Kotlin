@@ -34,6 +34,11 @@
         <!-- ... -->
     </style>
 
+    <style name="ThemeUICustom" parent="Theme.AppCompat.NoActionBar">
+    <item name="colorAccent">@color/azulfondo</item>
+    <item name="android:colorBackground">@color/azulfondo</item>
+    </style>
+
     <style name="ProgressBarStyle">
         <item name="colorAccent">@color/azulfondo</item>
     </style>

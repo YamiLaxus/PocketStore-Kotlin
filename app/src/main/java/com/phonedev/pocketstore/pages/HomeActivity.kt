@@ -76,7 +76,6 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -112,6 +111,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
                         .setAuthMethodPickerLayout(loginView)
                         .setAvailableProviders(providers)
                         .setIsSmartLockEnabled(false)
+                        .setTheme(R.style.ThemeUICustom)
                         .build()
                 )
             }
@@ -151,7 +151,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                Toast.makeText(this, "Error al consultar datos 404", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Error al consultar datos 404", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
 
