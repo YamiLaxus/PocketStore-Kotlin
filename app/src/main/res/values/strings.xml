@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pocket Store</string>
+    <string name="app_name">Pocket</string>
 
     <string name="cart_title">Carrito de compra</string>
     <string name="cart_pay">Ordenar</string>

@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.api.load
 import coil.request.CachePolicy
@@ -16,9 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentDetailHomeBinding
+import com.phonedev.pocketstore.pages.*
 import com.phonedev.pocketstore.product.MainAux
 
-class DetailHomeFragment: Fragment() {
+class DetailHomeFragment : Fragment() {
     private var binding: FragmentDetailHomeBinding? = null
     private var product: Product? = null
     private var number: String? = null
@@ -38,6 +41,7 @@ class DetailHomeFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setClick()
         getProduct()
         sendOrder()
     }
@@ -52,7 +56,7 @@ class DetailHomeFragment: Fragment() {
                 it.tvDisponible.text = product.disponible
                 binding?.etNewQuantity?.setText("1")
 
-                it.imgBackground.load(product.imgUrl){
+                it.imgBackground.load(product.imgUrl) {
                     crossfade(true)
                     transformations(BlurTransformation(requireActivity(), 20f))
                     diskCachePolicy(CachePolicy.ENABLED)
@@ -116,5 +120,62 @@ class DetailHomeFragment: Fragment() {
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
+    }
+
+    private fun setClick() {
+        binding?.ibCategoriesAcc?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), AccActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Vamos, Revisa los accesorios.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        binding?.ibCategoriesPhone?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), PhoneActivity::class.java)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Bien, Ahora verás teléfonos.",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(intent)
+        }
+        binding?.ibCategoriesTablet?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), TabletsActivity::class.java)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Excelente, ¿Quieres una tablet?",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(intent)
+        }
+        binding?.ibCategoriesArt?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), ArtActivity::class.java)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "El arte es una garantía de cordura.",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(intent)
+        }
+        binding?.ibCategoriesKiki?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), KikiActivity::class.java)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Personaliza tu vida",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(intent)
+        }
+        binding?.ibCategoriesServices?.setOnClickListener {
+            val intent = Intent((activity as AppCompatActivity), ServiciosActivity::class.java)
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Reparemos un par de cosas.",
+                Toast.LENGTH_SHORT
+            ).show()
+            startActivity(intent)
+        }
     }
 }

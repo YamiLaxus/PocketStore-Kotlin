@@ -258,7 +258,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:text="Telefonos"
+                                android:text="Teléfonos"
                                 android:textColor="@color/white"
                                 android:textSize="18sp" />
 
@@ -382,24 +382,25 @@
                 <ImageView
                     android:id="@+id/imvOnLineShop"
                     android:layout_width="250dp"
-                    android:layout_height="250dp"
+                    android:layout_height="200dp"
                     android:src="@drawable/onlineshop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvShopSecure"/>
 
                 <TextView
                     android:id="@+id/tvShopSecure"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/common_padding_min"
-                    android:text="Compra Seguro"
+                    android:layout_marginBottom="@dimen/common_padding_default"
+                    android:text="Compra de forma segura"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:textStyle="bold|italic"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imvOnLineShop" />
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

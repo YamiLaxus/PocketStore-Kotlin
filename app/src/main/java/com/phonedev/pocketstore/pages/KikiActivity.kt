@@ -98,13 +98,13 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux,
     }
 
     private fun configBottoms() {
-        binding.btnViewCart.setOnClickListener {
-            val fragment = CartFragment()
-            fragment.show(
-                supportFragmentManager.beginTransaction(),
-                CartFragment::class.java.simpleName
-            )
-        }
+//        binding.btnViewCart.setOnClickListener {
+//            val fragment = CartFragment()
+//            fragment.show(
+//                supportFragmentManager.beginTransaction(),
+//                CartFragment::class.java.simpleName
+//            )
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -154,16 +154,16 @@ class KikiActivity : AppCompatActivity(), onProductListenner, MainAux,
     override fun getProductsCart(): MutableList<Product> = productCartList
 
     override fun updateTotal() {
-        var total = 0.0
-        productCartList.forEach { product ->
-            total += product.totalPrice()
-        }
-
-        if (total == 0.0) {
-            binding.tvTotal.text = getString(R.string.product_empty_cart)
-        } else {
-            binding.tvTotal.text = getString(R.string.product_full_cart, total)
-        }
+//        var total = 0.0
+//        productCartList.forEach { product ->
+//            total += product.totalPrice()
+//        }
+//
+//        if (total == 0.0) {
+//            binding.tvTotal.text = getString(R.string.product_empty_cart)
+//        } else {
+//            binding.tvTotal.text = getString(R.string.product_full_cart, total)
+//        }
     }
 
     override fun clearCart() {
