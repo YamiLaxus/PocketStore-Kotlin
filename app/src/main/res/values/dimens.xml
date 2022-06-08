@@ -8,4 +8,7 @@
     <dimen name="chat_guideline_chat">48dp</dimen>
     <dimen name="chat_stroke">1dp</dimen>
     <dimen name="chat_margin_horizontal">64dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

@@ -280,20 +280,26 @@ class PhoneActivity : AppCompatActivity(), onProductListenner, MainAux,
 
         imageList.add(
             SlideModel(
-                "https://www.yugatech.com/wp-content/uploads/2021/04/Xiaomi-Mi-11-Lite-2.jpg",
-                "Equipo Xiaomi"
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2FPOCO-X3-Pro.jpg?alt=media&token=0f504e0c-15be-448d-8b17-83492986e41e",
+                ""
             )
         )
         imageList.add(
             SlideModel(
-                "https://cms.dmpcdn.com/article/2021/03/16/bd4d6ce0-944e-11eb-8b27-db7c51a78b67_original.jpg",
-                "#TeamGalaxy"
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fiphone-13-2.png?alt=media&token=64dc3435-6929-41e2-ad62-549de6be83d6",
+                ""
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fgalaxy.jpg?alt=media&token=59f472e4-e79f-4b18-b700-e0af78b66685",
+                ""
             )
         )
         imageList.add(
             SlideModel(
                 "https://d500.epimg.net/cincodias/imagenes/2020/11/24/smartphones/1606217941_724129_1606217991_noticia_normal.jpg",
-                "Hello Moto!!!"
+                ""
             )
         )
 

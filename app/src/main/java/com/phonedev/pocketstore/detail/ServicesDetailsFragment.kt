@@ -15,8 +15,11 @@ import coil.transform.BlurTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentServicesDetailsBinding
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.pages.ServiciosActivity
 import com.phonedev.pocketstore.product.MainAux
@@ -114,8 +117,19 @@ class ServicesDetailsFragment : Fragment() {
     }
 
     fun sendMessage() {
-
+        val firebaseAuth = FirebaseAuth.getInstance()
         var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+
+        if (firebaseAuth.currentUser?.displayName == null) {
+            val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val database = Firebase.database.getReference(Constants.PATH_USERS).child(userID).get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        val nameUser = it.child("name").value
+                        user = nameUser.toString()
+                    }
+                }
+        }
 
         var pedido = ""
         pedido = pedido + "\n"

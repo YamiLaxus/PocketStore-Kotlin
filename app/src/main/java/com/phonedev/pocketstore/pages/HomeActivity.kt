@@ -1,27 +1,29 @@
 package com.phonedev.pocketstore.pages
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.firebase.ui.auth.AuthMethodPickerLayout
-import com.firebase.ui.auth.AuthUI
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
-import com.phonedev.pocketstore.entities.Product
+import com.google.firebase.ktx.Firebase
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
 import com.phonedev.pocketstore.detail.DetailHomeFragment
 import com.phonedev.pocketstore.entities.Constants
+import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.onProductListenner
 import com.phonedev.pocketstore.product.MainAux
 import com.phonedev.pocketstore.product.ProductExplorerAdapter
@@ -34,6 +36,7 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     //variables for Authentication
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var realTimeDatabase: FirebaseDatabase
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
     private lateinit var firestoreListener: ListenerRegistration
 
@@ -48,25 +51,23 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val response = IdpResponse.fromResultIntent(it.data)
 
-            if (it.resultCode == RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-                if (user != null) {
-                    Toast.makeText(this, "Hola Bienvenido", Toast.LENGTH_SHORT).show()
+            when (it.resultCode) {
+                RESULT_OK -> {
                 }
-            } else {
-                if (response == null) {
-                    Toast.makeText(this, "Hasta Pronto", Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    response.error?.let {
-                        if (it.errorCode == ErrorCodes.NO_NETWORK) {
-                            Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Codigo de error: ${it.errorCode}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                else -> {
+                    if (response == null) {
+                        configAuth()
+                    } else {
+                        response.error?.let {
+                            if (it.errorCode == ErrorCodes.NO_NETWORK) {
+                                Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Codigo de error: ${it.errorCode}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
                 }
@@ -85,35 +86,19 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         configAuth()
         configFirestoreRealTimeExplorer()
         getUserName()
+        configStackImages()
     }
 
+    //
     private fun configAuth() {
-
         firebaseAuth = FirebaseAuth.getInstance()
         authStateListener = FirebaseAuth.AuthStateListener { auth ->
             if (auth.currentUser != null) {
                 supportActionBar?.title = auth.currentUser?.displayName
             } else {
-                val providers = arrayListOf(
-                    AuthUI.IdpConfig.EmailBuilder().build(),
-                    AuthUI.IdpConfig.GoogleBuilder().build()
-                )
-
-                val loginView = AuthMethodPickerLayout
-                    .Builder(R.layout.login_view)
-                    .setEmailButtonId(R.id.btnEmail)
-                    .setGoogleButtonId(R.id.btnGoogle)
-                    .build()
-
-                resultLauncher.launch(
-                    AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAuthMethodPickerLayout(loginView)
-                        .setAvailableProviders(providers)
-                        .setIsSmartLockEnabled(false)
-                        .setTheme(R.style.ThemeUICustom)
-                        .build()
-                )
+                val i = Intent(this, LoginActivity::class.java)
+                startActivity(i)
+                this.finish()
             }
         }
     }
@@ -126,12 +111,15 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
         getUserName()
     }
 
-    override fun onPause() {
-        super.onPause()
-        firebaseAuth.removeAuthStateListener(authStateListener)
-        getUserName()
-        firestoreListener.remove()
-    }
+//    override fun onBackPressed() {
+//        AlertDialog.Builder(this)
+//            .setMessage("Are you sure you want to exit?")
+//            .setCancelable(false)
+//            .setPositiveButton("Yes",
+//                DialogInterface.OnClickListener { dialog, id -> super@HomeActivity.onBackPressed() })
+//            .setNegativeButton("No", null)
+//            .show()
+//    }
 
     private fun configRecyclerView() {
         adapter = ProductosDestacadosAdapter(mutableListOf(), this)
@@ -173,7 +161,6 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
         firestoreListener = productRef.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                Toast.makeText(this, "Inicia sesión primero!", Toast.LENGTH_SHORT).show()
                 return@addSnapshotListener
             }
 
@@ -191,7 +178,6 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     override fun onClick(product: Product) {
         productSelected = product
-
         val fragment = DetailHomeFragment()
         supportFragmentManager
             .beginTransaction()
@@ -224,6 +210,16 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
 
     private fun getUserName() {
         binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
+        if (firebaseAuth.currentUser?.displayName == null) {
+            val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val database = Firebase.database.getReference(Constants.PATH_USERS).child(userID).get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        val nameUser = it.child("name").value
+                        binding.tvUser.text = nameUser.toString()
+                    }
+                }
+        }
     }
 
     private fun setClick() {
@@ -282,6 +278,58 @@ class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
             Toast.makeText(this, "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
+        binding.btnKiki.setOnClickListener {
+            val intent = Intent(this, KikiActivity::class.java)
+            Toast.makeText(this, "Personaliza tu vida.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+        binding.btnServices.setOnClickListener {
+            val intent = Intent(this, ServiciosActivity::class.java)
+            Toast.makeText(this, "Los mejores servicios.", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+        }
+    }
+
+    private fun configStackImages() {
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fpocket%20banner.jpg?alt=media&token=a41c7f7c-7f05-4028-a06b-5eb1ad4b8884",
+                "Que es Pocket?"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fange%20model.JPEG?alt=media&token=4d344aba-4e98-443d-8a5a-658fc4c6537a",
+                "Los mejores productos"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fkiki%20banner.jpg?alt=media&token=1ef03453-7a9a-48d8-9d8f-6b7412093bcd",
+                "Lo mejor lo imaginas tú"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fconecta2%20banner.jpg?alt=media&token=e36627cf-fc49-4540-aae7-c556b9dcc086",
+                "El mejor Internet y Velocidad"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fnetflix%20banner.jpg?alt=media&token=482a0102-70b5-477e-975c-37bd5949f43c",
+                "Quieres ver una serie?"
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fdigitalgames%20banner.jpg?alt=media&token=415c5cf6-9e47-4e22-91ff-b57551f5dd7f",
+                "Recarga ahora y se un Pro."
+            )
+        )
+        binding.imgSlider.setImageList(imageList, ScaleTypes.FIT)
     }
 
 }

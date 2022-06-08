@@ -13,6 +13,7 @@ object Constants {
 
     //Realtime Database
     const val PATH_CHATS = "chats"
+    const val PATH_USERS = "users"
     //FCM
     const val PROP_TOKEN = "token"
 }

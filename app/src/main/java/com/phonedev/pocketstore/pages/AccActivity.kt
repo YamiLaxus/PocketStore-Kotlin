@@ -1,6 +1,5 @@
 package com.phonedev.pocketstore.pages
 
-import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -35,7 +34,7 @@ import com.phonedev.pocketstore.product.ProductAdapter
 class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     SearchView.OnQueryTextListener {
 
-    private lateinit var binding: ActivityAccBinding
+    private lateinit var binding: com.phonedev.pocketstore.databinding.ActivityAccBinding
 
     //Authentication
     private lateinit var firebaseAuth: FirebaseAuth
@@ -285,23 +284,34 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
 
         imageList.add(
             SlideModel(
-                "https://pickkaro.com/wp-content/uploads/2021/08/29.jpg",
-                "inPods i12"
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2F450_1000.jpeg?alt=media&token=bc8d1e4a-93ed-43c5-a4ab-1ab0add9960f",
+                ""
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fairpods-pro.jpg?alt=media&token=e208834b-d5c6-485e-8c2f-54d6c805c253",
+                ""
             )
         )
         imageList.add(
             SlideModel(
                 "https://mlg4zu7evviy.i.optimole.com/vleswBY-yCr_s-cI/w:1200/h:600/q:auto/wm:1:0.8:ce/https://www.aliexcolombia.com/wp-content/uploads/2020/04/auriculares.jpg",
-                "Siente la música"
+                ""
             )
         )
         imageList.add(
             SlideModel(
-                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/product_images%2FAnGDXd90SjcnpNNK8PVx?alt=media&token=e2bf5547-6371-462e-a2a9-282aa944be24",
-                "Que la diversión no pare"
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Finpods.webp?alt=media&token=c6e422cf-aa64-438d-8756-57ce4679bb77",
+                ""
             )
         )
-
+        imageList.add(
+            SlideModel(
+                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fcargador-iphone.webp?alt=media&token=de018345-de30-489c-9041-b052ffbfc32b",
+                ""
+            )
+        )
         binding.imgSlider.setImageList(imageList, ScaleTypes.FIT)
     }
 

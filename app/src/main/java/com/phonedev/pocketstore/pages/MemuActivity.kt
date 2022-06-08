@@ -25,16 +25,14 @@ class MemuActivity : AppCompatActivity() {
         setClicks()
     }
 
-    fun setClicks() {
+    private fun setClicks() {
         binding.btnLogOut.setOnClickListener {
             AuthUI.getInstance().signOut(this)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Sesión Cerrada", Toast.LENGTH_SHORT).show()
-                }
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        val intent = Intent(this, StartActivityUno::class.java)
+                        val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
+                        Toast.makeText(this, "Sesión Cerrada, Vuelve pronto", Toast.LENGTH_SHORT).show()
                         this.finish()
                     } else {
                         Toast.makeText(this, "Sesión no Cerrada", Toast.LENGTH_SHORT).show()

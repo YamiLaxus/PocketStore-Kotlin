@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".pages.RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".pages.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.InfoActivity"
             android:exported="false" />
         <activity

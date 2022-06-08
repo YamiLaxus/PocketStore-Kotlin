@@ -16,9 +16,12 @@ import coil.transform.BlurTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.phonedev.pocketstore.entities.Product
 import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.FragmentDetailBinding
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.pages.*
 import com.phonedev.pocketstore.product.MainAux
 
@@ -26,7 +29,7 @@ class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
     private var product: Product? = null
-    private var number:String = ""
+    private var number: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +38,7 @@ class DetailFragment : Fragment() {
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         //(activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-        binding?.let {
+        binding.let {
             return it.root
         }
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -53,11 +56,11 @@ class DetailFragment : Fragment() {
     private fun getProduct() {
         product = (activity as? MainAux)?.getProductSelected()
         product?.let { product ->
-            binding?.let {
+            binding.let {
                 it.tvName.text = product.name
                 it.tvDescription.text = product.description
                 it.tvDisponible.text = product.disponible
-                binding?.etNewQuantity?.setText("1")
+                binding.etNewQuantity.setText("1")
                 setNewQuantity(product)
 
                 it.imgBackground.load(product.imgUrl) {
@@ -80,7 +83,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setNewQuantity(product: Product) {
-        binding?.let {
+        binding.let {
             it.etNewQuantity.setText(product.newQuantity.toString())
             it.tvTotalPrice.text = product.price.toString()
         }
@@ -88,10 +91,10 @@ class DetailFragment : Fragment() {
 
     //toBuy and go to facebook
     private fun clickToAddCart(product: Product) {
-        binding?.btnAddCart?.setOnClickListener {
+        binding.btnAddCart.setOnClickListener {
             addToCart(product)
         }
-        binding?.btnBuyIt?.setOnClickListener {
+        binding.btnBuyIt.setOnClickListener {
             if (product.phone != null) {
                 number = product.phone.toString()
             }
@@ -102,7 +105,7 @@ class DetailFragment : Fragment() {
 
             sendOrder()
         }
-        binding?.imbFacebook?.setOnClickListener {
+        binding.imbFacebook.setOnClickListener {
             if (product.facebook == null) {
                 Toast.makeText(
                     (activity as AppCompatActivity?)!!,
@@ -125,12 +128,8 @@ class DetailFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
     private fun sendOrder() {
-        if (binding?.etNewQuantity?.text?.isNotEmpty() == true) {
+        if (binding.etNewQuantity.text?.isNotEmpty() == true) {
             sendMessage()
         } else {
             Toast.makeText(
@@ -141,12 +140,24 @@ class DetailFragment : Fragment() {
         }
     }
 
-    fun sendMessage() {
+    private fun sendMessage() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        var user = firebaseAuth.currentUser?.displayName.toString()
+        val cantidad = binding.etNewQuantity.text.toString().toInt()
+        val total: Double = product?.price.toString().toDouble() * cantidad
 
-        var user = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-        var cantidad = binding?.etNewQuantity?.text.toString().toInt()
-        var total: Double = product?.price.toString().toDouble() * cantidad
-
+        if (firebaseAuth.currentUser?.displayName != null) {
+            user = firebaseAuth.currentUser?.displayName.toString()
+        } else {
+            val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val database = Firebase.database.getReference(Constants.PATH_USERS).child(userID).get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        val nameUser = it.child("name").value
+                        user = nameUser.toString()
+                    }
+                }
+        }
 
         var pedido = ""
         pedido = pedido + "\n"
@@ -155,7 +166,7 @@ class DetailFragment : Fragment() {
         pedido = pedido + "\n"
         pedido = pedido + "___________________________"
 
-        binding?.let {
+        binding.let {
             pedido = pedido +
                     "\n" +
                     "Producto: ${product?.name.toString()}" +
@@ -179,31 +190,55 @@ class DetailFragment : Fragment() {
         binding.ibCategoriesAcc.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), AccActivity::class.java)
             startActivity(intent)
-            Toast.makeText((activity as AppCompatActivity), "Vamos, Revisa los accesorios.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Vamos, Revisa los accesorios.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         binding.ibCategoriesPhone.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), PhoneActivity::class.java)
-            Toast.makeText((activity as AppCompatActivity), "Bien, Ahora verás teléfonos.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Bien, Ahora verás teléfonos.",
+                Toast.LENGTH_SHORT
+            ).show()
             startActivity(intent)
         }
         binding.ibCategoriesTablet.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), TabletsActivity::class.java)
-            Toast.makeText((activity as AppCompatActivity), "Excelente, ¿Quieres una tablet?", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Excelente, ¿Quieres una tablet?",
+                Toast.LENGTH_SHORT
+            ).show()
             startActivity(intent)
         }
         binding.ibCategoriesArt.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), ArtActivity::class.java)
-            Toast.makeText((activity as AppCompatActivity), "El arte es una garantía de cordura.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "El arte es una garantía de cordura.",
+                Toast.LENGTH_SHORT
+            ).show()
             startActivity(intent)
         }
         binding.ibCategoriesKiki.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), KikiActivity::class.java)
-            Toast.makeText((activity as AppCompatActivity), "Personaliza tu vida", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Personaliza tu vida",
+                Toast.LENGTH_SHORT
+            ).show()
             startActivity(intent)
         }
         binding.ibCategoriesServices.setOnClickListener {
             val intent = Intent((activity as AppCompatActivity), ServiciosActivity::class.java)
-            Toast.makeText((activity as AppCompatActivity), "Reparemos un par de cosas.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                (activity as AppCompatActivity),
+                "Reparemos un par de cosas.",
+                Toast.LENGTH_SHORT
+            ).show()
             startActivity(intent)
         }
     }
