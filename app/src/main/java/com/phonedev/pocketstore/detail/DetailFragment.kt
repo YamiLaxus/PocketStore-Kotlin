@@ -37,7 +37,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
-        //(activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         binding.let {
             return it.root
         }
@@ -77,7 +76,6 @@ class DetailFragment : Fragment() {
                     .error(R.drawable.ic_broken_image)
                     .fitCenter()
                     .into(it.imgProduct)
-                //.into(it.imgBackground)
             }
         }
     }

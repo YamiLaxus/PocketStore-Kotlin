@@ -54,7 +54,9 @@
                 android:id="@+id/imgProduct"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:outlineAmbientShadowColor="@color/black"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
 
         </androidx.cardview.widget.CardView>
 
@@ -101,10 +103,53 @@
         android:layout_height="40dp"
         android:layout_marginTop="@dimen/common_padding_min"
         android:layout_marginEnd="@dimen/common_padding_min"
-        android:scaleType="fitXY"
         android:background="@drawable/refreshdata"
         app:layout_constraintEnd_toStartOf="@id/btnInstagram"
         app:layout_constraintTop_toBottomOf="@+id/portada" />
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/cnButtom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginStart="@dimen/common_padding_default"-->
+<!--        android:layout_marginBottom="@dimen/common_padding_default"-->
+<!--        android:background="@drawable/border_redondo_buttons"-->
+<!--        android:foregroundGravity="center"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/recyclerView"-->
+<!--        tools:ignore="NotSibling">-->
+
+<!--        <com.google.android.material.textview.MaterialTextView-->
+<!--            android:id="@+id/tvTotal"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_marginStart="@dimen/common_padding_default"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:foregroundGravity="center"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:text="@string/product_empty_cart"-->
+<!--            android:textAppearance="?attr/textAppearanceHeadline6"-->
+<!--            android:textColor="@color/black"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/cnButtom" />-->
+
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnViewCart"-->
+<!--            android:layout_width="160dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="@dimen/common_padding_min"-->
+<!--            android:background="@drawable/border_redondo_circular_rojo"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Ver Carrito"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/cnButtom"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/cnButtom" />-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvProductos"

@@ -89,13 +89,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setup() {
-        binding.btnSigUp.setOnClickListener {
+        binding.tvNoAccount.setOnClickListener {
             val i = Intent(this, RegistroActivity::class.java)
             startActivity(i)
-            this.finish()
         }
         binding.btnLogin.setOnClickListener {
-            if (binding.etUser.text.isNotEmpty() && binding.etPassword.text.isNotEmpty()) {
+            desableUI()
+            if (binding.etUser.text!!.isNotEmpty() && binding.etPassword.text!!.isNotEmpty()) {
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(
                     binding.etUser.text.toString(),
                     binding.etPassword.text.toString()
@@ -106,10 +106,12 @@ class LoginActivity : AppCompatActivity() {
                         this.finish()
                     } else {
                         showAlert()
+                        enableUI()
                     }
                 }
             } else {
                 showAlert()
+                enableUI()
             }
         }
     }
@@ -121,6 +123,20 @@ class LoginActivity : AppCompatActivity() {
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    private fun desableUI() {
+        binding.tvNoAccount.isEnabled = false
+        binding.btnLogin.isEnabled = false
+        binding.etUser.isEnabled = false
+        binding.etPassword.isEnabled = false
+    }
+
+    private fun enableUI() {
+        binding.tvNoAccount.isEnabled = true
+        binding.btnLogin.isEnabled = true
+        binding.etUser.isEnabled = true
+        binding.etPassword.isEnabled = true
     }
 
     private fun showAlertExit() {

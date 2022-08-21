@@ -38,18 +38,14 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
     private lateinit var binding: ActivityArtBinding
 
     private lateinit var firestoreListener: ListenerRegistration
-
     private lateinit var adapter: ArtAdapter
-
     private var productCartList = mutableListOf<Product>()
-
     private var productSelected: Product? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityArtBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
 
@@ -235,7 +231,8 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
                 val url = "https://www.instagram.com/shigatsu.item/"
                 val i = Intent(Intent.ACTION_VIEW)
                 i.data = Uri.parse(url)
-                Toast.makeText(this, "Encuentra más diseños en Instagram.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Encuentra más diseños en Instagram.", Toast.LENGTH_SHORT)
+                    .show()
                 startActivity(i)
             }
             it.btnRefreshData.setOnClickListener {

@@ -34,7 +34,7 @@ import com.phonedev.pocketstore.product.ProductAdapter
 class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     SearchView.OnQueryTextListener {
 
-    private lateinit var binding: com.phonedev.pocketstore.databinding.ActivityAccBinding
+    private lateinit var binding: ActivityAccBinding
 
     //Authentication
     private lateinit var firebaseAuth: FirebaseAuth
@@ -50,10 +50,10 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     private var productSelected: Product? = null
 
     private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val response = IdpResponse.fromResultIntent(it.data)
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val response = IdpResponse.fromResultIntent(result.data)
 
-            if (it.resultCode == RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 val user = FirebaseAuth.getInstance().currentUser
                 if (user != null) {
                     Toast.makeText(this, "Hola Bienvenido", Toast.LENGTH_SHORT).show()
@@ -197,10 +197,10 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
     override fun onClick(product: Product) {
         val index = productCartList.indexOf(product)
 
-        if (index != -1) {
-            productSelected = productCartList[index]
+        productSelected = if (index != -1) {
+            productCartList[index]
         } else {
-            productSelected = product
+            product
         }
 
         val fragment = DetailFragment()
@@ -209,7 +209,6 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
             .add(R.id.containerMain, fragment)
             .addToBackStack(null)
             .commit()
-//        showButton(false)
     }
 
     override fun getProductsCart(): MutableList<Product> = productCartList
@@ -270,7 +269,7 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
 
 
     private fun reloadData() {
-        binding?.let {
+        binding.let {
             it.imbReload.setOnClickListener {
                 configRecyclerView()
                 configFirestoreRealTime()

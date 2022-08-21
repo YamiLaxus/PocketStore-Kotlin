@@ -81,113 +81,28 @@
             android:layout_height="match_parent"
             android:isScrollContainer="true"
             android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="270dp"-->
+<!--                android:orientation="vertical">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical">
+<!--                <com.google.android.material.textview.MaterialTextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="@dimen/common_padding_min"-->
+<!--                    android:text="@string/explorer"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="20dp" />-->
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/common_padding_min"
-                    android:text="@string/textView_categorias"
-                    android:textColor="@color/white" />
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:id="@+id/recyclerView_destacados"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"-->
+<!--                    tools:listitem="@layout/item_destacados" />-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:background="@drawable/border_redondo_circular"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/common_padding_min">
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesAcc"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/acc" />
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesPhone"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/phone" />
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesTablet"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ipad" />
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesArt"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/art" />
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesKiki"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/kikistorelogo" />
-
-                    <ImageButton
-                        android:id="@+id/ibCategoriesServices"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/fix" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/common_padding_min"
-                    android:text="@string/explorer"
-                    android:textColor="@color/white"
-                    android:textSize="20dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView_destacados"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
-                    tools:listitem="@layout/item_destacados" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding_min"
-                android:text="Desliza ->"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -445,27 +360,27 @@
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="200dp">-->
 
-                <com.denzcoskun.imageslider.ImageSlider
-                    android:id="@+id/imgSlider"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/common_padding_min"
-                    android:background="@drawable/gradiant"
-                    android:textAlignment="center"
-                    app:iss_auto_cycle="true"
-                    app:iss_corner_radius="5"
-                    app:iss_delay="0"
-                    app:iss_period="1500"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingClass" />
+<!--                <com.denzcoskun.imageslider.ImageSlider-->
+<!--                    android:id="@+id/imgSlider"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_marginBottom="@dimen/common_padding_min"-->
+<!--                    android:background="@drawable/gradiant"-->
+<!--                    android:textAlignment="center"-->
+<!--                    app:iss_auto_cycle="true"-->
+<!--                    app:iss_corner_radius="5"-->
+<!--                    app:iss_delay="0"-->
+<!--                    app:iss_period="1500"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    tools:ignore="MissingClass" />-->
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
         </LinearLayout>
 

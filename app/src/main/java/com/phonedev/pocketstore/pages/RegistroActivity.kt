@@ -29,8 +29,8 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun setup() {
-        disableUi()
         binding.btnLogin.setOnClickListener {
+            disableUi()
             if (binding.etUser.text.isNotEmpty() && binding.etPassword.text.isNotEmpty() && binding.etName.text.isNotEmpty()) {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                     binding.etUser.text.toString().trim(),
