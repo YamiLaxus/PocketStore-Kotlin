@@ -10,9 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import coil.api.load
 import coil.request.CachePolicy
-import coil.transform.BlurTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
@@ -62,12 +60,14 @@ class DetailFragment : Fragment() {
                 binding.etNewQuantity.setText("1")
                 setNewQuantity(product)
 
-                it.imgBackground.load(product.imgUrl) {
-                    crossfade(true)
-                    transformations(BlurTransformation(requireActivity(), 20f))
-                    diskCachePolicy(CachePolicy.ENABLED)
-                    build()
-                }
+
+                Glide.with(this)
+                    .load(product.imgUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.ic_timelapse)
+                    .error(R.drawable.ic_broken_image)
+                    .fitCenter()
+                    .into(it.imgBackground)
 
                 Glide.with(this)
                     .load(product.imgUrl)

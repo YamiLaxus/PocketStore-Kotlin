@@ -1,166 +1,208 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.ktx.Firebase
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.phonedev.pocketstore.R
+import com.phonedev.pocketstore.adapter.ProductosAdapter
+import com.phonedev.pocketstore.adapter.ProductsMainAdapter
+import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
-import com.phonedev.pocketstore.detail.DetailHomeFragment
-import com.phonedev.pocketstore.entities.Constants
-import com.phonedev.pocketstore.entities.Product
-import com.phonedev.pocketstore.onProductListenner
-import com.phonedev.pocketstore.product.MainAux
+import com.phonedev.pocketstore.entities.Constants.BASE_URL
+import com.phonedev.pocketstore.models.ProductosModeloItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class HomeActivity : AppCompatActivity(), onProductListenner, MainAux {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    //variables for Authentication
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-    private lateinit var firestoreListener: ListenerRegistration
-    private val productCartList = mutableListOf<Product>()
-    private var productSelected: Product? = null
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            val response = IdpResponse.fromResultIntent(it.data)
-
-            when (it.resultCode) {
-                RESULT_OK -> {
-                }
-                else -> {
-                    if (response == null) {
-                        configAuth()
-                    } else {
-                        response.error?.let {
-                            if (it.errorCode == ErrorCodes.NO_NETWORK) {
-                                Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    "Codigo de error: ${it.errorCode}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    private var productosList: List<ProductosModeloItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
-        configAuth()
-        getUserName()
-        setClick()
+        Glide.with(this)
+            .load("https://scontent.fgua9-1.fna.fbcdn.net/v/t1.6435-1/123603957_3077712562333712_5492674290147117406_n.jpg?stp=dst-jpg_p160x160&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=UXsJjlEsc_kAX_g6Ev8&_nc_ht=scontent.fgua9-1.fna&oh=00_AT-0gUAqXjTJTun4qUyXeAo8kBloIQnLNxhhMgM0kZPJcw&oe=632EE1EE")
+            .centerCrop().circleCrop().into(binding.imgPerfil)
+
+        binding.progressBar.visibility = View.VISIBLE
+        showProductsMain()
+        clicChips()
+        navigationDrawer()
     }
 
-    //
-    private fun configAuth() {
-        firebaseAuth = FirebaseAuth.getInstance()
-        authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            if (auth.currentUser != null) {
-                supportActionBar?.title = auth.currentUser?.displayName
-            } else {
-                val i = Intent(this, LoginActivity::class.java)
-                startActivity(i)
-                this.finish()
-            }
+    private fun navigationDrawer() {
+        binding.imgCategorias.setOnClickListener{
+            val i = Intent(this, CategoriasActivity::class.java)
+            startActivity(i)
+        }
+        binding.imgBuscar.setOnClickListener {
+            val i = Intent(this, SearchActivity::class.java)
+            startActivity(i)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        firebaseAuth.addAuthStateListener(authStateListener)
-        getUserName()
+    private fun showProducts() {
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(WebServices::class.java)
+
+        val retrofitData = retrofitBuilder.getAllProducts()
+        retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+            override fun onResponse(
+                call: Call<List<ProductosModeloItem>?>,
+                response: Response<List<ProductosModeloItem>?>
+            ) {
+                val responseBody = response.body()!!
+                val adapter = ProductosAdapter(responseBody)
+
+//                productosList = responseBody
+//                binding.recyclerViewHome.layoutManager =
+//                    LinearLayoutManager(this@HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+//                binding.recyclerViewHome.adapter = adapter
+//                binding.recyclerViewHome.setHasFixedSize(true)
+//                binding.progressBar.visibility = View.GONE
+
+                adapter.onItemClick = {
+                    val i = Intent(this@HomeActivity, DetailActivity::class.java)
+                    i.putExtra("producto", it)
+                    startActivity(i)
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
-    override fun onClick(product: Product) {
-        productSelected = product
-        val fragment = DetailHomeFragment()
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.homeMain, fragment)
-            .addToBackStack(null)
-            .commit()
+    private fun showProductsMain() {
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(WebServices::class.java)
+
+        val retrofitData = retrofitBuilder.getAllProducts()
+        retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+            override fun onResponse(
+                call: Call<List<ProductosModeloItem>?>,
+                response: Response<List<ProductosModeloItem>?>
+            ) {
+                val responseBody = response.body()!!
+                val adapter = ProductsMainAdapter(responseBody)
+
+                productosList = responseBody
+                binding.recyclerViewMain.layoutManager =
+                    GridLayoutManager(this@HomeActivity, 2)
+                binding.recyclerViewMain.adapter = adapter
+                binding.progressBar.visibility = View.GONE
+
+                adapter.onClick = {
+                    val i = Intent(this@HomeActivity, DetailActivity::class.java)
+                    i.putExtra("producto", it)
+                    startActivity(i)
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
-    override fun getProductsCart(): MutableList<Product> {
-        TODO("Not yet implemented")
-    }
+    private fun clicChips() {
+        binding.btnTodo.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            it.background.setTint(Color.BLACK)
+            showProductsMain()
+        }
+        binding.btnAccesorios.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            val retrofitBuilder = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .build()
+                .create(WebServices::class.java)
 
-    override fun updateTotal() {
-        TODO("Not yet implemented")
-    }
+            val retrofitData = retrofitBuilder.getAccesoriesPhone()
+            retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+                override fun onResponse(
+                    call: Call<List<ProductosModeloItem>?>,
+                    response: Response<List<ProductosModeloItem>?>
+                ) {
+                    val responseBody = response.body()!!
+                    val adapter = ProductsMainAdapter(responseBody)
 
-    override fun clearCart() {
-        TODO("Not yet implemented")
-    }
+                    productosList = responseBody
+                    binding.recyclerViewMain.layoutManager =
+                        GridLayoutManager(this@HomeActivity, 2)
+                    binding.recyclerViewMain.adapter = adapter
+                    binding.progressBar.visibility = View.GONE
 
-    override fun getProductSelected(): Product? = productSelected
-
-    override fun showButton(isVisible: Boolean) {
-        TODO("Not yet implemented")
-    }
-
-    override fun addProductToCart(product: Product) {
-        TODO("Not yet implemented")
-    }
-
-    private fun getUserName() {
-        binding.tvUser.text = FirebaseAuth.getInstance().currentUser?.displayName.toString()
-        if (firebaseAuth.currentUser?.displayName == null) {
-            val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
-            val database = Firebase.database.getReference(Constants.PATH_USERS).child(userID).get()
-                .addOnSuccessListener {
-                    if (it.exists()) {
-                        val nameUser = it.child("name").value
-                        binding.tvUser.text = nameUser.toString()
+                    adapter.onClick = {
+                        val i = Intent(this@HomeActivity, DetailActivity::class.java)
+                        i.putExtra("producto", it)
+                        startActivity(i)
                     }
                 }
+
+                override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                    Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+        binding.btnTelefonos.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+            val retrofitBuilder = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .build()
+                .create(WebServices::class.java)
+
+            val retrofitData = retrofitBuilder.getPhone()
+            retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+                override fun onResponse(
+                    call: Call<List<ProductosModeloItem>?>,
+                    response: Response<List<ProductosModeloItem>?>
+                ) {
+                    val responseBody = response.body()!!
+                    val adapter = ProductsMainAdapter(responseBody)
+
+                    productosList = responseBody
+                    binding.recyclerViewMain.layoutManager =
+                        GridLayoutManager(this@HomeActivity, 2)
+                    binding.recyclerViewMain.adapter = adapter
+                    binding.progressBar.visibility = View.GONE
+
+                    adapter.onClick = {
+                        val i = Intent(this@HomeActivity, DetailActivity::class.java)
+                        i.putExtra("producto", it)
+                        startActivity(i)
+                    }
+                }
+
+                override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                    Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 
-    private fun setClick() {
-        binding.imbMenu.setOnClickListener {
-            val intent = Intent(this, MemuActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnPhone.setOnClickListener {
-            val intent = Intent(this, PhoneActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnTablet.setOnClickListener {
-            val intent = Intent(this, TabletsActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnAcc.setOnClickListener {
-            val intent = Intent(this, AccActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnArte.setOnClickListener {
-            val intent = Intent(this, ArtActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnKiki.setOnClickListener {
-            val intent = Intent(this, KikiActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnServices.setOnClickListener {
-            val intent = Intent(this, ServiciosActivity::class.java)
-            startActivity(intent)
-        }
-    }
 }

@@ -13,6 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".pages.CategoriasActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".pages.SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".pages.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".pages.RegistroActivity"
             android:exported="false" />
         <activity
@@ -47,7 +64,8 @@
             android:exported="true" />
         <activity
             android:name=".pages.AccActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
         <activity
             android:name=".pages.StartActivityUno"
             android:exported="true" />

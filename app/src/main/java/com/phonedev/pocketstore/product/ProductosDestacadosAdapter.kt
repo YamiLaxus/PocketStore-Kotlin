@@ -73,7 +73,6 @@ class ProductosDestacadosAdapter(
 
         fun setListener(product: Product) {
             binding.root.setOnClickListener {
-                listener.onClick(product)
             }
         }
     }

@@ -361,7 +361,8 @@
                     android:layout_height="50dp"
                     android:layout_marginRight="5dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ipad" />
+                    android:src="@drawable/ipad"
+                    android:contentDescription="TODO" />
 
                 <ImageButton
                     android:id="@+id/ibCategoriesArt"

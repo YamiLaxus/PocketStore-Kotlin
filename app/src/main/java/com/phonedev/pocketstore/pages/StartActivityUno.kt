@@ -20,8 +20,7 @@ class StartActivityUno : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.btnStart.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java)
-            Toast.makeText(this, "BIENVENIDO", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, LoginActivity::class.java)
             supportActionBar?.hide()
             startActivity(intent)
             finish()

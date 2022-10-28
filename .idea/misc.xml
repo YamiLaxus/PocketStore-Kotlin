@@ -28,11 +28,21 @@
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/item_services.xml" value="0.12631578947368421" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/layout/searchview_borders.xml" value="0.2" />
         <entry key="..\:/Users/osbal/StudioProjects/PocketStore-Kotlin/app/src/main/res/menu/menu_main.xml" value="0.12631578947368421" />
+        <entry key="app/src/main/res/drawable-v24/border_redondo_buttons.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable-v24/border_redondo_menu_main.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable/backgroun_check_box.xml" value="0.118" />
         <entry key="app/src/main/res/drawable/background.xml" value="0.1555" />
+        <entry key="app/src/main/res/drawable/background_chat_client.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable/background_chat_support.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable/background_recycler_view.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/black_btn.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/border_redondo_circular.xml" value="0.1505" />
+        <entry key="app/src/main/res/drawable/border_redondo_search.xml" value="0.118" />
+        <entry key="app/src/main/res/drawable/borders_constrain_items.xml" value="0.102" />
         <entry key="app/src/main/res/drawable/btn_dark.xml" value="0.1555" />
+        <entry key="app/src/main/res/drawable/footer_bg.xml" value="0.107" />
         <entry key="app/src/main/res/drawable/grey_btn.xml" value="0.135" />
+        <entry key="app/src/main/res/drawable/header_background.xml" value="0.118" />
         <entry key="app/src/main/res/drawable/ic_add_circle.xml" value="0.12361111111111112" />
         <entry key="app/src/main/res/drawable/ic_add_circle_outline.xml" value="0.12361111111111112" />
         <entry key="app/src/main/res/drawable/ic_add_shopping_cart.xml" value="0.12361111111111112" />
@@ -40,26 +50,33 @@
         <entry key="app/src/main/res/drawable/ic_pin.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/ic_remove_circle.xml" value="0.12361111111111112" />
         <entry key="app/src/main/res/drawable/item_circular_name.xml" value="0.1505" />
+        <entry key="app/src/main/res/drawable/item_selected.xml" value="0.107" />
         <entry key="app/src/main/res/drawable/red_btn.xml" value="0.1555" />
         <entry key="app/src/main/res/layout-v26/activity_info.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout-v28/activity_art.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/layout/activity_acc.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_art.xml" value="0.14" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.12467105263157895" />
+        <entry key="app/src/main/res/layout/activity_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_info.xml" value="0.10019730474435042" />
         <entry key="app/src/main/res/layout/activity_kiki.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.10607757568359374" />
         <entry key="app/src/main/res/layout/activity_memu.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/activity_phone.xml" value="0.10219879150390626" />
-        <entry key="app/src/main/res/layout/activity_registro.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/activity_registro.xml" value="0.1953125" />
         <entry key="app/src/main/res/layout/activity_servicios.xml" value="0.14175724637681159" />
         <entry key="app/src/main/res/layout/activity_start_uno.xml" value="0.15" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.12291666666666666" />
         <entry key="app/src/main/res/layout/fragment_detail_home.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/layout/fragment_info.xml" value="0.1069078947368421" />
         <entry key="app/src/main/res/layout/fragment_track.xml" value="0.29867387854534644" />
+        <entry key="app/src/main/res/layout/item_main_view.xml" value="0.16666666666666666" />
         <entry key="app/src/main/res/layout/item_product.xml" value="0.17693791043931156" />
+        <entry key="app/src/main/res/layout/item_reciente_view.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/item_view_main.xml" value="0.12368421052631579" />
         <entry key="app/src/main/res/layout/login_view.xml" value="0.1069078947368421" />
+        <entry key="app/src/main/res/menu/menu_bottom.xml" value="0.12335526315789473" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.12335526315789473" />
       </map>
     </option>
   </component>

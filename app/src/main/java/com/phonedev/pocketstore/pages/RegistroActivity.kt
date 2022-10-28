@@ -2,16 +2,15 @@ package com.phonedev.pocketstore.pages
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.android.volley.Request.Method.POST
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.phonedev.pocketstore.databinding.ActivityRegistroBinding
 import com.phonedev.pocketstore.entities.Constants
-
 
 class RegistroActivity : AppCompatActivity() {
 
@@ -21,69 +20,83 @@ class RegistroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistroBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
 
-        setup()
+        click()
     }
 
-    private fun setup() {
+    private fun click() {
+        binding.btnCancelar.setOnClickListener {
+            onBackPressed()
+            finish()
+        }
         binding.btnLogin.setOnClickListener {
-            disableUi()
-            if (binding.etUser.text.isNotEmpty() && binding.etPassword.text.isNotEmpty() && binding.etName.text.isNotEmpty()) {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
-                    binding.etUser.text.toString().trim(),
-                    binding.etPassword.text.toString().trim()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = FirebaseAuth.getInstance().currentUser
-                        val profileUpdates =
-                            UserProfileChangeRequest.Builder()
-                                .setDisplayName(binding.etName.text.toString().trim()).build()
+            crearUsuario()
+        }
+    }
 
-                        user?.updateProfile(profileUpdates)
-
-                        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
-                        val database = Firebase.database
-
-                        val map: Map<String, String> = mapOf(
-                            Pair("name", binding.etName.text.toString().trim()),
-                            Pair("user", binding.etUser.text.toString().trim())
-                        )
-
-                        val userRef =
-                            database.getReference(Constants.PATH_USERS).child(userID).setValue(map)
-                                .addOnCompleteListener { userAdd ->
-                                    if (userAdd.isSuccessful) {
-                                        showHome()
-                                        finish()
-                                    } else {
-                                        showAlert()
-                                        enableUi()
-                                    }
-                                }
-                    } else {
-                        showAlert()
-                        enableUi()
+    private fun crearUsuario() {
+        desableUI()
+        val url = Constants.BASE_URL
+        val queue = Volley.newRequestQueue(this)
+        if (binding.etNombre.text.isNotEmpty() && binding.etApellido.text.isNotEmpty() && binding.etTelefono.text.isNotEmpty() && binding.etDireccion.text.isNotEmpty() && binding.etUsuario.text.isNotEmpty() && binding.etCorreo.text.isNotEmpty() && binding.etPassword.text.isNotEmpty() && binding.etPassword2.text.isNotEmpty()) {
+            if (binding.etPassword.text.toString().trim() == binding.etPassword2.text.toString()
+                    .trim()
+            ) {
+                val resultadoPost =
+                    object : StringRequest(
+                        POST,
+                        url + "crear_usuarios.php",
+                        { response ->
+                            Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                            showHome()
+                            saveSharedPreferences()
+                            finish()
+                        },
+                        { error ->
+                            Toast.makeText(this, "$error", Toast.LENGTH_SHORT).show()
+                            showAlert()
+                            enableUi()
+                        }) {
+                        override fun getParams(): MutableMap<String, String>? {
+                            val parametros = HashMap<String, String>()
+                            parametros["nombre"] = binding.etNombre.text.toString().trim()
+                            parametros["apellido"] = binding.etApellido.text.toString().trim()
+                            parametros["telefono"] = binding.etTelefono.text.toString().trim()
+                            parametros["direccion"] = binding.etDireccion.text.toString().trim()
+                            parametros["usuario"] = binding.etUsuario.text.toString().trim()
+                            parametros["email"] = binding.etCorreo.text.toString().trim()
+                            parametros["pass"] = binding.etPassword.text.toString().trim()
+                            parametros["imagen"] = ""
+                            parametros["tipo"] = "usuario"
+                            return parametros
+                        }
                     }
-                }
+                saveSharedPreferences()
+                queue.add(resultadoPost)
             } else {
-                showAlert()
+                Toast.makeText(this, "La contraseña no coincide", Toast.LENGTH_SHORT).show()
                 enableUi()
             }
+        } else {
+            showAlert()
+            enableUi()
         }
-        binding.btnCancel.setOnClickListener {
-            val i = Intent(this, LoginActivity::class.java)
-            startActivity(i)
-            this.finish()
-        }
+    }
+
+    private fun saveSharedPreferences() {
+        val pref = getSharedPreferences("usuario", MODE_PRIVATE)
+        val editor = pref.edit()
+        editor.putString("usuario", binding.etCorreo.text.toString().trim())
+        editor.putString("pass", binding.etPassword.text.toString().trim())
+        editor.apply()
     }
 
     private fun showAlert() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
-        builder.setMessage("Error al registrar usuario.")
+        builder.setMessage("Error al registrar usuario revisa todos los datos.")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
@@ -95,18 +108,82 @@ class RegistroActivity : AppCompatActivity() {
     }
 
     private fun enableUi() {
-        binding.btnCancel.isEnabled = true
+        binding.btnCancelar.isEnabled = true
         binding.btnLogin.isEnabled = true
-        binding.etName.isEnabled = true
-        binding.etUser.isEnabled = true
+        binding.etNombre.isEnabled = true
+        binding.etApellido.isEnabled = true
+        binding.etTelefono.isEnabled = true
+        binding.etDireccion.isEnabled = true
+        binding.etUsuario.isEnabled = true
+        binding.etCorreo.isEnabled = true
         binding.etPassword.isEnabled = true
+        binding.etPassword2.isEnabled = true
     }
 
-    private fun disableUi() {
-        binding.btnCancel.isEnabled = false
+    private fun desableUI() {
+        binding.btnCancelar.isEnabled = false
         binding.btnLogin.isEnabled = false
-        binding.etName.isEnabled = false
-        binding.etUser.isEnabled = false
+        binding.etNombre.isEnabled = false
+        binding.etApellido.isEnabled = false
+        binding.etTelefono.isEnabled = false
+        binding.etDireccion.isEnabled = false
+        binding.etUsuario.isEnabled = false
+        binding.etCorreo.isEnabled = false
         binding.etPassword.isEnabled = false
+        binding.etPassword2.isEnabled = false
     }
 }
+
+//Firebase
+
+//    private fun setup() {
+//        binding.btnLogin.setOnClickListener {
+//            disableUi()
+//            if (binding.etUser.text.isNotEmpty() && binding.etPassword.text.isNotEmpty() && binding.etName.text.isNotEmpty()) {
+//                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+//                    binding.etUser.text.toString().trim(),
+//                    binding.etPassword.text.toString().trim()
+//                ).addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//                        val user = FirebaseAuth.getInstance().currentUser
+//                        val profileUpdates =
+//                            UserProfileChangeRequest.Builder()
+//                                .setDisplayName(binding.etName.text.toString().trim()).build()
+//
+//                        user?.updateProfile(profileUpdates)
+//
+//                        val userID = FirebaseAuth.getInstance().currentUser?.uid.toString()
+//                        val database = Firebase.database
+//
+//                        val map: Map<String, String> = mapOf(
+//                            Pair("name", binding.etName.text.toString().trim()),
+//                            Pair("user", binding.etUser.text.toString().trim())
+//                        )
+//
+//                        val userRef =
+//                            database.getReference(Constants.PATH_USERS).child(userID).setValue(map)
+//                                .addOnCompleteListener { userAdd ->
+//                                    if (userAdd.isSuccessful) {
+//                                        showHome()
+//                                        finish()
+//                                    } else {
+//                                        showAlert()
+//                                        enableUi()
+//                                    }
+//                                }
+//                    } else {
+//                        showAlert()
+//                        enableUi()
+//                    }
+//                }
+//            } else {
+//                showAlert()
+//                enableUi()
+//            }
+//        }
+//        binding.btnCancel.setOnClickListener {
+//            val i = Intent(this, LoginActivity::class.java)
+//            startActivity(i)
+//            this.finish()
+//        }
+//    }

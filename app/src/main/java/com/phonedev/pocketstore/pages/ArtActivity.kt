@@ -13,9 +13,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import coil.api.load
 import coil.request.CachePolicy
-import coil.transform.BlurTransformation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.firebase.ui.auth.AuthUI
@@ -199,12 +197,12 @@ class ArtActivity : AppCompatActivity(), onProductListenner, MainAux,
             .into(binding.imgProduct)
 
         //blur effect
-        binding.imgBackground.load("https://firebasestorage.googleapis.com/v0/b/appopentarget.appspot.com/o/logos%2Fshigatsu%20logo.jpg?alt=media&token=a587bc6d-251c-4232-8c89-f09a22241b72") {
-            crossfade(true)
-            transformations(BlurTransformation(this@ArtActivity, 20f))
-            diskCachePolicy(CachePolicy.ENABLED)
-            build()
-        }
+//        binding.imgBackground.load("https://firebasestorage.googleapis.com/v0/b/appopentarget.appspot.com/o/logos%2Fshigatsu%20logo.jpg?alt=media&token=a587bc6d-251c-4232-8c89-f09a22241b72") {
+//            crossfade(true)
+//            transformations(BlurTransformation(this@ArtActivity, 20f))
+//            diskCachePolicy(CachePolicy.ENABLED)
+//            build()
+//        }
     }
 
     //Busqueda

@@ -1,82 +1,29 @@
 package com.phonedev.pocketstore.pages
 
-import android.os.Build
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
-import com.denzcoskun.imageslider.constants.ScaleTypes
-import com.denzcoskun.imageslider.models.SlideModel
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.phonedev.pocketstore.entities.Product
-import com.phonedev.pocketstore.R
-import com.phonedev.pocketstore.cart.CartFragment
+import com.phonedev.pocketstore.adapter.ProductsMainAdapter
+import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityAccBinding
-import com.phonedev.pocketstore.detail.DetailFragment
-import com.phonedev.pocketstore.entities.Constants
-import com.phonedev.pocketstore.onProductListenner
-import com.phonedev.pocketstore.product.MainAux
-import com.phonedev.pocketstore.product.ProductAdapter
+import com.phonedev.pocketstore.entities.Constants.BASE_URL
+import com.phonedev.pocketstore.models.ProductosModeloItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
-    SearchView.OnQueryTextListener {
+@Suppress("DEPRECATION")
+class AccActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAccBinding
 
-    //Authentication
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
-
-
-    private lateinit var firestoreListener: ListenerRegistration
-
-    lateinit var adapter: ProductAdapter
-
-    private val productCartList = mutableListOf<Product>()
-
-    private var productSelected: Product? = null
-
-    private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val response = IdpResponse.fromResultIntent(result.data)
-
-            if (result.resultCode == RESULT_OK) {
-                val user = FirebaseAuth.getInstance().currentUser
-                if (user != null) {
-                    Toast.makeText(this, "Hola Bienvenido", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                if (response == null) {
-                    Toast.makeText(this, "Hasta Pronto", Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    response.error?.let {
-                        if (it.errorCode == ErrorCodes.NO_NETWORK) {
-                            Toast.makeText(this, "Sin Coneccion", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Codigo de error: ${it.errorCode}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-            }
-        }
+    private var productList: List<ProductosModeloItem>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,232 +33,49 @@ class AccActivity : AppCompatActivity(), onProductListenner, MainAux,
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
 
-        binding.searchView.setOnQueryTextListener(this)
-
-        configAuth()
-        configBottoms()
-        configRecyclerView()
-        reloadData()
-        configStackImages()
+        getProductos()
     }
 
-    private fun configAuth() {
-        firebaseAuth = FirebaseAuth.getInstance()
-        authStateListener = FirebaseAuth.AuthStateListener { auth ->
-            if (auth.currentUser != null) {
-                supportActionBar?.title = auth.currentUser?.displayName
+    private fun getProductos() {
+        val bundle = intent.extras
+        val id = bundle?.getString("catId")
+
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(WebServices::class.java)
+
+
+        //Solution temporal a dynamicURL
+        val retrofitData =
+            retrofitBuilder.getPorCategoria(url = BASE_URL + "categorias.php?fk_categoria=$id")
+        retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+            override fun onResponse(
+                call: Call<List<ProductosModeloItem>?>,
+                response: Response<List<ProductosModeloItem>?>
+            ) {
+                val responseBody = response.body()!!
+                val adapter = ProductsMainAdapter(responseBody)
+
+                productList = responseBody
+
+                binding.recyclerView.layoutManager = GridLayoutManager(this@AccActivity, 2)
+                binding.recyclerView.adapter = adapter
                 binding.llProgress.visibility = View.GONE
                 binding.nsvProductos.visibility = View.VISIBLE
-            } else {
-                val providers = arrayListOf(
-                    AuthUI.IdpConfig.EmailBuilder().build(),
-                    AuthUI.IdpConfig.GoogleBuilder().build()
-                )
 
-                resultLauncher.launch(
-                    AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setIsSmartLockEnabled(false)
-                        .build()
-                )
-            }
-        }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        firebaseAuth.addAuthStateListener(authStateListener)
-        configFirestoreRealTime()
-    }
-
-    private fun configRecyclerView() {
-        adapter = ProductAdapter(mutableListOf(), this)
-        binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(
-                this@AccActivity, 1,
-                GridLayoutManager.VERTICAL, false
-            )
-            adapter = this@AccActivity.adapter
-        }
-    }
-
-    private fun configFirestoreRealTime() {
-        val db = FirebaseFirestore.getInstance()
-        val productRef = db.collection(Constants.COLL_PRODUCTS)
-
-        firestoreListener = productRef.addSnapshotListener { snapshot, error ->
-            if (error != null) {
-                Toast.makeText(this, "Error al consultar datos", Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
-
-            for (snapshot in snapshot!!.documentChanges) {
-                val product = snapshot.document.toObject(Product::class.java)
-                product.id = snapshot.document.id
-                when (snapshot.type) {
-                    DocumentChange.Type.ADDED -> adapter.add(product)
-                    DocumentChange.Type.MODIFIED -> adapter.update(product)
-                    DocumentChange.Type.REMOVED -> adapter.delete(product)
+                adapter.onClick = {
+                    val i = Intent(this@AccActivity, DetailActivity::class.java)
+                    i.putExtra("producto", it)
+                    startActivity(i)
                 }
             }
-        }
-    }
 
-    private fun configBottoms() {
-        binding.btnViewCart.setOnClickListener {
-            val fragment = CartFragment()
-            fragment.show(
-                supportFragmentManager.beginTransaction(),
-                CartFragment::class.java.simpleName
-            )
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_sign_out -> {
-                AuthUI.getInstance().signOut(this)
-                    .addOnSuccessListener {
-                        Toast.makeText(this, "Sesión Cerrada", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            binding.nsvProductos.visibility = View.GONE
-                            binding.llProgress.visibility = View.VISIBLE
-                        } else {
-                            Toast.makeText(this, "Sesión no Cerrada", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+            override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                Toast.makeText(this@AccActivity, t.message, Toast.LENGTH_SHORT).show()
             }
-//            R.id.action_order_history -> startActivity(Intent(this, OrderActivity::class.java))
-        }
-        return super.onOptionsItemSelected(item)
+        })
     }
-
-    override fun onClick(product: Product) {
-        val index = productCartList.indexOf(product)
-
-        productSelected = if (index != -1) {
-            productCartList[index]
-        } else {
-            product
-        }
-
-        val fragment = DetailFragment()
-        supportFragmentManager
-            .beginTransaction()
-            .add(R.id.containerMain, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    override fun getProductsCart(): MutableList<Product> = productCartList
-
-    override fun updateTotal() {
-        var total = 0.0
-        productCartList.forEach { product ->
-            total += product.totalPrice()
-        }
-
-        if (total == 0.0) {
-            binding.tvTotal.text = getString(R.string.product_empty_cart)
-        } else {
-            binding.tvTotal.text = getString(R.string.product_full_cart, total)
-        }
-    }
-
-    override fun clearCart() {
-        productCartList.clear()
-    }
-
-    override fun getProductSelected(): Product? = productSelected
-
-    override fun showButton(isVisible: Boolean) {
-//        binding.btnViewCart.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    override fun addProductToCart(product: Product) {
-        val index = productCartList.indexOf(product)
-
-        if (index != -1) {
-            productCartList.set(index, product)
-        } else {
-            productCartList.add(product)
-        }
-
-        updateTotal()
-    }
-
-    //Cart
-
-
-    //Busqueda
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null) {
-            adapter.filtrado(query)
-        } else {
-            configFirestoreRealTime()
-        }
-        return false
-    }
-
-    @androidx.annotation.RequiresApi(Build.VERSION_CODES.N)
-    override fun onQueryTextChange(newText: String?): Boolean {
-      return false
-    }
-
-
-    private fun reloadData() {
-        binding.let {
-            it.imbReload.setOnClickListener {
-                configRecyclerView()
-                configFirestoreRealTime()
-                Toast.makeText(this, "Recargando datos...", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun configStackImages() {
-        val imageList = ArrayList<SlideModel>()
-
-        imageList.add(
-            SlideModel(
-                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2F450_1000.jpeg?alt=media&token=bc8d1e4a-93ed-43c5-a4ab-1ab0add9960f",
-                ""
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fairpods-pro.jpg?alt=media&token=e208834b-d5c6-485e-8c2f-54d6c805c253",
-                ""
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://mlg4zu7evviy.i.optimole.com/vleswBY-yCr_s-cI/w:1200/h:600/q:auto/wm:1:0.8:ce/https://www.aliexcolombia.com/wp-content/uploads/2020/04/auriculares.jpg",
-                ""
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Finpods.webp?alt=media&token=c6e422cf-aa64-438d-8756-57ce4679bb77",
-                ""
-            )
-        )
-        imageList.add(
-            SlideModel(
-                "https://firebasestorage.googleapis.com/v0/b/fire-base-e4be5.appspot.com/o/banners%2Fcargador-iphone.webp?alt=media&token=de018345-de30-489c-9041-b052ffbfc32b",
-                ""
-            )
-        )
-        binding.imgSlider.setImageList(imageList, ScaleTypes.FIT)
-    }
-
 }

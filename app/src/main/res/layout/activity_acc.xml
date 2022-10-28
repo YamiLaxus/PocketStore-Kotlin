@@ -5,7 +5,7 @@
     android:id="@+id/containerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundmain"
+    android:background="@color/white"
     tools:context=".pages.AccActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,9 +45,9 @@
             app:iss_period="1500"
             app:iss_selected_dot="@drawable/default_selected_dot"
             app:iss_unselected_dot="@drawable/default_unselected_dot"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingClass" />
 
         <androidx.appcompat.widget.SearchView
@@ -76,57 +76,13 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cnButtom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginStart="@dimen/common_padding_default"
-        android:layout_marginEnd="@dimen/common_padding_default"
-        android:layout_marginBottom="@dimen/common_padding_default"
-        android:background="@drawable/border_redondo_buttons"
-        android:foregroundGravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        tools:ignore="NotSibling">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvTotal"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="@dimen/common_padding_default"
-            android:layout_marginEnd="8dp"
-            android:foregroundGravity="center"
-            android:gravity="center_vertical"
-            android:text="@string/product_empty_cart"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cnButtom" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnViewCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/common_padding_min"
-            android:background="@drawable/border_redondo_buttons"
-            android:gravity="center"
-            android:shadowColor="@color/white"
-            android:text="Ver Carrito"
-            app:layout_constraintBottom_toBottomOf="@id/cnButtom"
-            app:layout_constraintEnd_toEndOf="@id/cnButtom"
-            app:layout_constraintTop_toTopOf="@id/cnButtom" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvProductos"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/cnButtom"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contHeader"
@@ -135,8 +91,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_product" />
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_view_main" />
 
     </androidx.core.widget.NestedScrollView>
 
@@ -160,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Preparando todo..."
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
