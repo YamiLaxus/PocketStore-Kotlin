@@ -1,27 +1,21 @@
 package com.phonedev.pocketstore.pages
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.firebase.ui.auth.ErrorCodes
-import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ListenerRegistration
 import com.phonedev.pocketstore.databinding.ActivityLoginBinding
-import com.phonedev.pocketstore.entities.Constants
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,44 +25,36 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val pref = getSharedPreferences("usuario", Context.MODE_PRIVATE)
-        val user = pref.getString("usuario", "")
-        val pass = pref.getString("pass", "")
 
-        if (user!!.isNotEmpty() and pass!!.isNotEmpty()) {
-            goHome()
-            finish()
-        }
-        click()
-    }
-
-    private fun click() {
-        binding.tvNoAccount.setOnClickListener {
-            val i = Intent(this, RegistroActivity::class.java)
-            startActivity(i)
-        }
         binding.btnLogin.setOnClickListener {
             desableUI()
-            val user = binding.etUser.text.toString().trim()
-            val pass = binding.etPassword.text.toString().trim()
-            val url = Constants.BASE_URL + "login.php?email=$user&pass=$pass"
-            val queue = Volley.newRequestQueue(this)
-            if (user.isEmpty() || pass.isEmpty()) {
+            val email = binding.etUser.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                login(email, password)
+            } else {
                 showAlert()
                 enableUI()
-            } else {
-                val jsonObjectRequest =
-                    JsonObjectRequest(Request.Method.GET, url, null, { response ->
-                        goHome()
-                        saveSharedPreferences()
-                        finish()
-                    }, { error ->
-                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
-                        enableUI()
-                    }
-                    )
-                queue.add(jsonObjectRequest)
             }
         }
+    }
+
+    private fun login(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    goHome()
+                    finish()
+                    enableUI()
+                    Log.d(TAG, "LOG OK")
+                    val user = auth.currentUser
+                } else {
+                    Log.w(TAG, "Log Faild", task.exception)
+                    showAlert()
+                    enableUI()
+                    Toast.makeText(this, "Error $task", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun saveSharedPreferences() {
@@ -106,4 +92,49 @@ class LoginActivity : AppCompatActivity() {
         binding.etUser.isEnabled = true
         binding.etPassword.isEnabled = true
     }
+
+
+    //    private fun click() {
+//        binding.tvNoAccount.setOnClickListener {
+//            val i = Intent(this, RegistroActivity::class.java)
+//            startActivity(i)
+//        }
+//        binding.btnLogin.setOnClickListener {
+//            desableUI()
+//            val user = binding.etUser.text.toString().trim()
+//            val pass = binding.etPassword.text.toString().trim()
+//            val url = Constants.BASE_URL + "login.php?email=$user&pass=$pass"
+//            val queue = Volley.newRequestQueue(this)
+//            if (user.isEmpty() || pass.isEmpty()) {
+//                showAlert()
+//                enableUI()
+//            } else {
+//                val jsonObjectRequest =
+//                    JsonObjectRequest(Request.Method.GET, url, null, { response ->
+//
+//                        try {
+//                            val jsonArray = response.getJSONArray("data")
+//                            for (i in 0 until jsonArray.length()) {
+//                                val jsonObject = jsonArray.getJSONObject(i)
+//                                nombre = jsonObject.getString("nombre")
+//                                correo = jsonObject.getString("correo")
+//                                Toast.makeText(this, this.nombre.toString(), Toast.LENGTH_SHORT)
+//                                    .show()
+//                            }
+//                        } catch (e: JSONException) {
+//                            e.printStackTrace()
+//                        }
+//
+//                        goHome()
+//                        saveSharedPreferences()
+//                        finish()
+//                    }, { error ->
+//                        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
+//                        enableUI()
+//                    }
+//                    )
+//                queue.add(jsonObjectRequest)
+//            }
+//        }
+//    }
 }

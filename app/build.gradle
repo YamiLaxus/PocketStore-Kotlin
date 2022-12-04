@@ -37,17 +37,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.phonedev.pocketstore'
 }
 
 dependencies {
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.10'
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'com.google.android.material:material:1.8.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'com.google.android.material:material:1.8.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'androidx.annotation:annotation:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.annotation:annotation:1.5.0'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -65,13 +66,16 @@ dependencies {
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.1'
     // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:30.4.0')
+    implementation platform('com.google.firebase:firebase-bom:31.0.2')
     // Declare the dependency for the Cloud Firestore library
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.3.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.0'
     // Declare the dependency for the Realtime Database library
-    implementation 'com.google.firebase:firebase-database-ktx:20.0.6'
+    implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
-    implementation 'com.google.firebase:firebase-messaging:23.0.8'
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
+
+
 
     //Preference
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -94,8 +98,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.25'
 
     //MaterialDesign
-    implementation 'com.google.android.material:material:1.8.0-alpha01'
-    implementation 'androidx.appcompat:appcompat:1.6.0-beta01'
+    implementation 'com.google.android.material:material:1.8.0-alpha02'
+    implementation 'androidx.appcompat:appcompat:1.7.0-alpha01'
 
     //NavigationDrawer
     implementation 'com.yarolegovich:sliding-root-nav:1.1.1'

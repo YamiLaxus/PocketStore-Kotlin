@@ -43,10 +43,11 @@ class HomeActivity : AppCompatActivity() {
         showProductsMain()
         clicChips()
         navigationDrawer()
+        getProfile()
     }
 
     private fun navigationDrawer() {
-        binding.imgCategorias.setOnClickListener{
+        binding.imgCategorias.setOnClickListener {
             val i = Intent(this, CategoriasActivity::class.java)
             startActivity(i)
         }
@@ -202,6 +203,13 @@ class HomeActivity : AppCompatActivity() {
                     Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+    }
+
+    private fun getProfile() {
+        binding.imgPerfil.setOnClickListener {
+            val i = Intent(this, ProfileActivity::class.java)
+            startActivity(i)
         }
     }
 

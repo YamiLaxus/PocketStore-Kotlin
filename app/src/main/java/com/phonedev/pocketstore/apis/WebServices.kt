@@ -12,11 +12,11 @@ interface WebServices {
     fun getAllProducts(): Call<List<ProductosModeloItem>>
 
     //Usar @Query para hacer dinamico el URL
-    @GET("categorias.php")
+    @GET("categorias_list.php")
     fun getCategoriaSelected(@Query("?fk_categoria=") id_cat: String): Call<List<ProductosModeloItem>>
 
     @GET
-    fun getPorCategoria(@Url url:String) : Call<List<ProductosModeloItem>>
+    fun getPorCategoria(@Url url: String): Call<List<ProductosModeloItem>>
 
     @GET("categorias.php?fk_categoria=1")
     fun getAccesoriesPhone(): Call<List<ProductosModeloItem>>
@@ -28,8 +28,8 @@ interface WebServices {
     fun getSearch(): Call<List<ProductosModeloItem>>
 
     @GET
-    fun getBySearch(@Url url:String) : Call<List<ProductosModeloItem>>
+    fun getBySearch(@Url url: String): Call<List<ProductosModeloItem>>
 
-    @GET("buscar.php?nombre=")
+    @GET("categorias_list.php")
     fun getCategoriesLIst(): Call<List<CategoriasModelo>>
 }
