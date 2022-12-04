@@ -1,5 +1,6 @@
 package com.phonedev.pocketstore.pages
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
 import com.phonedev.pocketstore.entities.Constants.BASE_URL
 import com.phonedev.pocketstore.models.ProductosModeloItem
+import com.phonedev.pocketstore.models.Usuario
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,9 +37,15 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
+        val pref = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val usuario = pref.getString("nombre", "")
+        val imageUser = pref.getString("imagen", "")
+
         Glide.with(this)
-            .load("https://scontent.fgua9-1.fna.fbcdn.net/v/t1.6435-1/123603957_3077712562333712_5492674290147117406_n.jpg?stp=dst-jpg_p160x160&_nc_cat=101&ccb=1-7&_nc_sid=7206a8&_nc_ohc=UXsJjlEsc_kAX_g6Ev8&_nc_ht=scontent.fgua9-1.fna&oh=00_AT-0gUAqXjTJTun4qUyXeAo8kBloIQnLNxhhMgM0kZPJcw&oe=632EE1EE")
+            .load(imageUser.toString())
             .centerCrop().circleCrop().into(binding.imgPerfil)
+
+        binding.tvUsuario.text = usuario
 
         binding.progressBar.visibility = View.VISIBLE
         showProductsMain()

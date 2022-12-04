@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.bumptech.glide.Glide
 import com.phonedev.pocketstore.databinding.ActivityProfileBinding
 import com.phonedev.pocketstore.entities.Constants
 import org.json.JSONArray
@@ -21,28 +22,27 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        supportActionBar?.hide()
 
-        getProfile()
+        val pref = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val nombre = pref.getString("nombre", "")
+        val apellido = pref.getString("apellido", "")
+        val telefono = pref.getString("telefono", "")
+        val direccion = pref.getString("direccion", "")
+        val usuario = pref.getString("usuario", "")
+        val email = pref.getString("email", "")
+        val imageUser = pref.getString("imagen", "")
+        val tipo = pref.getString("tipo", "")
 
-    }
+        binding.tvName.text = nombre
+        binding.tvFullName.text = apellido
+        binding.userEmail.text = email
+        binding.userPhone.text = telefono
+        binding.userAddress.text = direccion
+        binding.tvUsuario.text = tipo
 
-    private fun getProfile() {
-        val pref = getSharedPreferences("usuario", Context.MODE_PRIVATE)
-        val user = pref.getString("usuario", "")
-        val pass = pref.getString("pass", "")
-        val url = Constants.BASE_URL + "login.php?email=$user&pass=$pass"
-        val queue = Volley.newRequestQueue(this)
-
-        binding.tvName.text = user
-
-
-        val jsonObjectRequest =
-            JsonObjectRequest(Request.Method.GET, url, null, { response ->
-
-            }, { error ->
-                Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show()
-            }
-            )
-        queue.add(jsonObjectRequest)
+        Glide.with(this)
+            .load(imageUser.toString())
+            .centerCrop().circleCrop().into(binding.imgProfile)
     }
 }
