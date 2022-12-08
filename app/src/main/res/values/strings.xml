@@ -53,6 +53,7 @@
     <string name="title_activity_login_new">LoginActivityNew</string>
     <string name="edit">Editar</string>
     <string name="back">Atras</string>
+    <string name="logout">Salir</string>
 
 
 </resources>

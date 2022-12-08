@@ -45,8 +45,6 @@ class HomeActivity : AppCompatActivity() {
             .load(imageUser.toString())
             .centerCrop().circleCrop().into(binding.imgPerfil)
 
-        binding.tvUsuario.text = usuario
-
         binding.progressBar.visibility = View.VISIBLE
         showProductsMain()
         clicChips()
@@ -61,6 +59,10 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.imgBuscar.setOnClickListener {
             val i = Intent(this, SearchActivity::class.java)
+            startActivity(i)
+        }
+        binding.imgConfiguracion.setOnClickListener {
+            val i = Intent(this, ProfileActivity::class.java)
             startActivity(i)
         }
     }

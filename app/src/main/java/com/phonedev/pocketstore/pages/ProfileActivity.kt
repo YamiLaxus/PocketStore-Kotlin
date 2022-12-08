@@ -1,6 +1,7 @@
 package com.phonedev.pocketstore.pages
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -44,5 +45,18 @@ class ProfileActivity : AppCompatActivity() {
         Glide.with(this)
             .load(imageUser.toString())
             .centerCrop().circleCrop().into(binding.imgProfile)
+
+
+        //Function not working
+        binding.btnEdit.isEnabled = false
+
+        click()
+    }
+
+    private fun click() {
+        binding.btnBack.setOnClickListener {
+            onBackPressed()
+            this.finish()
+        }
     }
 }

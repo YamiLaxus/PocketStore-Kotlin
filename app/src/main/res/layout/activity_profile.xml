@@ -244,6 +244,19 @@
             android:text="@string/back"
             android:textSize="15sp" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/rojo"
+            android:text="@string/logout"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold|italic" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

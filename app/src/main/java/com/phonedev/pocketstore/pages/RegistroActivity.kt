@@ -1,6 +1,5 @@
 package com.phonedev.pocketstore.pages
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import com.phonedev.pocketstore.databinding.ActivityRegistroBinding
 import com.phonedev.pocketstore.entities.Constants
 
+@Suppress("DEPRECATION")
 class RegistroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegistroBinding
@@ -50,7 +50,7 @@ class RegistroActivity : AppCompatActivity() {
                         url + "crear_usuarios.php",
                         { response ->
                             Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
-                            showHome()
+                            goBack()
                             saveSharedPreferences()
                             finish()
                         },
@@ -102,9 +102,10 @@ class RegistroActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showHome() {
-        val homeIntent = Intent(this, HomeActivity::class.java)
-        startActivity(homeIntent)
+    private fun goBack() {
+        onBackPressed()
+        this.finish()
+        Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show()
     }
 
     private fun enableUi() {
