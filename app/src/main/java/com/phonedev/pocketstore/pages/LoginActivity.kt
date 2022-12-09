@@ -25,13 +25,23 @@ class LoginActivity : AppCompatActivity() {
     //Define Object type User Class
     val usuario = Usuario()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         supportActionBar?.hide()
+
+        val pref = getSharedPreferences("USER_DATA", MODE_PRIVATE)
+        val user = pref.getString("email", "")
+        val pass = pref.getString("pass", "")
+
+        if (user!!.isNotEmpty() and pass!!.isNotEmpty()) {
+            goHome()
+            this.finish()
+        } else {
+            binding.etUser.requestFocus()
+        }
 
         click()
     }
@@ -104,6 +114,7 @@ class LoginActivity : AppCompatActivity() {
                                 editor.putString("telefono", usuario.telefono)
                                 editor.putString("direccion", usuario.direccion)
                                 editor.putString("email", usuario.email)
+                                editor.putString("pass", usuario.pass)
                                 editor.putString("imagen", usuario.imagen)
                                 editor.putString("tipo", usuario.tipo)
                                 editor.apply()

@@ -2,18 +2,13 @@ package com.phonedev.pocketstore.pages
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.phonedev.pocketstore.databinding.ActivityProfileBinding
-import com.phonedev.pocketstore.entities.Constants
-import org.json.JSONArray
 
+@Suppress("DEPRECATION")
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
@@ -57,6 +52,13 @@ class ProfileActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
             this.finish()
+        }
+        binding.btnLogOut.setOnClickListener {
+            val pref = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+                .edit().clear().commit()
+            val i = Intent(this, LoginActivity::class.java)
+            startActivity(i)
+            finish()
         }
     }
 }
