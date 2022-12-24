@@ -13,6 +13,8 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
 
+    private lateinit var homeActivity: HomeActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -59,6 +61,7 @@ class ProfileActivity : AppCompatActivity() {
             val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
             finish()
+            homeActivity.finish()
         }
     }
 }
