@@ -104,4 +104,7 @@ dependencies {
     //NavigationDrawer
     implementation 'com.yarolegovich:sliding-root-nav:1.1.1'
     implementation 'com.github.shrikanth7698:Custom-Navigation-Drawer:v0.0.1'
+
+    //Zoom Image
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
 }

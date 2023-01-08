@@ -3,10 +3,15 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.GridLayoutManager
 import com.phonedev.pocketstore.adapter.ProductosAdapter
+import com.phonedev.pocketstore.adapter.ProductsMainAdapter
 import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivitySearchBinding
 import com.phonedev.pocketstore.entities.Constants.BASE_URL
@@ -24,12 +29,13 @@ class SearchActivity : AppCompatActivity() {
 
     private var productList: List<ProductosModeloItem>? = null
 
+    private var progressBar: ProgressBar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        binding.progressBar.visibility = View.GONE
+        supportActionBar?.hide()
 
         binding.btnCancelar.setOnClickListener {
             onBackPressed()
@@ -41,34 +47,39 @@ class SearchActivity : AppCompatActivity() {
     private fun search() {
         binding.btnBuscar.setOnClickListener {
 
-            val item = binding.etBuscar
 
-            binding.progressBar.visibility = View.VISIBLE
+            val item = binding.etBuscar.text.toString().trim()
+
+            progressBar?.visibility = View.VISIBLE
+            binding.tvNoResult.visibility = View.GONE
+
             val retrofitBuilder = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
                 .build()
                 .create(WebServices::class.java)
 
-            val retrofitData = retrofitBuilder.getBySearch(item.text.toString())
+            val retrofitData =
+                retrofitBuilder.getBySearch(url = BASE_URL + "buscar.php?nombre=$item")
+
             retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
                 override fun onResponse(
                     call: Call<List<ProductosModeloItem>?>,
                     response: Response<List<ProductosModeloItem>?>
                 ) {
                     val responseBody = response.body()!!
-                    val adapter = ProductosAdapter(responseBody)
-
+                    val adapter = ProductsMainAdapter(responseBody)
                     productList = responseBody
-                    binding.recyclerViewSearch.layoutManager =
+                    binding.recyclerViewMain.layoutManager =
                         GridLayoutManager(this@SearchActivity, 2)
-                    binding.recyclerViewSearch.adapter = adapter
-                    binding.progressBar.visibility = View.GONE
-                    if (binding.tvNoResult.visibility == View.VISIBLE) {
+                    binding.recyclerViewMain.adapter = adapter
+                    progressBar?.visibility = View.GONE
+                    if (productList!!.isEmpty()) {
+                        binding.tvNoResult.visibility = View.VISIBLE
+                    } else {
                         binding.tvNoResult.visibility = View.GONE
                     }
-
-                    adapter.onItemClick = {
+                    adapter.onClick = {
                         val i = Intent(this@SearchActivity, DetailActivity::class.java)
                         i.putExtra("producto", i)
                         startActivity(i)
@@ -76,7 +87,10 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                    productList = null
+                    progressBar?.visibility = View.GONE
                     binding.tvNoResult.visibility = View.VISIBLE
+                    Log.d("Error Search", t.toString())
                 }
             })
         }

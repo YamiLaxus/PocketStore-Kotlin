@@ -15,6 +15,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var homeActivity: HomeActivity
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -23,6 +24,7 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val pref = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+
         val nombre = pref.getString("nombre", "")
         val apellido = pref.getString("apellido", "")
         val telefono = pref.getString("telefono", "")
@@ -43,6 +45,11 @@ class ProfileActivity : AppCompatActivity() {
             .load(imageUser.toString())
             .centerCrop().circleCrop().into(binding.imgProfile)
 
+        binding.imgProfile.setOnClickListener {
+            val i = Intent(this, ImageActivity::class.java)
+            i.putExtra("producto", imageUser)
+            startActivity(i)
+        }
 
         //Function not working
         binding.btnEdit.isEnabled = false

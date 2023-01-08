@@ -3,10 +3,12 @@ package com.phonedev.pocketstore.pages
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.GridLayoutManager
+import com.phonedev.pocketstore.adapter.ProductosAdapter
 import com.phonedev.pocketstore.adapter.ProductsMainAdapter
 import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityAccBinding
@@ -34,7 +36,59 @@ class AccActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         getProductos()
+        searchProducts()
     }
+
+    private fun searchProducts() {
+        binding.imbReload.setOnClickListener {
+
+            val item = binding.searchView.query.toString().trim()
+
+            binding.nsvProductos.visibility = View.VISIBLE
+//            binding.tvNoResult.visibility = View.GONE
+
+            val retrofitBuilder = Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(BASE_URL)
+                .build()
+                .create(WebServices::class.java)
+
+            val retrofitData =
+                retrofitBuilder.getBySearch(url = BASE_URL + "buscar.php?nombre=$item")
+
+            retrofitData.enqueue(object : Callback<List<ProductosModeloItem>?> {
+                override fun onResponse(
+                    call: Call<List<ProductosModeloItem>?>,
+                    response: Response<List<ProductosModeloItem>?>
+                ) {
+                    val responseBody = response.body()!!
+                    val adapter = ProductsMainAdapter(responseBody)
+                    productList = responseBody
+                    binding.recyclerView.layoutManager = GridLayoutManager(this@AccActivity, 2)
+                    binding.recyclerView.adapter = adapter
+                    binding.llProgress.visibility = View.GONE
+                    if (productList!!.isEmpty()) {
+//                        binding.tvNoResult.visibility = View.VISIBLE
+                    } else {
+                        //binding.tvNoResult.visibility = View.GONE
+                    }
+                    adapter.onClick = {
+                        val i = Intent(this@AccActivity, DetailActivity::class.java)
+                        i.putExtra("producto", i)
+                        startActivity(i)
+                    }
+                }
+
+                override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
+                    productList = null
+                    binding.llProgress.visibility = View.GONE
+//                    binding.tvNoResult.visibility = View.VISIBLE
+                    Log.d("Error Search", t.toString())
+                }
+            })
+        }
+    }
+
 
     private fun getProductos() {
         val bundle = intent.extras

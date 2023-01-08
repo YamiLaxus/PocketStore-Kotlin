@@ -18,18 +18,19 @@ interface WebServices {
     @GET
     fun getPorCategoria(@Url url: String): Call<List<ProductosModeloItem>>
 
+    @GET
+    fun getBySearch(@Url url: String): Call<List<ProductosModeloItem>>
+
+    @GET("categorias_list.php")
+    fun getCategoriesLIst(): Call<List<CategoriasModelo>>
+
     @GET("categorias.php?fk_categoria=1")
     fun getAccesoriesPhone(): Call<List<ProductosModeloItem>>
 
     @GET("categorias.php?fk_categoria=2")
     fun getPhone(): Call<List<ProductosModeloItem>>
 
-    @GET("busqueda.php?nombre=")
-    fun getSearch(): Call<List<ProductosModeloItem>>
+    @GET("busar.php?nombre=")
+    fun getSearch(item: String): Call<List<ProductosModeloItem>>
 
-    @GET
-    fun getBySearch(@Url url: String): Call<List<ProductosModeloItem>>
-
-    @GET("categorias_list.php")
-    fun getCategoriesLIst(): Call<List<CategoriasModelo>>
 }
