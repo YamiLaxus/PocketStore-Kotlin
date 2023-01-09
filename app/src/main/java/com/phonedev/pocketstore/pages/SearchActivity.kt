@@ -37,6 +37,8 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        binding.progressBar.visibility = View.GONE
+
         binding.btnCancelar.setOnClickListener {
             onBackPressed()
         }
@@ -50,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
 
             val item = binding.etBuscar.text.toString().trim()
 
-            progressBar?.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
             binding.tvNoResult.visibility = View.GONE
 
             val retrofitBuilder = Retrofit.Builder()
@@ -73,11 +75,12 @@ class SearchActivity : AppCompatActivity() {
                     binding.recyclerViewMain.layoutManager =
                         GridLayoutManager(this@SearchActivity, 2)
                     binding.recyclerViewMain.adapter = adapter
-                    progressBar?.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                     if (productList!!.isEmpty()) {
                         binding.tvNoResult.visibility = View.VISIBLE
                     } else {
                         binding.tvNoResult.visibility = View.GONE
+                        binding.progressBar.visibility = View.GONE
                     }
                     adapter.onClick = {
                         val i = Intent(this@SearchActivity, DetailActivity::class.java)
@@ -88,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
                     productList = null
-                    progressBar?.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
                     binding.tvNoResult.visibility = View.VISIBLE
                     Log.d("Error Search", t.toString())
                 }
