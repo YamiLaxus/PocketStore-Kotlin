@@ -222,5 +222,4 @@ class HomeActivity : AppCompatActivity() {
             startActivity(i)
         }
     }
-
 }

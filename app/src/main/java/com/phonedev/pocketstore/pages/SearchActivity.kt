@@ -5,12 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.isEmpty
 import androidx.recyclerview.widget.GridLayoutManager
-import com.phonedev.pocketstore.adapter.ProductosAdapter
 import com.phonedev.pocketstore.adapter.ProductsMainAdapter
 import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivitySearchBinding
@@ -28,8 +23,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
 
     private var productList: List<ProductosModeloItem>? = null
-
-    private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,17 +68,19 @@ class SearchActivity : AppCompatActivity() {
                     binding.recyclerViewMain.layoutManager =
                         GridLayoutManager(this@SearchActivity, 2)
                     binding.recyclerViewMain.adapter = adapter
+                    adapter.onClick = { producto ->
+                        val i = Intent(this@SearchActivity, DetailActivity::class.java)
+                        i.putExtra("producto", producto)
+                        startActivity(i)
+                    }
+
+
                     binding.progressBar.visibility = View.GONE
                     if (productList!!.isEmpty()) {
                         binding.tvNoResult.visibility = View.VISIBLE
                     } else {
                         binding.tvNoResult.visibility = View.GONE
                         binding.progressBar.visibility = View.GONE
-                    }
-                    adapter.onClick = {
-                        val i = Intent(this@SearchActivity, DetailActivity::class.java)
-                        i.putExtra("producto", i)
-                        startActivity(i)
                     }
                 }
 

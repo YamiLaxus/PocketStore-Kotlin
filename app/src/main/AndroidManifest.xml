@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketStore">
         <activity
+            android:name=".CarritoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".pages.ImageActivity"
             android:exported="false">
             <meta-data
