@@ -59,18 +59,18 @@ class RegistroActivity : AppCompatActivity() {
                             showAlert()
                             enableUi()
                         }) {
-                        override fun getParams(): MutableMap<String, String>? {
-                            val parametros = HashMap<String, String>()
-                            parametros["nombre"] = binding.etNombre.text.toString().trim()
-                            parametros["apellido"] = binding.etApellido.text.toString().trim()
-                            parametros["telefono"] = binding.etTelefono.text.toString().trim()
-                            parametros["direccion"] = binding.etDireccion.text.toString().trim()
-                            parametros["usuario"] = binding.etUsuario.text.toString().trim()
-                            parametros["email"] = binding.etCorreo.text.toString().trim()
-                            parametros["pass"] = binding.etPassword.text.toString().trim()
-                            parametros["imagen"] = ""
-                            parametros["tipo"] = "usuario"
-                            return parametros
+                        override fun getParams(): MutableMap<String, String> {
+                            val parameters = HashMap<String, String>()
+                            parameters["nombre"] = binding.etNombre.text.toString().trim()
+                            parameters["apellido"] = binding.etApellido.text.toString().trim()
+                            parameters["telefono"] = binding.etTelefono.text.toString().trim()
+                            parameters["direccion"] = binding.etDireccion.text.toString().trim()
+                            parameters["usuario"] = binding.etUsuario.text.toString().trim()
+                            parameters["email"] = binding.etCorreo.text.toString().trim()
+                            parameters["pass"] = binding.etPassword.text.toString().trim()
+                            parameters["imagen"] = ""
+                            parameters["tipo"] = "usuario"
+                            return parameters
                         }
                     }
                 saveSharedPreferences()

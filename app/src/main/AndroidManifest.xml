@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"
@@ -10,9 +13,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PocketStore">
+        android:enableOnBackInvokedCallback="true"
+        android:theme="@style/Theme.PocketStore"
+        tools:targetApi="tiramisu">
         <activity
-            android:name=".CarritoActivity"
+            android:name=".pages.FavoritosActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+        <activity
+            android:name=".pages.CarritoActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

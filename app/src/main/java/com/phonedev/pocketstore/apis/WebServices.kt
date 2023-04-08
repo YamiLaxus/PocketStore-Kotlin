@@ -21,6 +21,9 @@ interface WebServices {
     @GET
     fun getBySearch(@Url url: String): Call<List<ProductosModeloItem>>
 
+    @GET
+    fun getByFavorites(@Url url: String): Call<List<ProductosModeloItem>>
+
     @GET("categorias_list.php")
     fun getCategoriesLIst(): Call<List<CategoriasModelo>>
 

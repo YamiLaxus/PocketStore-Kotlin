@@ -14,6 +14,7 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.adapter.ProductosAdapter
 import com.phonedev.pocketstore.adapter.ProductsMainAdapter
 import com.phonedev.pocketstore.apis.WebServices
+import com.phonedev.pocketstore.cart.CartFragment
 import com.phonedev.pocketstore.databinding.ActivityHomeBinding
 import com.phonedev.pocketstore.entities.Constants.BASE_URL
 import com.phonedev.pocketstore.models.ProductosModeloItem
@@ -63,6 +64,14 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.imgConfiguracion.setOnClickListener {
             val i = Intent(this, ProfileActivity::class.java)
+            startActivity(i)
+        }
+        binding.imgCarrito.setOnClickListener {
+            val i = Intent(this, CarritoActivity::class.java)
+            startActivity(i)
+        }
+        binding.imgFavoritos.setOnClickListener {
+            val i = Intent(this, FavoritosActivity::class.java)
             startActivity(i)
         }
     }

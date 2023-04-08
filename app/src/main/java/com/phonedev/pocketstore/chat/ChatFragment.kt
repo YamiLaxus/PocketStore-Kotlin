@@ -165,6 +165,7 @@ class ChatFragment : Fragment(), OnChatListener {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home){
             activity?.onBackPressed()

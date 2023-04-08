@@ -11,8 +11,8 @@ import com.phonedev.pocketstore.R
 import com.phonedev.pocketstore.databinding.ItemRecienteViewBinding
 import com.phonedev.pocketstore.models.ProductosModeloItem
 
-class ProductosAdapter(private val productosList: List<ProductosModeloItem>) :
-    RecyclerView.Adapter<ProductosAdapter.ViewHolder>() {
+class FavoritosAdapter(private val productosList: List<ProductosModeloItem>) :
+    RecyclerView.Adapter<FavoritosAdapter.ViewHolder>() {
 
     var onItemClick: ((ProductosModeloItem) -> Unit)? = null
 
@@ -40,8 +40,7 @@ class ProductosAdapter(private val productosList: List<ProductosModeloItem>) :
             Glide.with(img)
                 .load(producto.imagen)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop().
-                into(img)
+                .centerCrop().into(img)
         }
     }
 }

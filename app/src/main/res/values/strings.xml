@@ -54,6 +54,11 @@
     <string name="edit">Editar</string>
     <string name="back">Atras</string>
     <string name="logout">Salir</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="no_favorites">Aun no tienes favoritos</string>
+    <string name="quantity">Cantidad:</string>
+    <string name="base_quantity">1</string>
+    <string name="cart">Carrito</string>
 
 
 </resources>

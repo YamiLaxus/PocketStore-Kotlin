@@ -1,7 +1,7 @@
 package com.phonedev.pocketstore.models
 
 class Usuario {
-    var id: Int = 0
+    var id_usuario: Int = 0
         get() = field                     // getter
         set(value) {
             field = value

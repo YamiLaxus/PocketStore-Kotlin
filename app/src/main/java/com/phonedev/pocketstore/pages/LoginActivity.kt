@@ -51,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()
@@ -117,6 +118,7 @@ class LoginActivity : AppCompatActivity() {
                             val jsonArray = response.getJSONArray("datos")
                             for (i in 0 until jsonArray.length()) {
                                 val jsonObject = jsonArray.getJSONObject(i)
+                                usuario.id_usuario = (jsonObject.optInt("id_usuario"))
                                 usuario.nombre = (jsonObject.optString("nombre"))
                                 usuario.apellido = (jsonObject.optString("apellido"))
                                 usuario.telefono = (jsonObject.optString("telefono"))
@@ -128,6 +130,7 @@ class LoginActivity : AppCompatActivity() {
                                 usuario.tipo = (jsonObject.optString("tipo"))
 
                                 //Save into SharedPreferences
+                                editor.putInt("id_usuario", usuario.id_usuario)
                                 editor.putString("nombre", usuario.nombre)
                                 editor.putString("apellido", usuario.apellido)
                                 editor.putString("telefono", usuario.telefono)

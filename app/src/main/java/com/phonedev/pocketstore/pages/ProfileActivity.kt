@@ -64,11 +64,10 @@ class ProfileActivity : AppCompatActivity() {
         }
         binding.btnLogOut.setOnClickListener {
             val pref = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
-                .edit().clear().commit()
+            pref.edit().clear().apply()
             val i = Intent(this, LoginActivity::class.java)
             startActivity(i)
             finish()
-            homeActivity.finish()
         }
     }
 }
