@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.phonedev.pocketstore.adapter.ProductsMainAdapter
@@ -35,6 +36,10 @@ class FavoritosActivity : AppCompatActivity() {
         val user = pref.getInt("id_usuario", 0)
 
         getFav(user)
+    }
+
+    override fun onKeyLongPress(keyCode: Int, event: KeyEvent?): Boolean {
+        return super.onKeyLongPress(keyCode, event)
     }
 
     private fun getFav(user: Int?) {

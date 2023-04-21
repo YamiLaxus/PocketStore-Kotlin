@@ -59,6 +59,10 @@
     <string name="quantity">Cantidad:</string>
     <string name="base_quantity">1</string>
     <string name="cart">Carrito</string>
+    <string name="comments">Comentarios</string>
+    <string name="type_your_comment">Escribe tu comentario...</string>
+    <string name="send_comment">Enviar</string>
+    <string name="comments_empty">No hay comentarios.</string>
 
 
 </resources>

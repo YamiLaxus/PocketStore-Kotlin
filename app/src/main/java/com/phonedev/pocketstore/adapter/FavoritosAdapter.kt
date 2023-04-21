@@ -31,7 +31,6 @@ class FavoritosAdapter(private val productosList: List<ProductosModeloItem>) :
     }
 
     override fun getItemCount(): Int = productosList.size
-
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun render(producto: ProductosModeloItem) {
             val binding = ItemRecienteViewBinding.bind(itemView)
