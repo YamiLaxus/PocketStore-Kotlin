@@ -1,20 +1,31 @@
 package com.phonedev.pocketstore.pages
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.recyclerview.widget.GridLayoutManager
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.android.volley.Request.Method.POST
 import com.bumptech.glide.Glide
+import com.phonedev.pocketstore.adapter.ComentariosAdapter
+import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityDetailBinding
-import com.phonedev.pocketstore.entities.Constants
+import com.phonedev.pocketstore.entities.Constants.BASE_URL
+import com.phonedev.pocketstore.models.ComentariosModel
 import com.phonedev.pocketstore.models.ProductosModeloItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
@@ -38,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
         this.product = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra("producto")
         } else {
-            intent.getParcelableExtra<ProductosModeloItem>("producto")
+            intent.getParcelableExtra("producto")
         }
         if (product != null) {
             binding.tvName.text = product!!.nombre
@@ -55,6 +66,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         click()
+        getComments()
     }
 
     private fun click() {
@@ -75,7 +87,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun addFav() {
-        val url = Constants.BASE_URL
+        val url = BASE_URL
         val queue = Volley.newRequestQueue(this)
 
         val resultPost = object : StringRequest(POST, url + "insert_fav.php", { response ->
@@ -91,6 +103,39 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         queue.add(resultPost)
+    }
+
+    private fun insertComment() {
+        //TODO comments insert's
+    }
+
+    private fun getComments() {
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+            .create(WebServices::class.java)
+
+        val retrofitData =
+            retrofitBuilder.getComments(url = BASE_URL + "get_comments.php?id_producto=${product?.id_producto.toString()}")
+
+        retrofitData.enqueue(object : Callback<List<ComentariosModel>?> {
+            override fun onResponse(
+                call: Call<List<ComentariosModel>?>,
+                response: Response<List<ComentariosModel>?>
+            ) {
+                val responseBody = response.body()!!
+                val adapter = ComentariosAdapter(responseBody)
+                binding.recyclerViewComments.layoutManager =
+                    GridLayoutManager(this@DetailActivity, 1)
+                binding.recyclerViewComments.adapter = adapter
+            }
+
+            @SuppressLint("LongLogTag")
+            override fun onFailure(call: Call<List<ComentariosModel>?>, t: Throwable) {
+                Log.d("Error Comments no comments", t.toString())
+            }
+        })
     }
 
     private fun buyNow() {

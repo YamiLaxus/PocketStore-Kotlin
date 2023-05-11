@@ -1,6 +1,7 @@
 package com.phonedev.pocketstore.apis
 
 import com.phonedev.pocketstore.models.CategoriasModelo
+import com.phonedev.pocketstore.models.ComentariosModel
 import com.phonedev.pocketstore.models.ProductosModeloItem
 import retrofit2.Call
 import retrofit2.http.GET
@@ -23,6 +24,9 @@ interface WebServices {
 
     @GET
     fun getByFavorites(@Url url: String): Call<List<ProductosModeloItem>>
+
+    @GET
+    fun getComments(@Url url: String): Call<List<ComentariosModel>>
 
     @GET("categorias_list.php")
     fun getCategoriesLIst(): Call<List<CategoriasModelo>>
