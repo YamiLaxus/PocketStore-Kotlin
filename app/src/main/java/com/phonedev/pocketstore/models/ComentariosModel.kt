@@ -9,7 +9,8 @@ data class ComentariosModel(
     val id_usuario: Int = 0,
     val nombre: String? = null,
     val imagen: String? = null,
-    val text: String? = null
+    val text: String? = null,
+    val fecha: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -23,6 +24,7 @@ data class ComentariosModel(
         parcel.writeValue(id_producto)
         parcel.writeInt(id_usuario)
         parcel.writeString(text)
+        parcel.writeString(fecha)
     }
 
     override fun describeContents(): Int {

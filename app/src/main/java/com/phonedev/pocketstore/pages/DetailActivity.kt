@@ -3,21 +3,29 @@ package com.phonedev.pocketstore.pages
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.media.MediaCodec.QueueRequest
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.GridLayoutManager
+import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.android.volley.Request.Method.POST
+import com.android.volley.RequestQueue
 import com.bumptech.glide.Glide
+import com.itextpdf.text.pdf.PdfFileSpecification.url
 import com.phonedev.pocketstore.adapter.ComentariosAdapter
 import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityDetailBinding
+import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Constants.BASE_URL
 import com.phonedev.pocketstore.models.ComentariosModel
 import com.phonedev.pocketstore.models.ProductosModeloItem
@@ -26,6 +34,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
+import java.util.Calendar
+import java.time.LocalTime
 
 @Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
@@ -33,7 +44,9 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var product: ProductosModeloItem? = null
     private var user: Int? = 0
+    private var idComment: Int? = 0
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -67,6 +80,19 @@ class DetailActivity : AppCompatActivity() {
 
         click()
         getComments()
+        getTime()
+        refreshComments()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getTime() {
+        val time = LocalTime.now()
+        val current = time.hour
+        if (current >= 18) {
+            if (binding.tvDisponible.text != "AGOTADO") {
+                binding.tvDisponible.text = "Recibe Mañana"
+            }
+        }
     }
 
     private fun click() {
@@ -75,6 +101,15 @@ class DetailActivity : AppCompatActivity() {
         }
         binding.btnAddFav.setOnClickListener {
             addFav()
+        }
+        binding.btnComment.setOnClickListener {
+            insertComment()
+            binding.btnComment.isEnabled = false
+            startTimer()
+        }
+        binding.txtDeleteComments.setOnClickListener {
+            deleteComment()
+            binding.txtDeleteComments.isEnabled = false
         }
     }
 
@@ -107,6 +142,34 @@ class DetailActivity : AppCompatActivity() {
 
     private fun insertComment() {
         //TODO comments insert's
+        val url = BASE_URL
+        val queue = Volley.newRequestQueue(this)
+
+        if (binding.commentText.text!!.isNotEmpty()) {
+            val resultPost = object : StringRequest(POST, url + "insert_comment.php", { response ->
+                Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                binding.commentText.text = null
+                getComments()
+            },
+                { error ->
+                    Toast.makeText(this, "$error", Toast.LENGTH_SHORT).show()
+                }) {
+                override fun getParams(): MutableMap<String, String> {
+                    val parameters = HashMap<String, String>()
+                    parameters["id_producto"] = product?.id_producto.toString()
+                    parameters["id_usuario"] = user.toString()
+                    parameters["text"] = binding.commentText.text.toString().trim()
+                    return parameters
+                }
+            }
+            queue.add(resultPost)
+        } else {
+            Toast.makeText(
+                this,
+                "Error, debes escribir tu comentario o intenta de nuevo mas tarde.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun getComments() {
@@ -129,13 +192,38 @@ class DetailActivity : AppCompatActivity() {
                 binding.recyclerViewComments.layoutManager =
                     GridLayoutManager(this@DetailActivity, 1)
                 binding.recyclerViewComments.adapter = adapter
+                binding.commentEmpty.visibility = View.GONE
+                binding.commentTotal.text = adapter.itemCount.toString()
             }
 
             @SuppressLint("LongLogTag")
             override fun onFailure(call: Call<List<ComentariosModel>?>, t: Throwable) {
-                Log.d("Error Comments no comments", t.toString())
+                Log.d("Error Comments", t.toString())
             }
         })
+    }
+
+    private fun deleteComment() {
+        val url = Constants.BASE_URL
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        val resultPost = object : StringRequest(Request.Method.POST, url + "delete_comments.php",
+            com.android.volley.Response.Listener { response ->
+                Toast.makeText(this, "Comentario eliminado con éxito.", Toast.LENGTH_SHORT).show()
+                getComments()
+            },
+            com.android.volley.Response.ErrorListener { error ->
+                Toast.makeText(this, "Ups! Al parecer no hay comentarios.", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String>? {
+                val parametros = HashMap<String, String>()
+                parametros.put("id_usuario", user.toString())
+                parametros.put("id_producto", product!!.id_producto.toString())
+                return parametros
+            }
+        }
+        queue.add(resultPost)
     }
 
     private fun buyNow() {
@@ -158,7 +246,6 @@ class DetailActivity : AppCompatActivity() {
             binding.tvTotalPrice.text = product!!.precio
             binding.tvDisponible.text = product!!.tiempor_entrega
             Glide.with(binding.imgProduct).load(product!!.imagen).into(binding.imgProduct)
-
 
         }
 
@@ -191,4 +278,28 @@ class DetailActivity : AppCompatActivity() {
         startActivity(i)
     }
 
+    //To Refresh an activity
+    private fun refreshComments() {
+        binding.refreshLayout.setOnRefreshListener {
+
+            // Your code goes here
+            getComments()
+
+            // This line is important as it explicitly refreshes only once
+            binding.refreshLayout.isRefreshing = false
+        }
+    }
+
+    //Desabilitar temporalmente bonton comentar
+    private fun startTimer() {
+        object : CountDownTimer(2000, 500) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                binding.btnComment.isEnabled = true
+                binding.txtDeleteComments.isEnabled = true
+            }
+        }.start()
+    }
 }

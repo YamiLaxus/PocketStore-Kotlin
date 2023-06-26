@@ -19,10 +19,12 @@ class ComentariosAdapter(private val comentList: List<ComentariosModel>) :
             val binding = CommentsViewBinding.bind(itemView)
             binding.tvName.text = comment.nombre
             binding.tvComment.text = comment.text
+            binding.tvDate.text = comment.fecha
             Glide.with(binding.imageProfile)
                 .load(comment.imagen)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_user)
                 .into(binding.imageProfile)
         }
     }
@@ -37,6 +39,6 @@ class ComentariosAdapter(private val comentList: List<ComentariosModel>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = comentList[position]
         holder.render(item)
-        
+
     }
 }

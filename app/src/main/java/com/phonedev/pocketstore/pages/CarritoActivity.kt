@@ -10,6 +10,7 @@ class CarritoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCarritoBinding
     private var cartList: List<ProductosModeloItem>? = null
+    private var totalToPay: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +20,17 @@ class CarritoActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         getCart()
+        clicks()
     }
 
     private fun getCart() {
 
+    }
+
+    private fun clicks() {
+        binding.btnClose.setOnClickListener {
+            onBackPressed()
+            this.finish()
+        }
     }
 }
