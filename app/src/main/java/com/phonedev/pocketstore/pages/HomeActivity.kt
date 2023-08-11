@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.GridLayoutManager
@@ -108,7 +109,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
-                Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                showAlert(t.toString())
                 Log.d("", t.toString())
             }
         })
@@ -144,7 +145,7 @@ class HomeActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
-                Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                showAlert(t.toString())
             }
         })
     }
@@ -186,7 +187,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
-                    Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                    showAlert(t.toString())
                 }
             })
         }
@@ -221,7 +222,7 @@ class HomeActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<List<ProductosModeloItem>?>, t: Throwable) {
-                    Toast.makeText(this@HomeActivity, t.message, Toast.LENGTH_SHORT).show()
+                    showAlert(t.toString())
                 }
             })
         }
@@ -232,5 +233,14 @@ class HomeActivity : AppCompatActivity() {
             val i = Intent(this, ProfileActivity::class.java)
             startActivity(i)
         }
+    }
+
+    private fun showAlert(message: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Error")
+        builder.setMessage(message)
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

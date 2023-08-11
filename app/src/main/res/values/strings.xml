@@ -67,6 +67,11 @@
     <string name="delete_comments">Borrar Comentarios</string>
     <string name="close_description">Button to close cart activity</string>
     <string name="buy">COMPRAR</string>
+    <string name="confirm_order">Confirmar pedido</string>
+    <string name="efectivo">Efectivo</string>
+    <string name="trasnferencia">Trasnferencia</string>
+    <string name="tarjeta"><strike>Tarjeta</strike></string>
+    <string name="q_symbol">Q.</string>
 
 
 </resources>

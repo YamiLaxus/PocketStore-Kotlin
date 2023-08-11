@@ -22,6 +22,7 @@ import com.phonedev.pocketstore.databinding.FragmentCartBinding
 import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Order
 import com.phonedev.pocketstore.entities.ProductOrder
+import com.phonedev.pocketstore.models.ProductosModeloItem
 import com.phonedev.pocketstore.order.OrderActivity
 import com.phonedev.pocketstore.product.MainAux
 
@@ -155,6 +156,10 @@ class CartFragment : BottomSheetDialogFragment(), OnCartListenner {
         binding?.let {
             it.tvTotal.text = getString(R.string.product_full_cart, total)
         }
+    }
+
+    override fun setCantidad(p: ProductosModeloItem) {
+        TODO("Not yet implemented")
     }
 
     //Cart

@@ -3,7 +3,7 @@ package com.phonedev.pocketstore.pages
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.media.MediaCodec.QueueRequest
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -13,19 +13,17 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.GridLayoutManager
-import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.android.volley.Request.Method.POST
 import com.android.volley.RequestQueue
 import com.bumptech.glide.Glide
-import com.itextpdf.text.pdf.PdfFileSpecification.url
 import com.phonedev.pocketstore.adapter.ComentariosAdapter
 import com.phonedev.pocketstore.apis.WebServices
 import com.phonedev.pocketstore.databinding.ActivityDetailBinding
-import com.phonedev.pocketstore.entities.Constants
 import com.phonedev.pocketstore.entities.Constants.BASE_URL
 import com.phonedev.pocketstore.models.ComentariosModel
 import com.phonedev.pocketstore.models.ProductosModeloItem
@@ -35,8 +33,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.time.LocalDateTime
-import java.util.Calendar
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 @Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
@@ -44,7 +42,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private var product: ProductosModeloItem? = null
     private var user: Int? = 0
-    private var idComment: Int? = 0
+    private var estadoAgotado: String = "AGOTADO"
+    private var fecha: String? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,22 +81,38 @@ class DetailActivity : AppCompatActivity() {
         getComments()
         getTime()
         refreshComments()
+        paintFlagText()
+    }
+
+    private fun paintFlagText() {
+        if (binding.tvTotalPrice.text == estadoAgotado) {
+            binding.tvTotalPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime() {
         val time = LocalTime.now()
+        val dateTime = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
         val current = time.hour
         if (current >= 18) {
-            if (binding.tvDisponible.text != "AGOTADO") {
+            if (binding.tvDisponible.text != estadoAgotado) {
                 binding.tvDisponible.text = "Recibe Mañana"
             }
         }
+        fecha = dateTime.toString()
     }
 
     private fun click() {
         binding.btnBuyIt.setOnClickListener {
-            buyNow()
+            //buyNow()
+            if (binding.tvDisponible.text == estadoAgotado) {
+                paintFlagText()
+                showAlert()
+            } else {
+                confirmOrder()
+            }
         }
         binding.btnAddFav.setOnClickListener {
             addFav()
@@ -111,6 +126,12 @@ class DetailActivity : AppCompatActivity() {
             deleteComment()
             binding.txtDeleteComments.isEnabled = false
         }
+    }
+
+    private fun confirmOrder() {
+        val i = Intent(this, ConfirmationActivity::class.java)
+        i.putExtra("producto", product)
+        startActivity(i)
     }
 
     private fun setNuevaCantidad(cantidad: Int) {
@@ -141,13 +162,13 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun insertComment() {
-        //TODO comments insert's
         val url = BASE_URL
         val queue = Volley.newRequestQueue(this)
 
         if (binding.commentText.text!!.isNotEmpty()) {
             val resultPost = object : StringRequest(POST, url + "insert_comment.php", { response ->
-                Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Publicando comentario... exitoso!.", Toast.LENGTH_SHORT)
+                    .show()
                 binding.commentText.text = null
                 getComments()
             },
@@ -204,9 +225,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun deleteComment() {
-        val url = Constants.BASE_URL
+        val url = BASE_URL
         val queue: RequestQueue = Volley.newRequestQueue(this)
-        val resultPost = object : StringRequest(Request.Method.POST, url + "delete_comments.php",
+        val resultPost = object : StringRequest(POST, url + "delete_comments.php",
             com.android.volley.Response.Listener { response ->
                 Toast.makeText(this, "Comentario eliminado con éxito.", Toast.LENGTH_SHORT).show()
                 getComments()
@@ -281,9 +302,11 @@ class DetailActivity : AppCompatActivity() {
     //To Refresh an activity
     private fun refreshComments() {
         binding.refreshLayout.setOnRefreshListener {
-
             // Your code goes here
-            getComments()
+            binding.refreshLayout.isRefreshing = true
+            this.getComments()
+            Toast.makeText(this, "refreshing", Toast.LENGTH_SHORT).show()
+            binding.recyclerViewComments.refreshDrawableState()
 
             // This line is important as it explicitly refreshes only once
             binding.refreshLayout.isRefreshing = false
@@ -301,5 +324,15 @@ class DetailActivity : AppCompatActivity() {
                 binding.txtDeleteComments.isEnabled = true
             }
         }.start()
+    }
+
+    //Show Alert's
+    private fun showAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Lo sentimos :(")
+        builder.setMessage("De momento no hay stock de este producto.")
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

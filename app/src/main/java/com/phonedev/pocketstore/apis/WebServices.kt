@@ -28,6 +28,9 @@ interface WebServices {
     @GET
     fun getComments(@Url url: String): Call<List<ComentariosModel>>
 
+    @GET
+    fun getCart(@Url url: String): Call<List<ProductosModeloItem>>
+
     @GET("categorias_list.php")
     fun getCategoriesLIst(): Call<List<CategoriasModelo>>
 

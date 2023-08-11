@@ -2,6 +2,8 @@ package com.phonedev.pocketstore.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.versionedparcelable.ParcelImpl
+import com.google.firebase.database.Exclude
 
 data class ProductosModeloItem(
     val id_categoria: String? = null,
@@ -18,7 +20,8 @@ data class ProductosModeloItem(
     val precio: String? = null,
     val telefono: String? = null,
     val tiempor_entrega: String? = null,
-    val usuario: String? = null
+    val usuario: String? = null,
+    @get:Exclude var nuevaCantidad: Int = 1
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -55,6 +58,8 @@ data class ProductosModeloItem(
         parcel.writeString(tiempor_entrega)
         parcel.writeString(usuario)
     }
+
+    fun totalPrice(): Double = nuevaCantidad * precio!!.toDouble()
 
     override fun describeContents(): Int {
         return 0
