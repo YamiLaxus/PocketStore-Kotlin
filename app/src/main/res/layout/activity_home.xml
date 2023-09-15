@@ -87,10 +87,10 @@
             <HorizontalScrollView
                 android:id="@+id/option_menu"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginStart="8dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/background_recycler_view"
                 app:layout_constraintBottom_toTopOf="@+id/chip_group"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -107,8 +107,8 @@
 
                     <ImageView
                         android:id="@+id/imgCategorias"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
                         android:background="@drawable/categorias"
@@ -120,8 +120,8 @@
 
                     <ImageView
                         android:id="@+id/imgBuscar"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
@@ -133,8 +133,8 @@
 
                     <ImageView
                         android:id="@+id/imgFavoritos"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
@@ -146,8 +146,8 @@
 
                     <ImageView
                         android:id="@+id/imgCarrito"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
@@ -159,8 +159,8 @@
 
                     <ImageView
                         android:id="@+id/imgRastrear"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
@@ -172,8 +172,8 @@
 
                     <ImageView
                         android:id="@+id/imgConfiguracion"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"

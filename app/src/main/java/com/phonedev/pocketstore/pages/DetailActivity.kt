@@ -44,6 +44,7 @@ class DetailActivity : AppCompatActivity() {
     private var user: Int? = 0
     private var estadoAgotado: String = "AGOTADO"
     private var fecha: String? = null
+    var cantidadI: Int? = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,6 +132,7 @@ class DetailActivity : AppCompatActivity() {
     private fun confirmOrder() {
         val i = Intent(this, ConfirmationActivity::class.java)
         i.putExtra("producto", product)
+        i.putExtra("cantidad", binding.etNewQuantity.text.toString())
         startActivity(i)
     }
 
@@ -139,6 +141,7 @@ class DetailActivity : AppCompatActivity() {
             binding.etNewQuantity.setText("1").toString().toInt()
         } else {
             binding.etNewQuantity.setText("$cantidad")
+            cantidadI = cantidad
         }
     }
 
